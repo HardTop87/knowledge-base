@@ -1,0 +1,924 @@
+{
+  "app": {
+    "id": "cap_01KP75ER4GF8BAXPA6F1TY3W4T",
+    "handle": "knowledge-base",
+    "kind": "PAGE",
+    "name": "Knowledge Base",
+    "icon": "menu_book",
+    "environment": "cococo-de"
+  },
+  "categories": [
+    {
+      "id": "getting-started",
+      "name": "Getting Started",
+      "icon": "rocket_launch",
+      "description": "Platform overview, setup checklist, and core concepts.",
+      "articles": [
+        {
+          "slug": "platform-overview",
+          "title": "Platform Overview",
+          "order": 1,
+          "tags": [
+            "beginner",
+            "overview"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "setup-checklist",
+          "title": "Setup Checklist",
+          "order": 2,
+          "tags": [
+            "beginner",
+            "setup",
+            "admin"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "glossary",
+          "title": "Glossary",
+          "order": 3,
+          "tags": [
+            "reference",
+            "beginner"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "account-settings",
+      "name": "Account & Settings",
+      "icon": "manage_accounts",
+      "description": "User settings, API tokens, and MCP connection details.",
+      "articles": [
+        {
+          "slug": "user-settings",
+          "title": "User Settings",
+          "order": 1,
+          "tags": [
+            "account",
+            "settings"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "api-tokens",
+          "title": "How to Create and Manage API Tokens",
+          "order": 2,
+          "tags": [
+            "api",
+            "tokens",
+            "authentication",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "mcp-connection-details",
+          "title": "How to Find Your MCP Connection Details",
+          "order": 3,
+          "tags": [
+            "mcp",
+            "api",
+            "developer"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "team-access-rights",
+      "name": "Team & Access Rights",
+      "icon": "group",
+      "description": "Users, IAM policies, permissions, and teams.",
+      "articles": [
+        {
+          "slug": "inviting-team-members",
+          "title": "Inviting Team Members",
+          "order": 1,
+          "tags": [
+            "admin",
+            "users",
+            "iam"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "understanding-iam",
+          "title": "Understanding IAM: Policies, Permissions and Roles",
+          "order": 2,
+          "tags": [
+            "admin",
+            "iam",
+            "permissions"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-user",
+          "title": "How to Create a User",
+          "order": 3,
+          "tags": [
+            "admin",
+            "users"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-iam-policy",
+          "title": "How to Create an IAM Policy",
+          "order": 4,
+          "tags": [
+            "admin",
+            "iam",
+            "permissions"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-team",
+          "title": "How to Create a Team",
+          "order": 5,
+          "tags": [
+            "admin",
+            "teams"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "assign-policy",
+          "title": "How to Assign a Policy to a User",
+          "order": 6,
+          "tags": [
+            "admin",
+            "iam"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "networks-devices",
+      "name": "Networks & Devices",
+      "icon": "device_hub",
+      "description": "Networks, devices, protocols, tokens, controllers, and metrics.",
+      "articles": [
+        {
+          "slug": "create-network",
+          "title": "How to Create a Network",
+          "order": 1,
+          "tags": [
+            "admin",
+            "networks",
+            "iot"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "add-device",
+          "title": "How to Add a Device",
+          "order": 2,
+          "tags": [
+            "admin",
+            "devices",
+            "iot"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "protocols-explained",
+          "title": "Protocols Explained: MQTT, HTTP, JMF, SQL",
+          "order": 3,
+          "tags": [
+            "iot",
+            "protocols",
+            "mqtt",
+            "jmf"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "device-tokens",
+          "title": "How to Create and Manage Device Tokens",
+          "order": 4,
+          "tags": [
+            "iot",
+            "devices",
+            "authentication"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "add-controller",
+          "title": "How to Add a Controller",
+          "order": 5,
+          "tags": [
+            "iot",
+            "controllers"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "understanding-metrics",
+          "title": "Understanding Metrics",
+          "order": 6,
+          "tags": [
+            "iot",
+            "metrics",
+            "monitoring"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "production-structure",
+      "name": "Production Structure",
+      "icon": "factory",
+      "description": "Production cells, work centers, capabilities, and shift definitions.",
+      "articles": [
+        {
+          "slug": "create-production-cell",
+          "title": "How to Create a Production Cell",
+          "order": 1,
+          "tags": [
+            "production",
+            "admin"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-work-center",
+          "title": "How to Create a Work Center",
+          "order": 2,
+          "tags": [
+            "production",
+            "admin",
+            "workcenter"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "work-center-types",
+          "title": "Work Center Types Explained",
+          "order": 3,
+          "tags": [
+            "production",
+            "reference"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "assign-capabilities",
+          "title": "How to Assign Capabilities to a Work Center",
+          "order": 4,
+          "tags": [
+            "production",
+            "capabilities"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "shift-definitions",
+          "title": "How to Set Up Shift Definitions",
+          "order": 5,
+          "tags": [
+            "production",
+            "scheduling"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "workflows-automation",
+      "name": "Workflows & Automation",
+      "icon": "account_tree",
+      "description": "Workflows, nodes, custom actions, executions, and HITL.",
+      "articles": [
+        {
+          "slug": "what-is-a-workflow",
+          "title": "What is a Workflow?",
+          "order": 1,
+          "tags": [
+            "workflows",
+            "automation",
+            "beginner"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-workflow",
+          "title": "How to Create a Workflow",
+          "order": 2,
+          "tags": [
+            "workflows",
+            "automation"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "node-types-reference",
+          "title": "Node Types Reference",
+          "order": 3,
+          "tags": [
+            "workflows",
+            "reference",
+            "nodes"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "custom-actions",
+          "title": "How to Use Custom Actions",
+          "order": 4,
+          "tags": [
+            "workflows",
+            "lua",
+            "automation"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "monitor-executions",
+          "title": "How to Monitor Workflow Executions",
+          "order": 5,
+          "tags": [
+            "workflows",
+            "monitoring",
+            "debugging"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "hitl-workflows",
+          "title": "Human-in-the-Loop (HITL) Workflows",
+          "order": 6,
+          "tags": [
+            "workflows",
+            "automation",
+            "approvals"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "ai-ml",
+      "name": "AI & ML",
+      "icon": "psychology",
+      "description": "AI adapters, agents, and machine learning models.",
+      "articles": [
+        {
+          "slug": "ai-adapters",
+          "title": "What are AI Adapters?",
+          "order": 1,
+          "tags": [
+            "ai",
+            "ml",
+            "openai",
+            "claude"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "ai-agents",
+          "title": "How to Set Up an AI Agent",
+          "order": 2,
+          "tags": [
+            "ai",
+            "agents"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "train-ml-model",
+          "title": "How to Train an ML Model",
+          "order": 3,
+          "tags": [
+            "ml",
+            "training",
+            "xgboost"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "platform-configuration",
+      "name": "Platform Configuration",
+      "icon": "tune",
+      "description": "Tenant config, notifications, webhooks, and custom data tables.",
+      "articles": [
+        {
+          "slug": "tenant-config",
+          "title": "How to Manage Tenant Config",
+          "order": 1,
+          "tags": [
+            "admin",
+            "config",
+            "secrets"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "notification-groups",
+          "title": "How to Set Up Notification Groups",
+          "order": 2,
+          "tags": [
+            "notifications",
+            "admin"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "incoming-webhooks",
+          "title": "How to Use Incoming Webhooks",
+          "order": 3,
+          "tags": [
+            "webhooks",
+            "integration",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "custom-data-tables",
+          "title": "How to Create Custom Data Tables",
+          "order": 4,
+          "tags": [
+            "data",
+            "developer"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "developer-tools",
+      "name": "Developer Tools",
+      "icon": "code",
+      "description": "GraphQL playground, Lua, scripts, templates, and API docs.",
+      "articles": [
+        {
+          "slug": "graphql-playground",
+          "title": "GraphQL Playground: Getting Started",
+          "order": 1,
+          "tags": [
+            "graphql",
+            "api",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "lua-playground",
+          "title": "Lua Playground: Getting Started",
+          "order": 2,
+          "tags": [
+            "lua",
+            "scripting",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "scripts",
+          "title": "How to Use Scripts",
+          "order": 3,
+          "tags": [
+            "lua",
+            "scripts",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "templates",
+          "title": "How to Create Templates",
+          "order": 4,
+          "tags": [
+            "templates",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "api-docs",
+          "title": "API Docs Overview",
+          "order": 5,
+          "tags": [
+            "api",
+            "graphql",
+            "developer",
+            "reference"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "mcp-ai-integrations",
+      "name": "MCP & AI Integrations",
+      "icon": "smart_toy",
+      "description": "Connect AI assistants to CoCoCo via MCP.",
+      "articles": [
+        {
+          "slug": "mcp-server",
+          "title": "What is the CoCoCo MCP Server?",
+          "order": 1,
+          "tags": [
+            "mcp",
+            "ai",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "connect-claude-desktop",
+          "title": "How to Connect Claude Desktop to CoCoCo",
+          "order": 2,
+          "tags": [
+            "mcp",
+            "claude",
+            "ai"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "connect-claude-code",
+          "title": "How to Connect Claude Code to CoCoCo",
+          "order": 3,
+          "tags": [
+            "mcp",
+            "claude",
+            "developer",
+            "cli"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "connect-cursor",
+          "title": "How to Connect Cursor to CoCoCo",
+          "order": 4,
+          "tags": [
+            "mcp",
+            "cursor",
+            "developer"
+          ],
+          "status": "coming_soon"
+        },
+        {
+          "slug": "connect-antigravity",
+          "title": "How to Connect Antigravity (Google Gemini) to CoCoCo",
+          "order": 5,
+          "tags": [
+            "mcp",
+            "gemini",
+            "ai"
+          ],
+          "status": "coming_soon"
+        },
+        {
+          "slug": "connect-codex",
+          "title": "How to Connect ChatGPT Codex to CoCoCo",
+          "order": 6,
+          "tags": [
+            "mcp",
+            "openai",
+            "chatgpt",
+            "ai"
+          ],
+          "status": "coming_soon"
+        }
+      ]
+    },
+    {
+      "id": "commercial",
+      "name": "Commercial",
+      "icon": "receipt_long",
+      "description": "Orders, estimates, invoices, purchase orders, customers.",
+      "articles": [
+        {
+          "slug": "commercial-overview",
+          "title": "Commercial Overview",
+          "order": 1,
+          "tags": [
+            "commercial",
+            "erp"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-estimate",
+          "title": "How to Create an Estimate",
+          "order": 2,
+          "tags": [
+            "commercial",
+            "estimates"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-order",
+          "title": "How to Create an Order",
+          "order": 3,
+          "tags": [
+            "commercial",
+            "orders"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-invoice",
+          "title": "How to Create an Invoice",
+          "order": 4,
+          "tags": [
+            "commercial",
+            "invoices",
+            "billing"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "purchase-orders",
+          "title": "How to Manage Purchase Orders",
+          "order": 5,
+          "tags": [
+            "commercial",
+            "purchasing",
+            "suppliers"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "customers-suppliers",
+          "title": "How to Manage Customers and Suppliers",
+          "order": 6,
+          "tags": [
+            "commercial",
+            "crm"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "custom-apps",
+      "name": "Custom Apps",
+      "icon": "apps",
+      "description": "Build custom interfaces using Vue, Lua, and DaisyUI.",
+      "articles": [
+        {
+          "slug": "what-are-custom-apps",
+          "title": "What are Custom Apps?",
+          "order": 1,
+          "tags": [
+            "custom-apps",
+            "developer",
+            "beginner"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "create-first-custom-app",
+          "title": "How to Create Your First Custom App",
+          "order": 2,
+          "tags": [
+            "custom-apps",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "custom-app-editor",
+          "title": "The Custom App Editor: Template, Script, Server API",
+          "order": 3,
+          "tags": [
+            "custom-apps",
+            "developer",
+            "vue",
+            "lua"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "preview-publish",
+          "title": "How to Preview and Publish a Custom App",
+          "order": 4,
+          "tags": [
+            "custom-apps",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "vue-templates",
+          "title": "Using Vue in Custom App Templates",
+          "order": 5,
+          "tags": [
+            "custom-apps",
+            "vue",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "server-api-lua",
+          "title": "Using the Server API (Lua) in Custom Apps",
+          "order": 6,
+          "tags": [
+            "custom-apps",
+            "lua",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "accessing-data",
+          "title": "Accessing CoCoCo Data from a Custom App",
+          "order": 7,
+          "tags": [
+            "custom-apps",
+            "graphql",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "daisy-ui-theming",
+          "title": "How to Use DaisyUI for Theming",
+          "order": 8,
+          "tags": [
+            "custom-apps",
+            "daisy-ui",
+            "styling"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "sidebar-page-app",
+          "title": "Building a Sidebar Page App",
+          "order": 9,
+          "tags": [
+            "custom-apps",
+            "page"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "dashboard-tab-app",
+          "title": "Building a Dashboard Tab App",
+          "order": 10,
+          "tags": [
+            "custom-apps",
+            "dashboard"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "kiosk-app",
+          "title": "Building a Kiosk App",
+          "order": 11,
+          "tags": [
+            "custom-apps",
+            "kiosk",
+            "shopfloor"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "job-view-app",
+          "title": "Building a Job View App",
+          "order": 12,
+          "tags": [
+            "custom-apps",
+            "job-view"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "persistent-storage",
+          "title": "Using Persistent Storage in Custom Apps",
+          "order": 13,
+          "tags": [
+            "custom-apps",
+            "storage",
+            "developer"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "version-history",
+          "title": "Version History and Rollback",
+          "order": 14,
+          "tags": [
+            "custom-apps",
+            "versioning"
+          ],
+          "status": "published"
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "name": "Troubleshooting",
+      "icon": "build",
+      "description": "Diagnose and fix common issues with workflows, devices, and jobs.",
+      "articles": [
+        {
+          "slug": "workflow-not-triggering",
+          "title": "Workflow Is Not Triggering",
+          "order": 1,
+          "tags": [
+            "troubleshooting",
+            "workflows"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "device-not-connecting",
+          "title": "Device Is Not Connecting",
+          "order": 2,
+          "tags": [
+            "troubleshooting",
+            "devices",
+            "iot"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "permission-errors",
+          "title": "Permission Errors: How to Diagnose",
+          "order": 3,
+          "tags": [
+            "troubleshooting",
+            "iam",
+            "permissions"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "job-stuck",
+          "title": "Job Is Stuck in a Status",
+          "order": 4,
+          "tags": [
+            "troubleshooting",
+            "production"
+          ],
+          "status": "published"
+        }
+      ]
+    }
+  ],
+  "i18n": {
+    "en": {
+      "appTitle": "Knowledge Base",
+      "appSubtitle": "CoCoCo Platform Documentation",
+      "searchPlaceholder": "Search articles, guides, topics...",
+      "heroDesc": "Find step-by-step guides, reference documentation, and answers for the CoCoCo platform.",
+      "published": "published",
+      "comingSoon": "coming soon",
+      "browseByTag": "Browse by tag",
+      "onThisPage": "On this page",
+      "noResults": "No articles match your search.",
+      "noResultsTip": "Try different keywords or browse by category.",
+      "comingSoonTitle": "Coming Soon",
+      "comingSoonDesc": "This article is being prepared and will be available soon.",
+      "prev": "← Previous",
+      "next": "Next →",
+      "home": "Home",
+      "available": "available",
+      "of": "of",
+      "articlesTagged": "Articles tagged",
+      "tag": "Tag:",
+      "resultsFor": "result(s) for",
+      "noResultsFor": "No results for"
+    },
+    "de": {
+      "appTitle": "Wissensdatenbank",
+      "appSubtitle": "CoCoCo Plattform-Dokumentation",
+      "searchPlaceholder": "Artikel, Anleitungen, Themen suchen…",
+      "heroDesc": "Schritt-für-Schritt-Anleitungen, Referenzdokumentation und Antworten zur CoCoCo-Plattform.",
+      "published": "veröffentlicht",
+      "comingSoon": "demnächst",
+      "browseByTag": "Nach Tag durchsuchen",
+      "onThisPage": "Auf dieser Seite",
+      "noResults": "Keine Artikel gefunden.",
+      "noResultsTip": "Andere Suchbegriffe versuchen oder nach Kategorie durchsuchen.",
+      "comingSoonTitle": "Demnächst verfügbar",
+      "comingSoonDesc": "Dieser Artikel wird gerade vorbereitet und ist bald verfügbar.",
+      "prev": "← Zurück",
+      "next": "Weiter →",
+      "home": "Startseite",
+      "available": "verfügbar",
+      "of": "von",
+      "articlesTagged": "Artikel mit Tag",
+      "tag": "Tag:",
+      "resultsFor": "Ergebnis(se) für",
+      "noResultsFor": "Keine Ergebnisse für"
+    }
+  }
+}

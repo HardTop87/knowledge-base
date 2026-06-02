@@ -1,0 +1,41 @@
+---
+slug: device-not-connecting
+category: troubleshooting
+status: published
+lang: de
+title: "Device Is Not Connecting"
+---
+
+## Device Token prüfen
+
+1. Wechseln Sie zu **Menu → IOT → Devices** und öffnen Sie das Device
+2. Wechseln Sie zum Tab **Tokens**
+3. Prüfen Sie, dass ein gültiges, nicht abgelaufenes Token existiert
+4. Im Zweifel ein neues Token erzeugen und das Device neu konfigurieren
+
+## Protokoll und Endpoint prüfen
+
+| Protokoll | Verbindungs-Endpoint |
+|---|---|
+| MQTT | `mqtt://your-domain.cococo.app:1883` |
+| MQTT (TLS) | `mqtts://your-domain.cococo.app:8883` |
+| HTTP | `https://your-domain.cococo.app/api/device/{deviceId}` |
+
+## Authentifizierung prüfen
+
+- **MQTT**: Token als Passwort-Feld im MQTT-Client
+- **HTTP**: Header `Authorization: Bearer YOUR_TOKEN`
+
+## Network-Zuordnung prüfen
+
+1. Öffnen Sie das Device und prüfen Sie, dass das richtige Network zugewiesen ist
+2. Falls das Network IP-Einschränkungen hat, prüfen Sie, ob die IP des Devices zulässig ist
+
+## Jüngste Aktivitäten prüfen
+
+1. Öffnen Sie das Device und wechseln Sie zum Tab **Events** oder **Metrics**
+2. Wenn aktuelle Ereignisse zu sehen sind, kommt das Device durch. Das Problem liegt dann weiter hinten
+
+## Firewall
+
+Prüfen Sie, dass das Netzwerk des Devices ausgehende Verbindungen zur CoCoCo-Domain auf dem benötigten Port zulässt.

@@ -1,0 +1,354 @@
+<style>
+/* ── CSS variables ── */
+.kb-root {
+  --kb-t:      #4D2B41;
+  --kb-m:      rgba(77,43,65,.62);
+  --kb-f:      rgba(77,43,65,.42);
+  --kb-ff:     rgba(77,43,65,.22);
+  --kb-sb:     #FFEFF8;
+  --kb-cb:     #ffffff;
+  --kb-bd:     rgba(77,43,65,.1);
+  --kb-bds:    rgba(77,43,65,.06);
+  --kb-t08:    rgba(77,43,65,.08);
+  --kb-t15:    rgba(77,43,65,.15);
+  --kb-tag-bg: #4D2B41;
+  --kb-tag-c:  #FF79C9;
+  --kb-h2:     #4D2B41;
+}
+html.dark .kb-root {
+  --kb-t:      #FFEFF8;
+  --kb-m:      rgba(255,239,248,.65);
+  --kb-f:      rgba(255,239,248,.42);
+  --kb-ff:     rgba(255,239,248,.22);
+  --kb-sb:     #1e1220;
+  --kb-cb:     #2a1828;
+  --kb-bd:     rgba(255,239,248,.1);
+  --kb-bds:    rgba(0,0,0,.2);
+  --kb-t08:    rgba(255,239,248,.08);
+  --kb-t15:    rgba(255,239,248,.15);
+  --kb-tag-bg: #FF79C9;
+  --kb-tag-c:  #4D2B41;
+  --kb-h2:     #ffffff;
+}
+/* ── Typography ── */
+.kb-root{font-family:'Sofia Sans',sans-serif!important}
+.kb-root *{font-family:'Sofia Sans',sans-serif}
+.kb-root code,.kb-root pre{font-family:'JetBrains Mono','Fira Code',monospace}
+.kb-root h2{font-size:1.35rem;font-weight:800;margin:2.2rem 0 .8rem;color:var(--kb-t);letter-spacing:-.02em;padding-bottom:.55rem;border-bottom:2px solid rgba(255,121,201,.22)}
+html.dark .kb-root h2{color:#ffffff;border-bottom-color:rgba(255,121,201,.35)}
+.kb-root h3{font-size:1.05rem;font-weight:700;margin:1.6rem 0 .5rem;color:var(--kb-t)}
+html.dark .kb-root h3{color:#FFEFF8}
+.kb-root p{margin:.7rem 0;line-height:1.85;color:var(--kb-t)}
+.kb-root strong{font-weight:800;color:var(--kb-t)}
+html.dark .kb-root strong{color:#FF79C9}
+.kb-root code{background:var(--kb-t08);color:var(--kb-t);padding:.1em .4em;border-radius:4px;font-size:.85em}
+.kb-root hr{border:none;border-top:1px solid var(--kb-bd);margin:2rem 0}
+.kb-root ul.kb-list{padding-left:1.5rem;margin:.7rem 0}
+.kb-root ul.kb-list li{margin:.45rem 0;line-height:1.82;color:var(--kb-t);list-style:disc}
+.kb-root ol.kb-steps{list-style:none;padding:0;margin:.9rem 0;counter-reset:steps}
+.kb-root ol.kb-steps li{display:flex;gap:.85rem;align-items:flex-start;margin:.75rem 0;counter-increment:steps;color:var(--kb-t);line-height:1.82}
+.kb-root ol.kb-steps li::before{content:counter(steps);min-width:1.7rem;height:1.7rem;background:#FF79C9;color:#4D2B41;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;flex-shrink:0;margin-top:.18rem}
+/* ── Table ── */
+.kb-root .kb-table-wrap{overflow:hidden;border-radius:10px;border:1px solid var(--kb-bd);margin:1.5rem 0}
+.kb-root table.kb-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.kb-root table.kb-table th{background:#4D2B41;color:#FFEFF8;padding:.62rem 1rem;text-align:left;font-weight:800;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase}
+.kb-root table.kb-table td{padding:.65rem 1rem;border-bottom:1px solid var(--kb-bd);color:var(--kb-t);vertical-align:top;line-height:1.68}
+.kb-root table.kb-table tr:last-child td{border-bottom:none}
+.kb-root table.kb-table tbody tr:hover td{background:rgba(255,121,201,.06)}
+/* ── Code blocks ── */
+.kb-root .kb-code-block{border-radius:10px;overflow:hidden;margin:1.25rem 0;background:#130a10;border:1px solid rgba(255,121,201,.15)}
+.kb-root .kb-code-header{display:flex;justify-content:space-between;align-items:center;padding:.4rem .9rem;background:#2d1524}
+.kb-root .kb-code-lang{font-size:.6rem;font-weight:800;color:#FF79C9;text-transform:uppercase;letter-spacing:.12em}
+.kb-root .kb-code-copy{font-size:.68rem;background:rgba(255,121,201,.15);color:#FF79C9;border:1px solid rgba(255,121,201,.25);border-radius:4px;padding:.15rem .55rem;cursor:pointer;transition:all .15s}
+.kb-root .kb-code-copy:hover{background:rgba(255,121,201,.3)}
+.kb-root .kb-code-pre{margin:0;padding:1rem;overflow-x:auto}
+.kb-root .kb-code-pre code{color:#f0e4ff;font-size:.8rem;line-height:1.7;background:none;padding:0;border-radius:0}
+/* ── Callouts ── */
+.kb-root .kb-callout{border-radius:8px;padding:.8rem 1rem;margin:1rem 0;display:flex;gap:.75rem;align-items:flex-start}
+.kb-root .kb-callout-info{background:rgba(30,73,71,.1);border-left:3px solid #1E4947}
+.kb-root .kb-callout-info .material-icons-round{color:#1E4947}
+html.dark .kb-root .kb-callout-info{background:rgba(30,73,71,.22)}
+.kb-root .kb-callout-warning{background:rgba(255,121,201,.09);border-left:3px solid #FF79C9}
+.kb-root .kb-callout-warning .material-icons-round{color:#FF79C9}
+.kb-root .kb-callout-tip{background:var(--kb-t08);border-left:3px solid var(--kb-t)}
+.kb-root .kb-callout-tip .material-icons-round{color:var(--kb-t)}
+.kb-root .kb-callout div{line-height:1.78;color:var(--kb-t)}
+/* ── Links ── */
+.kb-root a.kb-link{color:#FF79C9;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(255,121,201,.38);transition:border-color .12s,opacity .12s;padding-bottom:1px}
+.kb-root a.kb-link:hover{border-bottom-color:#FF79C9;opacity:.82}
+/* ── Highlight.js override — keep our dark bg, only use hljs colors ── */
+pre code.hljs{background:transparent!important;padding:0!important;font-size:.8rem!important;line-height:1.7!important;font-family:'JetBrains Mono','Fira Code',monospace!important}
+.hljs{background:transparent!important}
+/* ── Base color inheritance ── */
+.kb-root{color:#4D2B41}
+html.dark .kb-root{color:#FFEFF8}
+.kb-muted{color:rgba(77,43,65,.62)}
+html.dark .kb-muted{color:rgba(255,239,248,.65)}
+.kb-faint{color:rgba(77,43,65,.42)}
+html.dark .kb-faint{color:rgba(255,239,248,.42)}
+.kb-tag-btn{display:inline-flex!important;align-items:center!important;background:#4D2B41!important;color:#FF79C9!important;font-size:.68rem!important;font-weight:700!important;padding:.22rem .65rem!important;border-radius:9999px!important;cursor:pointer;border:none;line-height:1;white-space:nowrap;transition:opacity .12s}
+.kb-tag-btn:hover{opacity:.78}
+.kb-tag-sm{font-size:.63rem!important;padding:.14rem .48rem!important}
+html.dark .kb-tag-btn{background:#FF79C9!important;color:#4D2B41!important}
+/* ── Sidebar ── */
+.kb-sb-btn{transition:all .12s;cursor:pointer;border-radius:6px;background:transparent;border:none;display:flex;align-items:center;gap:8px}
+.kb-sb-btn:hover{background:rgba(255,121,201,.12)!important}
+.kb-sb-btn.kb-active{background:rgba(255,121,201,.2)!important}
+/* ── Cards & results ── */
+.kb-cat-card{transition:all .15s;cursor:pointer;text-align:left;background:var(--kb-cb);border-radius:12px}
+.kb-cat-card:hover{border-color:rgba(255,121,201,.5)!important;box-shadow:0 4px 20px rgba(255,121,201,.12)!important;transform:translateY(-1px)}
+.kb-tag-browse{transition:all .12s;cursor:pointer;background:transparent;border-radius:9999px}
+.kb-tag-browse:hover{border-color:#FF79C9!important;background:rgba(255,121,201,.1)!important;color:#FF79C9!important}
+.kb-result{transition:all .15s;cursor:pointer;background:var(--kb-cb);border-radius:12px}
+.kb-result:hover{border-color:rgba(255,121,201,.4)!important;box-shadow:0 2px 12px rgba(255,121,201,.1)!important}
+.kb-nav-btn{transition:all .12s;cursor:pointer;background:transparent;border:1px solid var(--kb-bd);border-radius:12px}
+.kb-nav-btn:hover{box-shadow:0 2px 8px var(--kb-bds)!important;border-color:rgba(255,121,201,.3)!important}
+</style>
+<div class="kb-root flex flex-col bg-base-100" style="height:100vh;">
+
+  <!-- TOPBAR -->
+  <div class="flex items-center gap-3 px-4 flex-shrink-0" style="background:#4D2B41;height:52px;">
+    <button @click="sidebarCollapsed=!sidebarCollapsed" class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0" style="border:none;background:transparent;cursor:pointer;">
+      <span class="material-icons-round text-white" style="font-size:20px;">menu</span>
+    </button>
+    <button @click="goHome" class="flex items-center gap-2 hover:opacity-80 transition-opacity flex-shrink-0" style="border:none;background:transparent;cursor:pointer;">
+      <span class="material-icons-round" style="color:#FF79C9;font-size:20px;">menu_book</span>
+      <span class="font-black text-white hidden sm:block" style="font-size:.95rem;letter-spacing:-.01em;">{{ t('appTitle') }}</span>
+    </button>
+    <div class="flex-1 max-w-xl mx-auto">
+      <div class="relative">
+        <span class="material-icons-round absolute left-2.5 top-1/2 -translate-y-1/2" style="font-size:16px;color:rgba(255,255,255,.5);pointer-events:none;">search</span>
+        <input v-model="searchQuery" @input="onSearch" @keydown.escape="clearSearch" type="text" :placeholder="t('searchPlaceholder')" class="w-full py-1.5 pl-8 pr-8 rounded-lg text-sm border focus:outline-none" style="background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2);" />
+        <button v-if="searchQuery" @click="clearSearch" class="absolute right-2 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100" style="border:none;background:transparent;cursor:pointer;">
+          <span class="material-icons-round text-white" style="font-size:16px;">close</span>
+        </button>
+      </div>
+    </div>
+    <button @click="toggleLang" class="flex items-center gap-1 px-2.5 py-1 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0" style="border:1px solid rgba(255,255,255,.2);background:transparent;cursor:pointer;">
+      <span class="material-icons-round" style="font-size:14px;color:rgba(255,255,255,.7);">translate</span>
+      <span class="font-black text-white" style="font-size:.72rem;letter-spacing:.05em;">{{ lang==='en'?'DE':'EN' }}</span>
+    </button>
+  </div>
+
+  <!-- BODY -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <div class="flex-shrink-0 border-r border-base-300 overflow-hidden transition-all duration-200" :style="sidebarCollapsed?'width:0;min-width:0':'width:252px;min-width:252px'">
+      <div class="overflow-y-auto h-full py-2" :style="{width:'252px',background:'var(--kb-sb)'}">
+        <div v-for="cat in CATEGORIES" :key="cat.name">
+          <button @click="toggleCategory(cat.name)" class="w-full flex items-center gap-2 px-3 py-2 hover:bg-[#FF79C9]/10 transition-colors" style="background:transparent;border:none;cursor:pointer;width:100%;">
+            <span class="material-icons-round" :style="{fontSize:'14px',color:'var(--kb-f)',flexShrink:0}">{{ expandedCategories.has(cat.name)?'expand_more':'chevron_right' }}</span>
+            <span class="material-icons-round" style="font-size:13px;color:#FF79C9;flex-shrink:0;">{{ cat.icon }}</span>
+            <span class="flex-1 text-left truncate" :style="{fontSize:'.72rem',fontWeight:800,color:'var(--kb-t)',letterSpacing:'.01em'}">{{ cat.name }}</span>
+            <span :style="{fontSize:'.62rem',color:'var(--kb-f)',fontWeight:700,flexShrink:0}">{{ cat.articles.filter(a=>a.status==='published').length }}/{{ cat.articles.length }}</span>
+          </button>
+          <div v-if="expandedCategories.has(cat.name)" class="pb-1">
+            <button v-for="art in cat.articles" :key="art.slug" @click="navigateTo(art.slug)" class="kb-sb-btn w-full flex items-start gap-2 px-3 py-1.5 mx-2" :class="{'kb-active':currentSlug===art.slug}" :style="{width:'calc(100% - 16px)'}">
+              <span class="material-icons-round flex-shrink-0" :style="{fontSize:'12px',color:art.status==='coming_soon'?'var(--kb-ff)':'#FF79C9',marginTop:'3px'}">{{ art.status==='coming_soon'?'hourglass_empty':'article' }}</span>
+              <span class="text-left" :style="{fontSize:'.73rem',color:art.status==='coming_soon'?'var(--kb-f)':'var(--kb-t)',fontStyle:art.status==='coming_soon'?'italic':'normal',fontWeight:currentSlug===art.slug?700:400,lineHeight:'1.35',overflowWrap:'break-word',wordBreak:'break-word'}">{{ art.title }}</span>
+            </button>
+          </div>
+        </div>
+        <div style="height:2rem;"></div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="flex-1 overflow-y-auto bg-base-100" id="kb-content">
+
+      <!-- HOME -->
+      <div v-if="currentView==='home'" class="max-w-4xl mx-auto px-8 py-10">
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#FF79C9,#4D2B41);">
+              <span class="material-icons-round text-white" style="font-size:22px;">menu_book</span>
+            </div>
+            <div>
+              <h1 class="font-black leading-none" :style="{color:'var(--kb-t)',fontSize:'1.9rem',letterSpacing:'-.03em'}">{{ t('appTitle') }}</h1>
+              <p :style="{color:'var(--kb-m)',fontSize:'.8rem',marginTop:'2px',fontWeight:500}">{{ t('appSubtitle') }}</p>
+            </div>
+          </div>
+          <p class="max-w-xl" :style="{color:'var(--kb-m)',lineHeight:1.78,fontSize:'.95rem'}">{{ t('heroDesc') }}</p>
+        </div>
+        <div class="flex gap-3 mb-8 flex-wrap">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background:rgba(255,121,201,.1);">
+            <span class="material-icons-round" style="font-size:14px;color:#FF79C9;">article</span>
+            <span :style="{fontSize:'.78rem',color:'var(--kb-t)',fontWeight:700}">{{ publishedCount }} {{ t('published') }}</span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" :style="{background:'var(--kb-t08)'}">
+            <span class="material-icons-round" :style="{fontSize:'14px',color:'var(--kb-f)'}">hourglass_empty</span>
+            <span :style="{fontSize:'.78rem',color:'var(--kb-m)',fontWeight:700}">{{ totalCount-publishedCount }} {{ t('comingSoon') }}</span>
+          </div>
+        </div>
+        <div class="grid gap-3 mb-10" style="grid-template-columns:repeat(auto-fill,minmax(185px,1fr));">
+          <button v-for="cat in CATEGORIES" :key="cat.name" @click="openCategory(cat.name)" class="kb-cat-card p-4" :style="{border:'1px solid var(--kb-bd)',boxShadow:'0 1px 4px var(--kb-bds)'}">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center mb-3" :style="{background:'var(--kb-t15)'}">
+              <span class="material-icons-round" :style="{fontSize:'15px',color:'var(--kb-t)'}">{{ cat.icon }}</span>
+            </div>
+            <p :style="{fontSize:'.78rem',fontWeight:800,color:'var(--kb-t)',marginBottom:'3px',lineHeight:1.3}">{{ cat.name }}</p>
+            <p :style="{fontSize:'.68rem',color:'var(--kb-m)',lineHeight:1.5,marginBottom:'5px'}">{{ cat.description }}</p>
+            <p style="font-size:.67rem;font-weight:700;color:#FF79C9;">{{ cat.articles.filter(a=>a.status==='published').length }} {{ t('of') }} {{ cat.articles.length }} {{ t('available') }}</p>
+          </button>
+        </div>
+        <div>
+          <p :style="{fontSize:'.65rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--kb-f)',marginBottom:'.6rem'}">{{ t('browseByTag') }}</p>
+          <div class="flex flex-wrap gap-2">
+            <button v-for="tag in popularTags" :key="tag" @click="filterByTag(tag)" :style="tagSt">{{ tag }}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH -->
+      <div v-else-if="currentView==='search'" class="max-w-3xl mx-auto px-8 py-8">
+        <p class="mb-5" :style="{fontSize:'.85rem',color:'var(--kb-m)'}">
+          <span v-if="searchResults.length">{{ searchResults.length }} {{ t('resultsFor') }}</span>
+          <span v-else>{{ t('noResultsFor') }}</span>
+          <strong :style="{color:'var(--kb-t)'}"> "{{ searchQuery }}"</strong>
+        </p>
+        <div v-if="!searchResults.length" class="text-center py-16">
+          <span class="material-icons-round" :style="{fontSize:'48px',color:'var(--kb-ff)'}">search_off</span>
+          <p class="mt-3" :style="{color:'var(--kb-f)',fontSize:'.9rem'}">{{ t('noResults') }}</p>
+          <p class="mt-1" :style="{color:'var(--kb-ff)',fontSize:'.8rem'}">{{ t('noResultsTip') }}</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <button v-for="r in searchResults" :key="r.slug" @click="navigateTo(r.slug)" class="kb-result text-left p-4" :style="{border:'1px solid var(--kb-bd)'}">
+            <p class="font-black mb-1" :style="{color:'var(--kb-t)',fontSize:'.92rem'}" v-html="hlText(r.title)"></p>
+            <p style="font-size:.7rem;color:#FF79C9;font-weight:700;margin-bottom:5px;">{{ r.category }}</p>
+            <p :style="{fontSize:'.8rem',color:'var(--kb-m)',lineHeight:1.65}" v-html="r.snippet"></p>
+            <div class="flex gap-1 mt-2 flex-wrap">
+              <span v-for="tg in r.tags.slice(0,4)" :key="tg" :style="tagStSm">{{ tg }}</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAG -->
+      <div v-else-if="currentView==='tag'" class="max-w-3xl mx-auto px-8 py-8">
+        <div class="flex items-center gap-2 mb-5">
+          <button @click="goHome" style="color:#FF79C9;font-weight:700;font-size:.85rem;border:none;background:transparent;cursor:pointer;" class="hover:underline">{{ t('home') }}</button>
+          <span class="material-icons-round" :style="{fontSize:'13px',color:'var(--kb-ff)'}">chevron_right</span>
+          <span :style="{fontSize:'.85rem',color:'var(--kb-t)'}">{{ t('tag') }} <strong>{{ currentTag }}</strong></span>
+        </div>
+        <h2 class="font-black mb-5" :style="{color:'var(--kb-t)',fontSize:'1.4rem',letterSpacing:'-.02em'}">{{ t('articlesTagged') }} "{{ currentTag }}"</h2>
+        <div v-if="!tagResults.length" class="text-center py-16">
+          <span class="material-icons-round" :style="{fontSize:'48px',color:'var(--kb-ff)'}">label_off</span>
+          <p class="mt-3" :style="{color:'var(--kb-f)',fontSize:'.9rem'}">{{ t('noResults') }}</p>
+        </div>
+        <div v-else class="flex flex-col gap-2">
+          <button v-for="a in tagResults" :key="a.slug" @click="navigateTo(a.slug)" class="kb-result text-left p-3" :style="{border:'1px solid var(--kb-bd)'}">
+            <p :style="{fontSize:'.88rem',fontWeight:700,color:'var(--kb-t)',marginBottom:'2px'}">{{ a.title }}</p>
+            <p style="font-size:.7rem;color:#FF79C9;font-weight:700;">{{ a.category }}</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- CATEGORY -->
+      <div v-else-if="currentView==='category'&&currentCategoryObj" class="max-w-4xl mx-auto px-8 py-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-1 mb-6" style="font-size:.72rem;">
+          <button @click="goHome" style="color:#FF79C9;font-weight:700;border:none;background:transparent;cursor:pointer;" class="hover:underline">{{ t('home') }}</button>
+          <span class="material-icons-round" :style="{fontSize:'12px',color:'var(--kb-ff)'}">chevron_right</span>
+          <span :style="{color:'var(--kb-m)'}">{{ currentCategoryObj.name }}</span>
+        </nav>
+
+        <!-- Category header -->
+        <div class="flex items-center gap-4 mb-3">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#FF79C9,#4D2B41);">
+            <span class="material-icons-round text-white" style="font-size:24px;">{{ currentCategoryObj.icon }}</span>
+          </div>
+          <div>
+            <h1 class="font-black leading-none" :style="{color:'var(--kb-t)',fontSize:'1.9rem',letterSpacing:'-.03em'}">{{ currentCategoryObj.name }}</h1>
+            <p :style="{color:'var(--kb-m)',fontSize:'.88rem',marginTop:'4px'}">{{ currentCategoryObj.description }}</p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="flex gap-3 mb-8 flex-wrap">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" style="background:rgba(255,121,201,.1);">
+            <span class="material-icons-round" style="font-size:14px;color:#FF79C9;">article</span>
+            <span :style="{fontSize:'.78rem',color:'var(--kb-t)',fontWeight:700}">{{ currentCategoryObj.articles.filter(a=>a.status==='published').length }} {{ t('of') }} {{ currentCategoryObj.articles.length }} {{ t('available') }}</span>
+          </div>
+        </div>
+
+        <!-- Articles list -->
+        <div class="flex flex-col gap-2">
+          <button v-for="art in currentCategoryObj.articles" :key="art.slug" @click="navigateTo(art.slug)" :disabled="art.status==='coming_soon'" class="text-left p-4 rounded-xl transition-all" :style="{border:'1px solid var(--kb-bd)',background:'var(--kb-cb)',cursor:art.status==='published'?'pointer':'default',opacity:art.status==='published'?1:.55}" :class="art.status==='published'?'kb-result':''">
+            <div class="flex items-start gap-3">
+              <span class="material-icons-round flex-shrink-0" :style="{fontSize:'18px',color:art.status==='coming_soon'?'var(--kb-ff)':'#FF79C9',marginTop:'2px'}">{{ art.status==='coming_soon'?'hourglass_empty':'article' }}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <p :style="{fontSize:'.95rem',fontWeight:700,color:'var(--kb-t)',fontStyle:art.status==='coming_soon'?'italic':'normal'}">{{ art.title }}</p>
+                  <span v-if="art.status==='coming_soon'" :style="{fontSize:'.6rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'.08em',color:'var(--kb-f)',padding:'.12rem .5rem',border:'1px solid var(--kb-bd)',borderRadius:'9999px'}">{{ t('comingSoon') }}</span>
+                </div>
+                <div class="flex gap-1.5 flex-wrap mt-2">
+                  <span v-for="tg in art.tags" :key="tg" :style="tagStSm">{{ tg }}</span>
+                </div>
+              </div>
+              <span v-if="art.status==='published'" class="material-icons-round flex-shrink-0" :style="{fontSize:'18px',color:'var(--kb-f)',marginTop:'2px'}">chevron_right</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ARTICLE -->
+      <div v-else-if="currentView==='article'&&currentArticle" class="flex gap-8 max-w-5xl mx-auto px-8 py-8">
+        <div class="flex-1 min-w-0">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-1 mb-6" style="font-size:.72rem;">
+            <button @click="goHome" style="color:#FF79C9;font-weight:700;border:none;background:transparent;cursor:pointer;" class="hover:underline">{{ t('home') }}</button>
+            <span class="material-icons-round" :style="{fontSize:'12px',color:'var(--kb-ff)'}">chevron_right</span>
+            <button @click="openCategory(currentArticle.category)" style="color:#FF79C9;font-weight:700;border:none;background:transparent;cursor:pointer;" class="hover:underline">{{ currentArticle.category }}</button>
+            <span class="material-icons-round" :style="{fontSize:'12px',color:'var(--kb-ff)'}">chevron_right</span>
+            <span :style="{color:'var(--kb-m)'}">{{ currentArticle.title }}</span>
+          </nav>
+
+          <!-- Title -->
+          <h1 class="font-black leading-tight mb-3" :style="{color:'var(--kb-t)',fontSize:'1.9rem',letterSpacing:'-.03em'}">{{ currentArticle.title }}</h1>
+
+          <!-- Tags -->
+          <div class="flex gap-1.5 flex-wrap mb-6">
+            <button v-for="tag in currentArticle.tags" :key="tag" @click="filterByTag(tag)" :style="tagSt">{{ tag }}</button>
+          </div>
+
+          <div :style="{height:'1px',background:'var(--kb-bd)',marginBottom:'1.75rem'}"></div>
+
+          <!-- Coming soon -->
+          <div v-if="currentArticle.status==='coming_soon'" class="py-16 text-center">
+            <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style="background:rgba(255,121,201,.1);">
+              <span class="material-icons-round" style="font-size:32px;color:#FF79C9;opacity:.6;">hourglass_empty</span>
+            </div>
+            <p class="font-black text-xl mb-2" :style="{color:'var(--kb-t)',letterSpacing:'-.02em'}">{{ t('comingSoonTitle') }}</p>
+            <p :style="{color:'var(--kb-m)',fontSize:'.88rem',maxWidth:'280px',margin:'0 auto',lineHeight:1.65}">{{ t('comingSoonDesc') }}</p>
+          </div>
+
+          <!-- Content -->
+          <div v-else class="kb-article-content" v-html="renderedContent" @click="handleContentClick"></div>
+
+          <!-- Prev / Next -->
+          <div class="flex gap-3 mt-12 pt-6" :style="{borderTop:'1px solid var(--kb-bd)'}">
+            <button v-if="prevArticle" @click="navigateTo(prevArticle.slug)" class="kb-nav-btn flex-1 text-left p-4">
+              <p :style="{fontSize:'.6rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--kb-f)',marginBottom:'4px'}">{{ t('prev') }}</p>
+              <p :style="{fontSize:'.83rem',fontWeight:700,color:'var(--kb-t)'}">{{ prevArticle.title }}</p>
+            </button>
+            <div v-else class="flex-1"></div>
+            <button v-if="nextArticle" @click="navigateTo(nextArticle.slug)" class="kb-nav-btn flex-1 text-right p-4">
+              <p :style="{fontSize:'.6rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--kb-f)',marginBottom:'4px'}">{{ t('next') }}</p>
+              <p :style="{fontSize:'.83rem',fontWeight:700,color:'var(--kb-t)'}">{{ nextArticle.title }}</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- TOC -->
+        <div v-if="tocItems.length>0&&currentArticle.status!=='coming_soon'" class="w-44 flex-shrink-0 hidden lg:block">
+          <div class="sticky" style="top:1.5rem;">
+            <p :style="{fontSize:'.6rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'.12em',color:'var(--kb-f)',marginBottom:'.7rem'}">{{ t('onThisPage') }}</p>
+            <a v-for="item in tocItems" :key="item.anchor" href="#" @click.prevent="scrollToAnchor(item.anchor)" class="block transition-colors truncate" :style="{fontSize:'.72rem',color:'var(--kb-m)',textDecoration:'none',padding:item.level===3?'.13rem 0 .13rem .7rem':'.13rem 0',fontWeight:item.level===2?700:400,borderLeft:item.level===3?'1px solid rgba(255,121,201,.3)':'none'}" @mouseenter="e=>e.target.style.color='#FF79C9'" @mouseleave="e=>e.target.style.color='var(--kb-m)'">{{ item.text }}</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
