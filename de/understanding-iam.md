@@ -16,15 +16,11 @@ Jeder User in CoCoCo hat eine oder mehrere **Policies** zugewiesen. Eine Policy 
 
 Bei Konflikten zwischen Policies **gewinnt DENY immer**.
 
-## Die drei eingebauten Policies
+## Die eingebaute Full-Access-Policy
 
-CoCoCo bringt drei Standard-Policies mit:
+CoCoCo bringt eine einzige eingebaute Policy mit: **Full Access** — sie gewährt alle Berechtigungen auf der gesamten Plattform und sollte nur Usern zugewiesen werden, die wirklich uneingeschränkten Zugriff benötigen.
 
-| Policy | Was sie leistet |
-|---|---|
-| **Full Access** | Gewährt alle Berechtigungen auf der gesamten Plattform |
-| **Admin Policy** | Voller Admin-Zugriff, um User, Devices und Config zu verwalten |
-| **Read-Only Policy** | Kann alles sehen, aber nichts anlegen, ändern oder löschen |
+Alle weiteren Policies — etwa eine Nur-Lese- oder rollenspezifische Policy — werden selbst angelegt, passend zur Arbeitsweise des Teams (siehe unten).
 
 ## Eine eigene Policy erstellen
 

@@ -16,15 +16,11 @@ Every user in CoCoCo has one or more **Policies** attached to them. A Policy con
 
 If Policies conflict, **DENY always wins**.
 
-## The three built-in Policies
+## The built-in Full Access Policy
 
-CoCoCo comes with three default Policies out of the box:
+CoCoCo ships with a single built-in Policy, **Full Access**, which grants all permissions across the entire platform. Assign it only to users who genuinely need unrestricted access.
 
-| Policy | What it does |
-|---|---|
-| **Full Access** | Grants all permissions across the entire platform |
-| **Admin Policy** | Full admin access to manage users, devices, and config |
-| **Read-Only Policy** | Can view everything but cannot create, edit, or delete |
+Any other Policies — for example a read-only or role-specific Policy — you create yourself to match how your team works (see below).
 
 ## Creating a custom Policy
 

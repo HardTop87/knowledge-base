@@ -33,6 +33,4 @@ All Team members receive the permissions.
 
 Permissions are revoked immediately.
 
-:::info
-If a user has Policies through both a Team and directly, all Policies combine. DENY always overrides ALLOW.
-:::
+> **Note:** If a user has Policies through both a Team and directly, all Policies combine. DENY always overrides ALLOW.

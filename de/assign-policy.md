@@ -33,6 +33,4 @@ Alle Teammitglieder erhalten die Berechtigungen.
 
 Die Berechtigungen sind sofort entzogen.
 
-:::info
-Wenn ein User Policies sowohl über ein Team als auch direkt zugewiesen hat, werden alle Policies kombiniert. DENY überschreibt ALLOW immer.
-:::
+> **Hinweis:** Wenn ein User Policies sowohl über ein Team als auch direkt zugewiesen hat, werden alle Policies kombiniert. DENY überschreibt ALLOW immer.

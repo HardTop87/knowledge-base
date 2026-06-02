@@ -175,3 +175,30 @@ Also verified present: `InvoiceStatus`, `PaymentStatus`, `ShipmentStatus`, `Orde
 
 ## CONTENT GAP found: Edge Apps / Integrations NOT covered
 The KB has zero coverage of **Edge Apps** (EDGE_APP runtime: `bridge.mqtt/opcua/state`, Modbus transport, `ctx.edgeApp.invoke`) and **Integrations** (integration drafts/bundles). These are real test9 features. Recommend adding at least an "Edge Apps" article (and possibly "Integrations"), pending scope decision.
+
+---
+
+## Tier-2 Audit — Batch: Account & Settings + Team & Access  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| user-settings | PASS | UI (avatar → User Settings; language; password). Name/email managed in Identity & Access — consistent. |
+| api-tokens | PASS | Bearer-header usage + MCP connection table consistent with mcp-connection-details; mentions Claude Desktop/Cursor (matches new connect articles). |
+| inviting-team-members | PASS | User creation + policy assignment; User Types match `UserKind`. |
+| understanding-iam | **FIX** | IAM model verified: `Effect`=ALLOW/DENY, `IAMStatement`{effect,actions,resources}, `IAMDocument`{version,statements}, actions grouped by resource (`IAMActionGroup`). BUT "three built-in Policies (Full Access, Admin Policy, Read-Only Policy)" was FALSE — live `listIAMPolicies` returns only ONE: **Full Access**. Corrected to a single built-in Full Access policy; others are user-created. |
+| create-user | PASS | `UserKind` = HUMAN, BOT, KIOSK — exact match. |
+| create-iam-policy | PASS | Statement builder (Effect → Actions by resource) matches `IAMStatementInput` + `listIAMActions`/`IAMActionGroup`. |
+| create-team | PASS | Teams group users; assign policies to team — consistent with `listUserPolicies` model. |
+| assign-policy | **FIX** | Content correct; converted the `:::info` admonition to a `>` blockquote (consistent with the monitor-executions fix — custom-app markdown renderer shows `:::` literally). |
+
+Verified IAM: `Effect`(ALLOW,DENY), `UserKind`(HUMAN,BOT,KIOSK), `IAMDocument`/`IAMStatement`/`IAMActionGroup`/`IAMActionInfo`, queries `listIAMPolicies`/`listIAMActions`/`listUserPolicies`/`getIAMPolicy`. Live built-in policy set = {Full Access} only.
+
+### Tier-2 status: Networks & Devices ✓, Commercial ✓, Account & Settings ✓, Team & Access ✓ — **Tier 2 complete.**
+
+---
+
+## [DEFERRED — to do next] Edge Apps & Integrations coverage
+KB has zero coverage. **Before creating any new category**, FIRST evaluate whether this content fits into EXISTING categories/articles (per user's explicit instruction). Candidates to weigh:
+- **Edge Apps** (EDGE_APP runtime: `bridge.mqtt/opcua/state`, Modbus via `EdgeAppModbusTransport`, `ctx.edgeApp.invoke`, `ControllerPolicyState` default-deny IO/exec allowlists, config.update push to controllers) → could fit **Networks & Devices** (bridge/controller-adjacent) or **Custom Apps** (it's an app type) or **Developer Tools**.
+- **Integrations** (integration drafts/bundles, publish, external schemas, `ctx.integration.*`) → could fit **Developer Tools** or **Platform Configuration**.
+Decision (existing vs new category) pending. Research EDGE_APP + INTEGRATION runtimes against test9, then write EN+DE.
