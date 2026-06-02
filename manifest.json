@@ -568,7 +568,7 @@
             "cursor",
             "developer"
           ],
-          "status": "coming_soon"
+          "status": "published"
         },
         {
           "slug": "connect-antigravity",
@@ -579,7 +579,7 @@
             "gemini",
             "ai"
           ],
-          "status": "coming_soon"
+          "status": "published"
         },
         {
           "slug": "connect-codex",
@@ -591,7 +591,7 @@
             "chatgpt",
             "ai"
           ],
-          "status": "coming_soon"
+          "status": "published"
         }
       ]
     },

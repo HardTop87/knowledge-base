@@ -126,3 +126,19 @@ Cross-cutting UI item (not changed, needs human eye): menu paths vary across the
 | train-ml-model | **FIX** | Training data is `dataQuerySQL` (a SQL query) + `targetColumn` + `featureColumns` (`MLModelConfigOutput`/`UpsertMLModelConfigInput`), not a "Data Query Script." Step corrected to the real fields. ML Predict node + retraining/immutable versions (`MLModelConfigVersionOutput`) consistent. |
 
 Note: `scripts` "ML Data Query" role re-confirmed valid — `ScriptRole` enum = SCRIPT, JDF_TEMPLATE, JMF_TEMPLATE, ML_DATA_QUERY. (So a script can also produce training data, but the model config itself stores `dataQuerySQL`.)
+
+---
+
+## Tier-1 Audit — Batch: MCP & AI Integrations  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| mcp-server | PASS | Scope broadened earlier this session; consistent. |
+| mcp-connection-details | PASS | Endpoint/transport/auth consistent. |
+| connect-claude-desktop | PASS | From the v2 source file; normalized. |
+| connect-claude-code | PASS | `claude mcp add --transport http … --header "Authorization: Bearer …"` is the current Claude Code remote-MCP syntax; Node 20+. |
+| connect-cursor | **NEW (written)** | Verified vs cursor.com/docs/mcp: `~/.cursor/mcp.json`, `url` + `headers` (Streamable HTTP). Published. |
+| connect-codex | **NEW (written)** | Verified vs developers.openai.com/codex/mcp: `~/.codex/config.toml` `[mcp_servers.cococo]` `url` + `bearer_token_env_var`; CLI `codex mcp add`. Published. |
+| connect-antigravity | **NEW (written)** | Verified vs antigravity.google/docs/mcp: `mcp_config.json`, **`serverUrl`** (not `url`) + `headers`. Published. |
+
+The three formerly-`coming_soon` connect articles are now written, bilingual, and flipped to `published` in manifest.json. External-tool configs verified by web docs (their MCP setup is the variable part; the CoCoCo side is the same Streamable-HTTP `https://<your-domain>/mcp` + Bearer token).
