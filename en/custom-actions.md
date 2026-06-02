@@ -8,7 +8,7 @@ title: "How to Use Custom Actions"
 
 ## What is a Custom Action?
 
-A Custom Action is a saved, reusable Lua function that you can call from Workflow Script nodes. They let you encapsulate business logic once and reuse it across multiple Workflows — calculations, validations, data transformations, external API calls.
+A Custom Action is a saved, reusable Lua function that you can call from a Workflow **Custom Action** node. They let you encapsulate business logic once and reuse it across multiple Workflows — calculations, validations, data transformations, external API calls.
 
 ## Custom Actions vs. Scripts
 

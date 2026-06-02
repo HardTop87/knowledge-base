@@ -72,3 +72,18 @@ New verified facts this batch (also in LEARNINGS context): `JobState.operations:
 | templates | **FIX** | Technically correct; renamed GraphQL var `$input`→`$tpl` so it no longer visually collides with the script's `input` (clarity). |
 
 Key finding: `jobs(first:…)` is **invalid** on test9 — only `listJobs` exists. Notably, the platform's **own** Lua-API documentation example still uses the stale `jobs` query — confirming that example code (even first-party) must be validated, not trusted. SCRIPT-role base API confirmed: `ctx.graphql/.sql/.cache/.device.http/.device.sql/.time/.json/.log` + `ctx.script.load`; `ctx.time.now()` = ms since epoch.
+
+---
+
+## Tier-1 Audit — Batch: Workflows & Automation  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| what-is-a-workflow | PASS | Conceptual; building blocks + cross-refs valid. |
+| create-workflow | PASS | All 6 TriggerType values covered (incl. Script). |
+| node-types-reference | PASS | Full verified node set. |
+| custom-actions | **FIX** | Internal contradiction: intro said "call from Workflow **Script** nodes" while the rest correctly uses the **Custom Action** node → intro corrected. (API was fine; holistic check caught it.) |
+| monitor-executions | **FIX** | Status table listed only 4 of 6 `ExecutionStatus` values — added **Pending** and **Waiting** (WAITING is the state of a workflow paused on a human Task). Also converted unsupported `:::tip` admonition to a `>` blockquote to match the rest of the KB. |
+| hitl-workflows | PASS | Task-node pause/resume model consistent with node-types + Task semantics. |
+
+`ExecutionStatus` (verified): PENDING, RUNNING, WAITING, COMPLETED, FAILED, CANCELLED.

@@ -18,7 +18,9 @@ You will see a list of all recent executions with their status, trigger time, an
 
 | Status | Meaning |
 |---|---|
+| **Pending** | Queued, not yet started |
 | **Running** | Currently in progress |
+| **Waiting** | Paused — waiting on a human Task or an external signal |
 | **Completed** | Finished successfully |
 | **Failed** | Stopped due to an error |
 | **Cancelled** | Manually stopped |
@@ -39,6 +41,4 @@ Click on any execution to open the execution detail view:
 4. Fix the Workflow configuration
 5. Re-test by clicking **Test** in the editor
 
-:::tip
-Turn on **Verbose logging** in the Workflow settings while debugging — this adds detailed output to each node's execution log.
-:::
+> **Tip:** Turn on **Verbose logging** in the Workflow settings while debugging — this adds detailed output to each node's execution log.

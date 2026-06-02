@@ -18,7 +18,9 @@ Sie sehen eine Liste aller jüngsten Executions mit Status, Startzeit und Dauer.
 
 | Status | Bedeutung |
 |---|---|
+| **Pending** | In der Warteschlange, noch nicht gestartet |
 | **Running** | Läuft gerade |
+| **Waiting** | Pausiert — wartet auf eine menschliche Task oder ein externes Signal |
 | **Completed** | Erfolgreich beendet |
 | **Failed** | Durch einen Fehler gestoppt |
 | **Cancelled** | Manuell gestoppt |
@@ -39,6 +41,4 @@ Klicken Sie auf eine Execution, um die Detailansicht zu öffnen:
 4. Beheben Sie die Workflow-Konfiguration
 5. Testen Sie erneut mit **Test** im Editor
 
-:::tip
-Aktivieren Sie beim Debugging **Verbose logging** in den Workflow-Einstellungen. So bekommt jede Node eine ausführliche Log-Ausgabe.
-:::
+> **Tipp:** Aktivieren Sie beim Debugging **Verbose logging** in den Workflow-Einstellungen. So bekommt jede Node eine ausführliche Log-Ausgabe.
