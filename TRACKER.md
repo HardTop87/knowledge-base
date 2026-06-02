@@ -157,3 +157,21 @@ The three formerly-`coming_soon` connect articles are now written, bilingual, an
 | understanding-metrics | PASS | Device Metric trigger = `DEVICE_MQTT`; inbound metrics via MQTT/HTTP matches `InboundProtocol`. |
 
 Verified enums: `OutboundProtocol` (HTTP, SQL, MQTT, JMF), `InboundProtocol` (MQTT, HTTP), `DatabaseAdapter` (MSSQL, MYSQL, POSTGRESQL, SQLITE). OPC-UA/Modbus live at the EDGE_APP/bridge layer, not as device protocols.
+
+---
+
+## Tier-2 Audit — Batch: Commercial  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| commercial-overview | PASS | Order + Estimate lifecycles match `OrderStatus`/`EstimateStatus`. |
+| create-estimate | PASS | `EstimateStatus` = DRAFT, SENT, ACCEPTED, REJECTED, EXPIRED, REVISED — exact match. |
+| create-order | PASS | `OrderStatus` = DRAFT, CONFIRMED, IN_PRODUCTION, PARTIALLY_SHIPPED, SHIPPED, DELIVERED, COMPLETED, CANCELLED — exact match. |
+| create-invoice | PASS | `InvoiceKind` = INVOICE, CREDIT_NOTE, PROFORMA — exact match. |
+| purchase-orders | **FIX** | `PurchaseOrderStatus` = DRAFT, SUBMITTED, ACKNOWLEDGED, PARTIALLY_RECEIVED, RECEIVED, CANCELLED, DISPUTED. Article had "Sent"/"Confirmed" (wrong) and was missing DISPUTED → corrected. |
+| customers-suppliers | PASS | `CustomerState` / `SupplierID` exist; UI-level flow consistent. |
+
+Also verified present: `InvoiceStatus`, `PaymentStatus`, `ShipmentStatus`, `OrderLifecyclePayload` (order/estimate/invoices/shipments/jobs) — useful for future deeper commercial articles.
+
+## CONTENT GAP found: Edge Apps / Integrations NOT covered
+The KB has zero coverage of **Edge Apps** (EDGE_APP runtime: `bridge.mqtt/opcua/state`, Modbus transport, `ctx.edgeApp.invoke`) and **Integrations** (integration drafts/bundles). These are real test9 features. Recommend adding at least an "Edge Apps" article (and possibly "Integrations"), pending scope decision.

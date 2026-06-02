@@ -24,10 +24,11 @@ Ein Purchase Order (PO) ist ein Dokument, das Sie an einen Lieferanten senden, u
 | Status | Beschreibung |
 |---|---|
 | **Draft** | In Vorbereitung |
-| **Sent** | An Lieferanten versandt |
-| **Confirmed** | Lieferant hat bestätigt |
+| **Submitted** | An den Lieferanten gesendet |
+| **Acknowledged** | Lieferant hat den Eingang der PO bestätigt |
 | **Partially Received** | Teillieferung eingegangen |
 | **Received** | Vollständig eingegangen |
+| **Disputed** | Eine Abweichung wird mit dem Lieferanten geklärt |
 | **Cancelled** | Zurückgezogen |
 
 ## Wareneingang

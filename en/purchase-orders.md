@@ -24,10 +24,11 @@ A Purchase Order (PO) is a document you send to a supplier to request goods or s
 | Status | Description |
 |---|---|
 | **Draft** | Being prepared |
-| **Sent** | Delivered to supplier |
-| **Confirmed** | Supplier acknowledged |
+| **Submitted** | Sent to the supplier |
+| **Acknowledged** | Supplier confirmed receipt of the PO |
 | **Partially Received** | Some items arrived |
-| **Received** | All items confirmed |
+| **Received** | All items received |
+| **Disputed** | A discrepancy is being resolved with the supplier |
 | **Cancelled** | Withdrawn |
 
 ## Receiving goods
