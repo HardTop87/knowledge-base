@@ -108,3 +108,24 @@ Vollständiges Set, u.a. **File I/O** (`file_read`/`file_write`/`file_check`/`fi
   (Trigger-Enum / `import_workflow`-Schema).  **[OFFEN]**
 - **mcp-server / mcp-connection-details** Funktionsumfang: gegen test9 review.  **[OFFEN]**
 - **connect-claude-desktop**: neue Version einspielen + DE übersetzen.  **[OFFEN]**
+
+---
+
+## 6. v2 Client/Server-Muster — empirisch bestätigt  [VERIFIZIERT test9]
+
+Belegt an einer echten v2-App (`durst-label-connector`) + Schema-Introspektion:
+
+- **Client (Vue-Script):** Datenzugriff über **`window.rpc('handlerName', params)`** →
+  Rückgabe `{ status, result }`. Kein clientseitiges `$graphql`/`$rpc` (das ist v1).
+- **Server (`serverApi.lua`):** `exports = {}` + `function exports.handlerName(input) … end`;
+  Abfragen via `ctx.graphql.query(Q, vars)`; Persistenz `ctx.dataContainer.get/put/delete`;
+  Konvention Rückgabe `{ status = "ok", result = … }`. `os.*` ist gesperrt → `ctx.time`.
+- **`listJobs`-Filter:** Feld-Matcher, **kein** rohes Enum. `status` erwartet `StringFilter`,
+  also `filter: { status: { eq: "PRESS" } }` (analog `workCenterId: { eq: … }`).
+- **`upsertJob`** (es gibt kein `updateJob`): Argument `input: UpsertJobInput!`,
+  `id` ist Typ **`JobID`** (nicht `ID!`). **Pflichtfelder: `name: String!`, `quantity: Int!`**;
+  optional u.a. `id`, `status` (JobStatus-Enum), `priority`, `dueAt`, `tags`.
+  Ergebnis: **`UpsertJobPayload { job: JobState, errors }`** → `job { … }` selektieren,
+  nicht direkt `id`/`status` am Payload.
+- ID-Skalare sind typisiert (`JobID`, `WorkCenterID`, `CustomerID`, `MetricID`, …) — bei
+  Variablen den passenden Skalar verwenden, nicht generisch `ID!`.

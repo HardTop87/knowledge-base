@@ -8,53 +8,87 @@ title: "Accessing CoCoCo Data from a Custom App"
 
 ## Fetching data from CoCoCo
 
-Custom Apps can query any platform data via GraphQL from the Script.
+Custom Apps read and write platform data through the GraphQL API. In **engine v2**
+the recommended pattern is a thin client that calls a **server handler**, which runs
+the query with elevated access:
 
-## Client-side queries
+- **Client (Vue script):** call a handler with `window.rpc('handlerName', params)`.
+- **Server (`serverApi.lua`):** define the handler on the global `exports` table and
+  query with `ctx.graphql.query(...)`.
 
-Use the built-in `$graphql` helper:
-
-```javascript
-const jobs = ref([]);
-
-onMounted(async () => {
-  const result = await $graphql(`
-    query {
-      jobs(first: 20, filter: { status: IN_PRODUCTION }) {
-        edges {
-          node { id name status workCenter { name } }
-        }
-      }
-    }
-  `);
-  jobs.value = result.data.jobs.edges.map(e => e.node);
-});
-```
-
-## Server-side queries (Server API)
-
-For privileged queries, use the Server API:
+## Reading data (server handler)
 
 ```lua
-function rpc_get_jobs(params)
-  local result = cococo.graphql.query([[query { jobs { edges { node { id name } } } }]])
-  return result.data.jobs.edges
+exports = {}
+
+function exports.getJobs(input)
+  local res = ctx.graphql.query([[
+    query { listJobs(first: 20) { edges { node { id name status } } } }
+  ]])
+  return { status = "ok", result = res.data.listJobs.edges }
 end
 ```
 
-Call from Script:
-```javascript
-const data = await $rpc('get_jobs', {});
-```
+The list query is `listJobs` (there is no `jobs` query). The job node type is `JobState`.
 
-## Mutations
+## Calling it from the client
 
 ```javascript
-await $graphql(`
-  mutation($id: ID!, $status: JobStatus!) {
-    updateJob(id: $id, input: { status: $status }) { id status }
-  }
-`, { id: jobId, status: 'COMPLETED' });
+const { ref, onMounted } = Vue;
+const jobs = ref([]);
+
+onMounted(async () => {
+  const r = await window.rpc('getJobs', {});
+  jobs.value = (r.result || []).map(e => e.node);
+});
 ```
 
-Explore available queries in the [GraphQL Playground](#graphql-playground).
+`window.rpc` resolves to `{ status, result }` — check `status` before using `result`.
+
+## Filtering with variables
+
+Job filters use field matchers, not bare enums — `status` takes a `StringFilter`:
+
+```lua
+function exports.getJobsByStatus(input)
+  local res = ctx.graphql.query([[
+    query($status: String!) {
+      listJobs(first: 20, filter: { status: { eq: $status } }) {
+        edges { node { id name status } }
+      }
+    }
+  ]], { status = input.status })   -- e.g. "PRESS"
+  return { status = "ok", result = res.data.listJobs.edges }
+end
+```
+
+Valid `JobStatus` values: `DRAFT`, `RFQ`, `CONFIRMED`, `PREPRESS`, `PRESS`,
+`POSTPRESS`, `PACKING`, `SHIPPED`, `COMPLETED`, `WAITING`, `CANCELLED`, `EXCEPTION`.
+Note: `IN_PRODUCTION` is an **Order** status, not a job status. `JobState` has no
+`workCenter` field — job/resource links run through `operations`.
+
+## Writing data (mutations)
+
+Jobs are written with `upsertJob` (there is no `updateJob`). It takes an
+`UpsertJobInput` — `name` and `quantity` are required; pass `id` to update an
+existing job — and returns an `UpsertJobPayload { job, errors }`:
+
+```lua
+function exports.completeJob(input)
+  local res = ctx.graphql.query([[
+    mutation($input: UpsertJobInput!) {
+      upsertJob(input: $input) { job { id name status } }
+    }
+  ]], { input = { id = input.id, name = input.name,
+                  quantity = input.quantity, status = "COMPLETED" } })
+  return { status = "ok", result = res.data.upsertJob.job }
+end
+```
+
+## Legacy (v1)
+
+Older apps used client-side `$graphql` / `$rpc` and server-side `cococo.graphql` /
+`ctx.rpc`. These belong to the **v1** runtime. New apps should use
+`window.rpc` + `exports` + `ctx.graphql`; the v1 helpers may still appear in older apps.
+
+Explore queries and mutations in the [GraphQL Playground](#graphql-playground).
