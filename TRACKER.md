@@ -100,3 +100,17 @@ Key finding: `jobs(first:…)` is **invalid** on test9 — only `listJobs` exist
 | incoming-webhooks | PASS | Consistent with WEBHOOK trigger. Webhook URL path and header-validation are HTTP/runtime claims, not GraphQL-verifiable — flagged, not changed. |
 
 Verified entities: `NotificationGroupState{ id name description }`, `NotificationRecipientState{ groupId name deliveryConfig }`, `DeliveryConfig{ channel email }`, `DeliveryChannel` ENUM = EMAIL.
+
+---
+
+## Tier-1 Audit — Batch: Production Structure  [holistic: API + instructional]  — ALL PASS
+
+| Article | Verdict | Note |
+|---|---|---|
+| create-production-cell | PASS | `WorkCenterState.productionCellId: ProductionCellID` confirms cells are real. |
+| create-work-center | PASS | WorkCenterState verified (name, resourceType, productionCellId, jmfDeviceId/linkedUserId for device/user links). |
+| work-center-types | PASS | `resourceType: ResourceType` = MACHINE/HUMAN/TOOL/LOCATION. |
+| assign-capabilities | PASS | `CapabilityState{code,name,constraintSchema}`, `WorkCenterCapabilityState{workCenterId,capabilityId,constraints}`, `CapabilityCode` enum — matches the article. |
+| shift-definitions | PASS | `ShiftDefinitionState{name,startTime,endTime,activeDays,isOvernight}` + `WorkCenterShiftProfileState{workCenterId,shiftDefinitionId,validFrom,validUntil}` — matches the steps. |
+
+Cross-cutting UI item (not changed, needs human eye): menu paths vary across the KB ("Data → …" here vs "Menu → Developer → …" / "Menu → Business Hub → …" elsewhere). Not API-verifiable; should be reconciled against the live UI.
