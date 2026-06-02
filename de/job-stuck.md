@@ -9,34 +9,36 @@ title: "Job Is Stuck in a Status"
 ## Job-Status prüfen
 
 1. Wechseln Sie zu **Data → Production → Jobs**
-2. Suchen Sie den Job und notieren Sie den aktuellen Status
+2. Suchen Sie den Job und notieren Sie den aktuellen Status (z. B. `PREPRESS`, `PRESS`, `WAITING`)
 
-## Häufige Hängen-Stati
+## Warum ein Job hängenbleibt
 
-| Status | Häufige Ursachen |
+Ein Job kommt voran, indem seine **Operations** auf dem Shopfloor weitergeschaltet werden und **Workflows** auf seine Events reagieren. Er wirkt „hängengeblieben", wenn eines davon ausbleibt:
+
+| Situation | Häufige Ursachen |
 |---|---|
-| **Pending** | Kein Workflow hat den Job aufgegriffen; Trigger-Bedingung greift nicht |
-| **In Progress** | Ein Workflow ist pausiert, eine HITL-Task ist offen |
-| **Waiting** | Eine manuelle Task ist zugewiesen, aber noch nicht erledigt |
+| Kommt über einen Produktionsstatus nicht hinaus (z. B. **Prepress**, **Press**) | Die aktuelle Operation wurde auf dem Shopfloor nicht auf **Completed** geschaltet |
+| Steht in **Waiting** | Ein Workflow ist auf einer HITL-Task pausiert, die nicht abgeschlossen wurde, oder wartet auf eine Abhängigkeit |
+| Eine Operation startet nie (**Pending** / **Available**) | Kein Work Center hat sie aufgegriffen, oder eine vorgelagerte Operation ist nicht fertig |
 
-## Für Jobs in Pending
+## Wenn ein Workflow ihn hätte weiterschalten sollen
 
-1. Prüfen Sie, ob ein Workflow bei Job-Erstellung auslösen sollte
+1. Prüfen Sie, ob ein Workflow auf die Events dieses Jobs auslösen sollte
 2. Prüfen Sie die Trigger-Bedingungen im Workflow
-3. Prüfen Sie den Executions-Tab auf jüngste Fehler
+3. Öffnen Sie den Workflow → **Executions**-Tab und prüfen Sie auf Fehler
 
 [Workflow Is Not Triggering](#workflow-not-triggering)
 
-## Für Jobs in In Progress
+## Wenn eine HITL-Task blockiert
 
 1. Öffnen Sie den Job
-2. Prüfen Sie den **Tasks** Bereich auf offene, nicht zugewiesene Tasks
+2. Prüfen Sie den **Tasks**-Bereich auf offene, nicht zugewiesene Tasks
 3. Task zuweisen und abschließen, damit der Workflow weiterläuft
 
-## Job manuell weiterschalten
+## Eine Operation manuell weiterschalten
 
-1. Öffnen Sie den Job
-2. Setzen Sie über das **Status** Feld den passenden nächsten Status manuell
+1. Öffnen Sie den Job und gehen Sie zu seinen **Operations**
+2. Schalten Sie die aktuelle Operation in den nächsten Zustand (z. B. Running → Completed) — der Shopfloor-Fortschritt läuft über Operation-Transitions, nicht über das direkte Bearbeiten des Job-Status
 3. Dokumentieren Sie den Grund in den Job-Notizen
 
 ## Eskalation

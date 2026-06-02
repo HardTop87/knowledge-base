@@ -9,34 +9,36 @@ title: "Job Is Stuck in a Status"
 ## Check the job status
 
 1. Go to **Data → Production → Jobs**
-2. Find the job and note its current status
+2. Find the job and note its current status (e.g. `PREPRESS`, `PRESS`, `WAITING`)
 
-## Common stuck statuses
+## Why a job gets stuck
 
-| Status | Common causes |
+A job moves forward as its **Operations** are transitioned on the shopfloor and as **Workflows** react to its events. A job looks "stuck" when one of those stops happening:
+
+| Situation | Common causes |
 |---|---|
-| **Pending** | No Workflow has picked it up; trigger condition not met |
-| **In Progress** | A Workflow is paused — HITL task not completed |
-| **Waiting** | Manual task assigned but not acted on |
+| Won't advance past a production status (e.g. **Prepress**, **Press**) | The current Operation hasn't been transitioned to **Completed** on the shopfloor |
+| Sits in **Waiting** | A Workflow is paused on a HITL Task that hasn't been completed, or it's waiting on a dependency |
+| An Operation never starts (**Pending** / **Available**) | No Work Center picked it up, or a preceding Operation isn't finished |
 
-## For jobs stuck at Pending
+## When a Workflow should have advanced it
 
-1. Check if a Workflow should trigger on job creation
+1. Check whether a Workflow should trigger on this job's events
 2. Verify the trigger conditions in the Workflow
-3. Check the Executions tab for recent failures
+3. Open the Workflow → **Executions** tab and check for failures
 
 [Workflow Is Not Triggering](#workflow-not-triggering)
 
-## For jobs stuck In Progress
+## When a HITL Task is blocking
 
 1. Open the Job
-2. Check the **Tasks** section for open, unassigned tasks
-3. Assign and complete the task to resume the Workflow
+2. Check the **Tasks** section for open, unassigned Tasks
+3. Assign and complete the Task to resume the Workflow
 
-## Manually advancing a job
+## Advancing an Operation manually
 
-1. Open the Job
-2. Use the **Status** field to manually set the appropriate next status
+1. Open the Job and go to its **Operations**
+2. Transition the current Operation to its next state (e.g. Running → Completed) — shopfloor progress is driven by Operation transitions, not by editing the job status directly
 3. Document the reason in the job Notes
 
 ## Escalation

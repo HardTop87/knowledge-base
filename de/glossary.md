@@ -10,7 +10,7 @@ title: "Glossary"
 
 **AI Adapter**: Eine konfigurierte Verbindung zu einem Anbieter für KI-Modelle (OpenAI, Claude, Apple Native, XGBoost). Speichert die Zugangsdaten, damit Workflows und AI Agents das Modell nutzen können, ohne API-Keys im Code zu haben. Siehe [Was sind AI Adapter?](#ai-adapters).
 
-**AI Agent**: Ein konfigurierter KI-Assistent, der einen AI Adapter mit einem System-Prompt und optionalen Tools kombiniert. Wird aus Workflows heraus aufgerufen. Siehe [Einen AI Agent einrichten](#ai-agents).
+**AI Agent**: Ein konfigurierter KI-Assistent, der einen AI Adapter mit einer definierten Rolle, einem Ziel und einer Backstory sowie optionalen Tools kombiniert. Wird aus Workflows heraus aufgerufen. Siehe [Einen AI Agent einrichten](#ai-agents).
 
 **API Token**: Persönliche Zugangsdaten zur Authentifizierung gegenüber der CoCoCo API. Ist an ein User-Konto gebunden und erbt dessen Berechtigungen. Siehe [API Tokens anlegen und verwalten](#api-tokens).
 
@@ -26,7 +26,7 @@ title: "Glossary"
 
 **Controller**: Eine Brücke zwischen einem physischen Device-Netz und CoCoCo, die Protokollübersetzung und Nachrichten-Routing übernimmt. Siehe [Einen Controller anlegen](#add-controller).
 
-**Custom Action**: Eine gespeicherte, wiederverwendbare Lua-Funktion, aufrufbar aus Workflow Script Nodes.
+**Custom Action**: Eine gespeicherte, wiederverwendbare Lua-Funktion, aufrufbar aus einer Workflow-Custom-Action-Node.
 
 **Custom App**: Eine individuelle Oberfläche, gebaut auf CoCoCo mit Vue.js (Template), JavaScript (Script) und optional Lua (Server API). Erscheint als Page, Dashboard-Tab, Kiosk oder Job View. Siehe [Was sind Custom Apps?](#what-are-custom-apps).
 

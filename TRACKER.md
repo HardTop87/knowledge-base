@@ -202,3 +202,21 @@ KB has zero coverage. **Before creating any new category**, FIRST evaluate wheth
 - **Edge Apps** (EDGE_APP runtime: `bridge.mqtt/opcua/state`, Modbus via `EdgeAppModbusTransport`, `ctx.edgeApp.invoke`, `ControllerPolicyState` default-deny IO/exec allowlists, config.update push to controllers) → could fit **Networks & Devices** (bridge/controller-adjacent) or **Custom Apps** (it's an app type) or **Developer Tools**.
 - **Integrations** (integration drafts/bundles, publish, external schemas, `ctx.integration.*`) → could fit **Developer Tools** or **Platform Configuration**.
 Decision (existing vs new category) pending. Research EDGE_APP + INTEGRATION runtimes against test9, then write EN+DE.
+
+---
+
+## Tier-3 Audit — Batch: Getting Started + Troubleshooting  [scan for schema errors + consistency]
+
+| Article | Verdict | Note |
+|---|---|---|
+| platform-overview | PASS | Conceptual; building blocks (Job/Work Center/Device/Workflow/Policy/Custom App) all consistent with schema. |
+| setup-checklist | PASS* | Steps accurate. *Menu paths "Menu → Networks/Devices" omit "IOT" vs the Networks category — left for the deferred UI-path reconciliation, not a schema error. |
+| glossary | **FIX** | (1) "AI Agent … with a system prompt" → role/goal/backstory (same fix as ai-agents). (2) "Custom Action … callable from Workflow Script nodes" → "from a Workflow Custom Action node" (consistent with custom-actions fix). Everything else verified: Script roles (SCRIPT/JDF_TEMPLATE/JMF_TEMPLATE/ML_DATA_QUERY), ResourceType, InvoiceKind, protocol directions, UserKind, Custom App kinds — all correct. |
+| workflow-not-triggering | PASS | Trigger types + executions model consistent. |
+| device-not-connecting | PASS | "Menu → IOT → Devices" consistent; MQTT 1883/8883 + token-as-password plausible (endpoint paths not API-verifiable, left as-is). |
+| permission-errors | PASS | 403 / Policies / DENY-wins / resource model consistent with IAM. |
+| job-stuck | **FIX** | Listed "Pending" and "In Progress" as JobStatus values — they are NOT in `JobStatus` (only `WAITING` is; `PENDING`/`AVAILABLE`/`RUNNING` are `OperationStatus`). Rewrote around the real model: jobs advance via Operation transitions on the shopfloor; corrected the stuck-status table and the manual-advance step accordingly. |
+
+### FULL AUDIT COMPLETE — Tiers 1, 2, 3 all done. 71/71 articles audited (EN+DE).
+
+Remaining work: (1) Edge Apps & Integrations coverage (evaluate fit into existing categories/articles FIRST), (2) final redeploy of `script` into the test9 app.
