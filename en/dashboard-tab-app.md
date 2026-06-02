@@ -8,7 +8,8 @@ title: "Building a Dashboard Tab App"
 
 ## What is a Dashboard app?
 
-A Dashboard app appears as a tab on the CoCoCo Dashboards screen. Multiple Dashboard apps sit side by side as tabs — ideal for KPI boards, monitoring displays, and overview screens.
+A Dashboard app appears as a tab on the CoCoCo Dashboards screen. Multiple Dashboard apps
+sit side by side as tabs — ideal for KPI boards, monitoring displays, and overview screens.
 
 ## Layout pattern
 
@@ -24,13 +25,43 @@ A Dashboard app appears as a tab on the CoCoCo Dashboards screen. Multiple Dashb
 </div>
 ```
 
-## Auto-refresh
+## Loading and refreshing data
 
-For live dashboards:
+Fetch the numbers through a server handler, then refresh on an interval.
+
+Server API (`serverApi.lua`):
+
+```lua
+exports = {}
+
+function exports.getActiveJobCount()
+  local res = ctx.graphql.query([[
+    query { listJobs(filter: { status: { eq: "PRESS" } }, first: 100) {
+      edges { node { id } }
+    } }
+  ]])
+  return { status = "ok", result = #res.data.listJobs.edges }
+end
+```
+
+Script (client):
 
 ```javascript
+const activeJobs = ref(0);
+
+async function loadData() {
+  const r = await window.rpc('getActiveJobCount');
+  activeJobs.value = r.result;
+}
+
+let timer;
 onMounted(() => {
   loadData();
-  setInterval(loadData, 30000); // refresh every 30s
+  timer = setInterval(loadData, 30000); // refresh every 30s
 });
+onUnmounted(() => clearInterval(timer));
+
+const setupReturn = { activeJobs };
 ```
+
+Always clear the interval in `onUnmounted` so it stops when the tab closes.

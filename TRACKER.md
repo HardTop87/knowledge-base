@@ -37,3 +37,24 @@ Vorgehen: EN+DE **parallel**. Push gebündelt via build_to_app.py + CoCoCo-MCP.
 App-/Workflow-Code belegen, nur bei Beleg korrigieren, sonst falsche Zeile
 entfernen. Separate Test-Custom-App dafür erlaubt; KB-App bleibt bis zum
 bewussten Push unangetastet.
+
+---
+
+## Tier-1 Audit — Batch: Custom Apps (code) + neighbours  [holistic: API + instructional]
+
+Verified against cococo-test9 (live schema/Lua). PASS = technically correct AND coherent as a how-to.
+
+| Article | Verdict | Note |
+|---|---|---|
+| persistent-storage | **FIX** | Hallucinated `window.storage` (that's the Claude Artifacts API) → rewritten to server `ctx.dataContainer` + client `window.rpc`. |
+| custom-actions | PASS | `custom_action` node exists; Lua returns a table; `input.*` correct. |
+| what-are-custom-apps | PASS | App kinds = PAGE/DASHBOARD/KIOSK/JOB_VIEW ✓; 3-component model ✓. |
+| create-first-custom-app | PASS | Complete minimal end-to-end; self-consistent. |
+| preview-publish | PASS | Matches the versions model (publish → immutable snapshot). |
+| daisy-ui-theming | PASS | Frontend/CSS — not API-verifiable; internally consistent with all other articles. |
+| version-history | PASS | Matches `create_version`/list_versions semantics. |
+| sidebar-page-app | **FIX** | Layout-only; referenced data with no example → added verified `window.rpc`→`ctx.graphql listJobs`. |
+| dashboard-tab-app | **FIX** | `loadData`/`activeJobs` were undefined → added verified `getActiveJobCount` (listJobs StringFilter) + `onUnmounted` cleanup. |
+| kiosk-app | **FIX** | `loadJob`/`markComplete` undefined; corrected the model: shopfloor progress is per **operation** → `getJob{operations}` + `transitionOperation(status: COMPLETED)` (both validated). |
+
+New verified facts this batch (also in LEARNINGS context): `JobState.operations: [OperationState!]!`; `OperationState{ id name status jobId sortOrder … }`; `OperationStatus` = PENDING, AVAILABLE, SETUP, RUNNING, CLEANUP, COMPLETED, FAILED, STOPPED; `transitionOperation(input: TransitionOperationInput{ id: OperationID!, status: OperationStatus! }) { operation { id status } }` ✓ validated. `ctx.dataContainer.get/put/delete` (custom-app only; no `.list`).

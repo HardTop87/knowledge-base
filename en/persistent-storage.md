@@ -8,43 +8,55 @@ title: "Using Persistent Storage in Custom Apps"
 
 ## What is Persistent Storage?
 
-Custom Apps have access to a simple key-value storage system that persists data between sessions. Unlike JavaScript variables (which reset on page refresh), stored values survive across page loads.
+Custom Apps can store data that persists between sessions using a server-side key-value
+store, `ctx.dataContainer`. Unlike client-side JavaScript variables (which reset on
+reload), values in the data container survive across page loads.
 
-## Storage API
+## How it works
 
-```javascript
-// Save
-await window.storage.set('my-key', JSON.stringify({ count: 5 }));
+Storage lives in the app's **server API** (Lua). The Vue client calls a server handler
+with `window.rpc`; the handler reads or writes `ctx.dataContainer`.
 
-// Read
-try {
-  const result = await window.storage.get('my-key');
-  const data = result ? JSON.parse(result.value) : null;
-} catch (err) {
-  // Key not found or error
-}
+Server API (`serverApi.lua`):
 
-// Delete
-await window.storage.delete('my-key');
+```lua
+exports = {}
 
-// List keys with prefix
-const keys = await window.storage.list('config:');
+function exports.saveCount(input)
+  ctx.dataContainer.put("counter", input.count)
+  return { status = "ok" }
+end
+
+function exports.loadCount()
+  return { status = "ok", result = ctx.dataContainer.get("counter") }
+end
 ```
 
-## Personal vs. shared storage
-
-| Mode | Visible to | Use case |
-|---|---|---|
-| Personal (default) | Current user only | Preferences, saved filters |
-| Shared (`true` as 3rd arg) | All app users | Shared config, leaderboards |
+Client (Script):
 
 ```javascript
-await window.storage.set('config', value, true); // shared
+// save
+await window.rpc('saveCount', { count: 5 });
+
+// read
+const r = await window.rpc('loadCount');
+const count = r.result;   // nil/undefined if never set
 ```
 
-## Limitations
+## API (server-side, custom apps)
 
-- Text/JSON only — no binary data
-- Keys max 200 characters, no spaces or path separators
-- Values max 5MB per key
-- Always batch related data into a single key
+| Function | What it does |
+|---|---|
+| `ctx.dataContainer.put(key, value)` | Store a value (string, number, or table) |
+| `ctx.dataContainer.get(key)` | Retrieve a value (`nil` if not set) |
+| `ctx.dataContainer.delete(key)` | Remove a value |
+
+`ctx.dataContainer` is **custom-app-only**. Tenant Scripts don't have it; integration
+scripts use `ctx.integration.containers*` instead.
+
+## Notes
+
+- Store structured data as a table; use `ctx.json.encode` / `ctx.json.decode` if you need
+  an explicit string form.
+- Keep related data under one key and update it together to minimize round-trips.
+- The data container is scoped to the app.

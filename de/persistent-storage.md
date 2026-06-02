@@ -8,43 +8,56 @@ title: "Using Persistent Storage in Custom Apps"
 
 ## Was ist Persistent Storage?
 
-Custom Apps haben Zugriff auf einen einfachen Key-Value-Speicher, der Daten zwischen Sitzungen hält. Anders als JavaScript-Variablen, die beim Seiten-Reload zurückgesetzt werden, überdauern gespeicherte Werte das Neuladen.
+Custom Apps können Daten sitzungsübergreifend speichern — über einen serverseitigen
+Key-Value-Store, `ctx.dataContainer`. Anders als clientseitige JavaScript-Variablen (die
+beim Neuladen zurückgesetzt werden) überdauern Werte im Data Container das Neuladen der Seite.
 
-## Storage API
+## Wie es funktioniert
 
-```javascript
-// Speichern
-await window.storage.set('my-key', JSON.stringify({ count: 5 }));
+Der Speicher liegt in der **Server-API** der App (Lua). Der Vue-Client ruft über
+`window.rpc` einen Server-Handler auf; der Handler liest oder schreibt `ctx.dataContainer`.
 
-// Lesen
-try {
-  const result = await window.storage.get('my-key');
-  const data = result ? JSON.parse(result.value) : null;
-} catch (err) {
-  // Key nicht gefunden oder Fehler
-}
+Server-API (`serverApi.lua`):
 
-// Löschen
-await window.storage.delete('my-key');
+```lua
+exports = {}
 
-// Keys mit Präfix auflisten
-const keys = await window.storage.list('config:');
+function exports.saveCount(input)
+  ctx.dataContainer.put("counter", input.count)
+  return { status = "ok" }
+end
+
+function exports.loadCount()
+  return { status = "ok", result = ctx.dataContainer.get("counter") }
+end
 ```
 
-## Persönlicher vs. geteilter Speicher
-
-| Modus | Sichtbar für | Einsatz |
-|---|---|---|
-| Persönlich (Standard) | Nur aktueller User | Präferenzen, gespeicherte Filter |
-| Geteilt (`true` als 3. Arg) | Alle App-Nutzer | Gemeinsame Config, Bestenlisten |
+Client (Script):
 
 ```javascript
-await window.storage.set('config', value, true); // geteilt
+// speichern
+await window.rpc('saveCount', { count: 5 });
+
+// lesen
+const r = await window.rpc('loadCount');
+const count = r.result;   // nil/undefined, falls nie gesetzt
 ```
 
-## Grenzen
+## API (serverseitig, Custom Apps)
 
-- Nur Text und JSON, keine Binärdaten
-- Keys maximal 200 Zeichen, keine Leerzeichen oder Pfadtrenner
-- Werte maximal 5MB pro Key
-- Verwandte Daten immer in einem einzigen Key zusammenfassen
+| Funktion | Wirkung |
+|---|---|
+| `ctx.dataContainer.put(key, value)` | Wert speichern (String, Number oder Table) |
+| `ctx.dataContainer.get(key)` | Wert lesen (`nil`, falls nicht gesetzt) |
+| `ctx.dataContainer.delete(key)` | Wert entfernen |
+
+`ctx.dataContainer` gibt es **nur in Custom Apps**. Tenant-Scripts haben es nicht;
+Integration-Scripts nutzen stattdessen `ctx.integration.containers*`.
+
+## Hinweise
+
+- Strukturierte Daten als Table speichern; bei Bedarf `ctx.json.encode` / `ctx.json.decode`
+  für eine explizite String-Form.
+- Zusammengehörige Daten unter einem Key halten und gemeinsam aktualisieren, um
+  Roundtrips zu sparen.
+- Der Data Container ist auf die App begrenzt.
