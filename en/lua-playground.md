@@ -40,7 +40,7 @@ Click **Run** to execute. Output appears in the console below.
 |---|---|
 | `ctx.graphql.query(gql, vars)` | Run a GraphQL query or mutation |
 | `ctx.sql.query(sql)` | Read from the reporting tables |
-| `ctx.cache.get/set/delete(key, value?)` | Tenant cache (Redis) |
+| `ctx.cache.get(key)` / `ctx.cache.set({key, value, ttl?})` / `ctx.cache.delete(key)` | Tenant cache (Redis) |
 | `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Talk to a device via its Bridge |
 | `ctx.time.now()` / `ctx.time.nowIso()` | Timestamps (`os.*` is sandboxed away) |
 | `ctx.json.encode/decode(...)` | JSON |

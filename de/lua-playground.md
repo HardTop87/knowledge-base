@@ -41,7 +41,7 @@ Klicke **Run** zum Ausführen. Die Ausgabe erscheint in der Konsole darunter.
 |---|---|
 | `ctx.graphql.query(gql, vars)` | GraphQL-Query oder -Mutation ausführen |
 | `ctx.sql.query(sql)` | Aus den Reporting-Tabellen lesen |
-| `ctx.cache.get/set/delete(key, value?)` | Tenant-Cache (Redis) |
+| `ctx.cache.get(key)` / `ctx.cache.set({key, value, ttl?})` / `ctx.cache.delete(key)` | Tenant-Cache (Redis) |
 | `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Mit einem Gerät über dessen Bridge kommunizieren |
 | `ctx.time.now()` / `ctx.time.nowIso()` | Zeitstempel (`os.*` ist gesperrt) |
 | `ctx.json.encode/decode(...)` | JSON |

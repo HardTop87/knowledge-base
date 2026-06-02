@@ -35,11 +35,11 @@ Ein Template renderst du mit der GraphQL-Mutation `renderTemplate` — über sei
 
 ```lua
 local res = ctx.graphql.query([[
-  mutation($input: RenderTemplateInput!) {
-    renderTemplate(input: $input) { output }
+  mutation($tpl: RenderTemplateInput!) {
+    renderTemplate(input: $tpl) { output }
   }
 ]], {
-  input = {
+  tpl = {
     handle = "hp-indigo-jdf",
     context = ctx.json.encode({
       jobId = input.jobId,

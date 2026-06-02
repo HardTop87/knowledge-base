@@ -58,3 +58,17 @@ Verified against cococo-test9 (live schema/Lua). PASS = technically correct AND 
 | kiosk-app | **FIX** | `loadJob`/`markComplete` undefined; corrected the model: shopfloor progress is per **operation** → `getJob{operations}` + `transitionOperation(status: COMPLETED)` (both validated). |
 
 New verified facts this batch (also in LEARNINGS context): `JobState.operations: [OperationState!]!`; `OperationState{ id name status jobId sortOrder … }`; `OperationStatus` = PENDING, AVAILABLE, SETUP, RUNNING, CLEANUP, COMPLETED, FAILED, STOPPED; `transitionOperation(input: TransitionOperationInput{ id: OperationID!, status: OperationStatus! }) { operation { id status } }` ✓ validated. `ctx.dataContainer.get/put/delete` (custom-app only; no `.list`).
+
+---
+
+## Tier-1 Audit — Batch: Developer Tools  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| graphql-playground | PASS | `listJobs(first:10){…createdAt}` validated; `createdAt` exists on JobState. |
+| scripts | PASS | Roles plausible; pure-Lua example; coherent end-to-end. |
+| api-docs | PASS | Fabricated counts already removed; cross-refs valid. |
+| lua-playground | **FIX** | `ctx.cache` signature wrong — corrected to `get(key)` / `set({key,value,ttl?})` / `delete(key)` (verified via SCRIPT-role Lua API). Rest of the API table confirmed (graphql/sql/device.http/device.sql/time/json/log all valid for SCRIPT role). |
+| templates | **FIX** | Technically correct; renamed GraphQL var `$input`→`$tpl` so it no longer visually collides with the script's `input` (clarity). |
+
+Key finding: `jobs(first:…)` is **invalid** on test9 — only `listJobs` exists. Notably, the platform's **own** Lua-API documentation example still uses the stale `jobs` query — confirming that example code (even first-party) must be validated, not trusted. SCRIPT-role base API confirmed: `ctx.graphql/.sql/.cache/.device.http/.device.sql/.time/.json/.log` + `ctx.script.load`; `ctx.time.now()` = ms since epoch.
