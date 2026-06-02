@@ -1,0 +1,110 @@
+# LEARNINGS — CoCoCo Plattform & KB-Pflege
+
+Festgehaltene, **gegen die Plattform verifizierte** Fakten und ein Playbook „wie
+frage/prüfe ich was". Ziel: nicht zweimal dieselben Fehler machen. Jeder Eintrag
+ist markiert: **[VERIFIZIERT test9]** = live gegen die Referenzumgebung geprüft ·
+**[ALT cococo-de]** = nur gegen die ältere Version geprüft, vor Nutzung neu prüfen ·
+**[OFFEN]** = noch nicht verifiziert.
+
+Stand: bis einschließlich der Recherchephase (A-Sektion Lua + Kern-B-Sektion Schema).
+
+---
+
+## 0. Umgebungen & Versionen  [VERIFIZIERT test9]
+
+- Es gibt **zwei API-Stufen** (erkennbar an MCP-Tool-Oberflächen + Live-Checks):
+  - **Älter:** `cococo-de`, `CoCoCo`, `cococo-alex`
+  - **Neuer (Referenz):** `cococo-test9`, `cococo-sql-durst`
+- **Referenz für „aktuelle Plattform" = `cococo-test9`.** Die KB dokumentiert diese Version.
+  (Entscheidung des Nutzers.) `cococo-de` läuft auf der älteren Version.
+- Die KB-**App** liegt in `cococo-de`: `cap_01KP75ER4GF8BAXPA6F1TY3W4T`, handle `knowledge-base`.
+  Pushes gehen dorthin, aber der **Inhalt beschreibt test9**.
+- Zum Verifizieren immer die `cococo-test9:`-Tools verwenden.
+
+## 1. Playbook — wie prüfe ich was
+
+- **Lua-API-Oberfläche:** `search_lua_api(query, role)`. Trick: eine **absichtlich
+  nicht passende** Query (z.B. `"tenant config settings get value"`) liefert die
+  **vollständige Liste** der verfügbaren APIs für die Rolle. Rollen: `SCRIPT`,
+  `CUSTOM_APP`, `INTEGRATION`, `EDGE_APP`.
+- `get_lua_type_definitions` ist autoritativ, **timeoutet aber auf test9** → in der
+  Praxis die search_lua_api-Fallbackliste nutzen.
+- **GraphQL:** `validate_graphql_query` (führt nichts aus; nennt ungültige Felder und
+  **schlägt korrekte vor**, z.B. updateJob→upsertJob). `execute_graphql_query` für
+  read-only Live-Checks **und Introspektion** (`__type(name:…){ enumValues / fields }`).
+  Introspektion funktioniert auf test9.
+- **Typ-Benennung:** Entitätstypen heißen **`<X>State`** (z.B. `JobState`,
+  `WorkCenterState`). Es gibt **keinen** Typ `Job`. Also `JobState` introspizieren.
+- **Node-Typen:** `list_node_types`. **Mutationen** haben echte Seiteneffekte →
+  niemals gegen Live-Tenants ausführen; nur `validate_graphql_query`.
+- **MicroSQL (Reporting-Engine):** Spalten **voll qualifizieren** (`tabelle.spalte`);
+  `ORDER BY` braucht explizit `ASC`/`DESC`; Queries einfach halten (Aliase/JOINs
+  teils nicht unterstützt).
+- **`read_custom_app`** liefert große Payloads → landet in
+  `/mnt/user-data/tool_results`, mit Python parsen. Inhalt steckt im `script` als
+  JS-Literale: `CATEGORIES` (Array), `ARTICLES_CONTENT` (EN, einfache Quotes),
+  `ARTICLES_CONTENT_DE` (DE, Backtick-Templates), `I18N` (en/de). Literale **per Node
+  auswerten** (string-bewusste Grenzfindung), nicht per Regex.
+- **Disziplin:** Auf der Live-KB-App nur lesen; Pushes bewusst & gebündelt. Build über
+  `build/build_to_app.py` (Round-Trip verifiziert: wertgleich + Nicht-Daten-Code
+  byte-identisch).
+- test9-MCP **timeoutet zeitweise** (`get_lua_type_definitions`, eine listIAMPolicies-
+  Query) → ggf. erneut versuchen / Connector neu starten.
+
+## 2. Lua-Runtime (neue Version)  [VERIFIZIERT test9]
+
+- Custom-App-Servermodell = globale **`exports`-Tabelle (Engine v2)**.
+  **`ctx.rpc` ist der v1-Seitenkanal (Alt)** — für v2 nicht dokumentieren.
+- **CUSTOM_APP-APIs:** `ctx.graphql.query(query, vars)`,
+  `ctx.dataContainer.get/put/delete` (nur Custom-App, persistent),
+  `ctx.script.load(name)`, `ctx.sql.query(sql)`, `ctx.ml.predict/systemPredict`,
+  `ctx.device.http/sql`, `ctx.edgeApp.invoke(handle, payload?)`,
+  `ctx.notify.send({ group?|recipient?, subject?, body, metadata? })`,
+  `ctx.cache.get/set/delete` (Tenant-Redis, **4KB**-Limit),
+  `ctx.time.now()/nowIso()` (**`os.*` ist gesperrt**), `ctx.json.decode/encode`,
+  `ctx.log.info/warn/error`.
+- **SCRIPT-APIs:** wie oben, **ohne** `ctx.dataContainer`. Ausdrücklich **nicht**
+  verfügbar: `ctx.dataContainer` (nur Custom-App), `ctx.rpc` (v1), `ctx.integration.*`
+  (nur Integrationen).
+- **Existiert NICHT (keine Rolle):** `ctx.config`, generisches `ctx.http` (nur
+  `ctx.device.http`), `ctx.template`/`ctx.template.render`. KB-Zeilen mit
+  `cococo.config`/`http`/`template` haben **kein** ctx-Äquivalent → entfernen.
+- **Logging:** `ctx.log.info/warn/error` (strukturiert; 2. Arg = attrs-Tabelle).
+  **`print`/`warn` sind in v2 aus der Sandbox entfernt** → nie `print` verwenden.
+- **`ctx.device.sql`**-Optionen: `{ sql, params }` (v2). (Alt cococo-de: `{ query, bindings }`.)
+- **`ctx.device.http`**-Optionen: `{ method?, path?, headers?, body?, query?, timeoutMs? }`.
+
+## 3. GraphQL-Fakten (neue Version)  [VERIFIZIERT test9]
+
+- List-Query: **`listJobs(first, after, filter, sort)`** — es gibt **kein** `jobs`.
+- Mutation: **`upsertJob(input: …)`** — es gibt **kein** `updateJob` (Validator schlägt
+  upsertJob/deleteJob/updateConfig/updateWorkflow vor). Exakten Input-Typnamen beim
+  Schreiben des Beispiels nochmal gegen test9 bestätigen.
+- Job-Node-Typ = **`JobState`**; **kein** `workCenter`-Feld (Bezüge laufen über
+  `operations`, `components`, `milestones`).
+- **`JobStatus`** (test9): DRAFT, RFQ, CONFIRMED, PREPRESS, PRESS, POSTPRESS, PACKING,
+  SHIPPED, COMPLETED, WAITING, CANCELLED, EXCEPTION. (Größer als alt cococo-de.)
+- **`OrderStatus`**: DRAFT, CONFIRMED, IN_PRODUCTION, PARTIALLY_SHIPPED, SHIPPED,
+  DELIVERED, COMPLETED, CANCELLED, ON_HOLD → **`IN_PRODUCTION` ist ein ORDER-Status**,
+  kein Job-Status.
+- Work-Center-Typ = `resourceType: ResourceType` = **MACHINE, HUMAN, TOOL, LOCATION**
+  (nicht Prepress/Press/Finishing/…).
+
+## 4. Workflow-Node-Typen (test9)  [VERIFIZIERT test9]
+
+Vollständiges Set, u.a. **File I/O** (`file_read`/`file_write`/`file_check`/`file_list`/
+`file_delete`), **`microsql`**, **`producibility_audit`**, `custom_action`, `ml_predict`,
+`task`, `agent`, `agent_task`, `graphql`, `http_request`, `sql_query`, `mqtt_publish`,
+`message`, `integration_action`; Flow-Control (`condition`/`split`/`join`/`delay`/
+`switch`/`for_each`); Data (`transform`/`json_parse`/`csv_parse`/`yaml_parse`/
+`set_variable`/`regex`); Scripting (`script`/`assert`/`log`/`task`).
+→ KB-`node-types-reference` ist unvollständig, auf dieses Set bringen.
+
+## 5. Noch offen / nicht auf test9 bestätigt
+
+- **IAM-Standardpolicies** (Full Access / Admin / Read-Only): nur **[ALT cococo-de]**;
+  test9-Query timeoutete. Re-verifizieren.  **[OFFEN test9]**
+- **create-workflow Trigger-Typen** (inkl. `SCRIPT`-Trigger): gegen test9 prüfen
+  (Trigger-Enum / `import_workflow`-Schema).  **[OFFEN]**
+- **mcp-server / mcp-connection-details** Funktionsumfang: gegen test9 review.  **[OFFEN]**
+- **connect-claude-desktop**: neue Version einspielen + DE übersetzen.  **[OFFEN]**
