@@ -8,7 +8,8 @@ title: "Lua Playground: Getting Started"
 
 ## What is the Lua Playground?
 
-The Lua Playground is an interactive editor for testing Lua scripts against the live CoCoCo environment. Use it to develop Scripts and Custom Actions before deploying them.
+The Lua Playground is an interactive editor for testing Lua scripts against the live
+CoCoCo environment. Use it to develop Scripts and Custom Actions before deploying them.
 
 ## How to open it
 
@@ -18,27 +19,32 @@ Go to **Menu → Developer → Lua Playground**.
 
 ```lua
 -- Query recent jobs
-local jobs = cococo.graphql.query([[
+local res = ctx.graphql.query([[
   query {
-    jobs(first: 5) {
+    listJobs(first: 5) {
       edges { node { id name status } }
     }
   }
 ]])
 
-for _, edge in ipairs(jobs.data.jobs.edges) do
-  print(edge.node.name, edge.node.status)
+for _, edge in ipairs(res.data.listJobs.edges) do
+  ctx.log.info(edge.node.name, { status = edge.node.status })
 end
 ```
 
 Click **Run** to execute. Output appears in the console below.
 
-## Available APIs
+## Available APIs (tenant Scripts)
 
 | API | What it does |
 |---|---|
-| `cococo.graphql.query(gql)` | Run a GraphQL query |
-| `cococo.graphql.mutate(gql)` | Run a GraphQL mutation |
-| `cococo.config.get(key)` | Read a Tenant Config value |
-| `cococo.http.post(url, body)` | Outbound HTTP request |
-| `cococo.log(message)` | Write to the console |
+| `ctx.graphql.query(gql, vars)` | Run a GraphQL query or mutation |
+| `ctx.sql.query(sql)` | Read from the reporting tables |
+| `ctx.cache.get/set/delete(key, value?)` | Tenant cache (Redis) |
+| `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Talk to a device via its Bridge |
+| `ctx.time.now()` / `ctx.time.nowIso()` | Timestamps (`os.*` is sandboxed away) |
+| `ctx.json.encode/decode(...)` | JSON |
+| `ctx.log.info/warn/error(msg, attrs?)` | Write to the console (`print` is disabled) |
+
+Tenant Scripts run with the base API only — `ctx.dataContainer` is custom-app-only, and
+there is no generic config, HTTP, or templating API.

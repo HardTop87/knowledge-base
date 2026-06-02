@@ -6,39 +6,46 @@ lang: de
 title: "Lua Playground: Getting Started"
 ---
 
-## Was ist das Lua Playground?
+## Was ist die Lua Playground?
 
-Das Lua Playground ist ein interaktiver Editor zum Testen von Lua-Skripten gegen die Live-Umgebung von CoCoCo. Nutzen Sie es zur Entwicklung von Scripts und Custom Actions, bevor Sie sie deployen.
+Die Lua Playground ist ein interaktiver Editor zum Testen von Lua-Scripts gegen die
+laufende CoCoCo-Umgebung. Nutze sie, um Scripts und Custom Actions zu entwickeln, bevor
+du sie ausrollst.
 
 ## Öffnen
 
-Wechseln Sie zu **Menu → Developer → Lua Playground**.
+Gehe zu **Menu → Developer → Lua Playground**.
 
-## Beispielskript
+## Beispiel-Script
 
 ```lua
--- Jüngste Jobs abfragen
-local jobs = cococo.graphql.query([[
+-- Query recent jobs
+local res = ctx.graphql.query([[
   query {
-    jobs(first: 5) {
+    listJobs(first: 5) {
       edges { node { id name status } }
     }
   }
 ]])
 
-for _, edge in ipairs(jobs.data.jobs.edges) do
-  print(edge.node.name, edge.node.status)
+for _, edge in ipairs(res.data.listJobs.edges) do
+  ctx.log.info(edge.node.name, { status = edge.node.status })
 end
 ```
 
-Klicken Sie auf **Run**. Die Ausgabe erscheint in der Konsole darunter.
+Klicke **Run** zum Ausführen. Die Ausgabe erscheint in der Konsole darunter.
 
-## Verfügbare APIs
+## Verfügbare APIs (Tenant-Scripts)
 
-| API | Was sie macht |
+| API | Funktion |
 |---|---|
-| `cococo.graphql.query(gql)` | Führt eine GraphQL Query aus |
-| `cococo.graphql.mutate(gql)` | Führt eine GraphQL Mutation aus |
-| `cococo.config.get(key)` | Liest einen Tenant-Config-Wert |
-| `cococo.http.post(url, body)` | Sendet einen ausgehenden HTTP-Request |
-| `cococo.log(message)` | Schreibt in die Konsole |
+| `ctx.graphql.query(gql, vars)` | GraphQL-Query oder -Mutation ausführen |
+| `ctx.sql.query(sql)` | Aus den Reporting-Tabellen lesen |
+| `ctx.cache.get/set/delete(key, value?)` | Tenant-Cache (Redis) |
+| `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Mit einem Gerät über dessen Bridge kommunizieren |
+| `ctx.time.now()` / `ctx.time.nowIso()` | Zeitstempel (`os.*` ist gesperrt) |
+| `ctx.json.encode/decode(...)` | JSON |
+| `ctx.log.info/warn/error(msg, attrs?)` | In die Konsole schreiben (`print` ist deaktiviert) |
+
+Tenant-Scripts laufen nur mit der Basis-API — `ctx.dataContainer` gibt es nur in
+Custom Apps, und es existiert keine generische Config-, HTTP- oder Templating-API.
