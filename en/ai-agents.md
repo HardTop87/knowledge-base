@@ -8,7 +8,7 @@ title: "How to Set Up an AI Agent"
 
 ## What is an AI Agent?
 
-An AI Agent is a configured assistant that can be invoked from Workflows. It combines an AI Adapter (the underlying model) with a system prompt and optional tools.
+An AI Agent is a configured assistant that can be invoked from Workflows. It combines an AI Adapter (the underlying model) with a persona — a **role**, **goal**, and **backstory** — and optional tools.
 
 ## How to create an AI Agent
 
@@ -16,7 +16,7 @@ An AI Agent is a configured assistant that can be invoked from Workflows. It com
 2. Click **+ New Agent**
 3. Give it a **Name** (e.g. `Job Classifier`)
 4. Select the **AI Adapter** (the model to use)
-5. Write a **System Prompt** — defines the agent's behavior and context
+5. Define the agent's persona — its **Role**, **Goal**, and **Backstory** (these shape how it behaves)
 6. Optionally configure **Tools** the agent can use
 7. Click **Save**
 

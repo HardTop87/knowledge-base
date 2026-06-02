@@ -20,8 +20,8 @@ CoCoCo includes a built-in machine learning runtime powered by XGBoost. You can 
 1. Go to **Menu → AI & ML → ML Models**
 2. Click **+ New Model**
 3. Enter a **Name** and select the **Type** (Regression or Classification)
-4. Select the **Data Query Script** — a Script that returns the training data
-5. Configure the **Features** (input columns) and **Target** (what to predict)
+4. Define the **training data query** — a SQL query that returns the training rows (`dataQuerySQL`)
+5. Choose the **Target** column to predict (`targetColumn`) and the **Feature** columns to learn from (`featureColumns`)
 6. Click **Train**
 
 Training runs in the background. You are notified when it completes.

@@ -114,3 +114,15 @@ Verified entities: `NotificationGroupState{ id name description }`, `Notificatio
 | shift-definitions | PASS | `ShiftDefinitionState{name,startTime,endTime,activeDays,isOvernight}` + `WorkCenterShiftProfileState{workCenterId,shiftDefinitionId,validFrom,validUntil}` — matches the steps. |
 
 Cross-cutting UI item (not changed, needs human eye): menu paths vary across the KB ("Data → …" here vs "Menu → Developer → …" / "Menu → Business Hub → …" elsewhere). Not API-verifiable; should be reconciled against the live UI.
+
+---
+
+## Tier-1 Audit — Batch: AI & ML  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| ai-adapters | PASS | `AIAdapterType` = OPENAI, CLAUDE, APPLE_NATIVE, XGBOOST (XGBoost IS a valid adapter type — capabilities `{llm, ml}`). `OpenAIConfigurationInput{apiKey, defaultChatModel,…}` matches. (Audit also prevented a wrong "fix" here.) |
+| ai-agents | **FIX** | Article said configure a "**System Prompt**" — but `AIAgentState` defines a persona via `role`, `goal`, `backstory` (+ `adapterId`, `model`); no systemPrompt field. Intro + step corrected to Role/Goal/Backstory. Tools confirmed (`AgentToolRef{type,config}`). |
+| train-ml-model | **FIX** | Training data is `dataQuerySQL` (a SQL query) + `targetColumn` + `featureColumns` (`MLModelConfigOutput`/`UpsertMLModelConfigInput`), not a "Data Query Script." Step corrected to the real fields. ML Predict node + retraining/immutable versions (`MLModelConfigVersionOutput`) consistent. |
+
+Note: `scripts` "ML Data Query" role re-confirmed valid — `ScriptRole` enum = SCRIPT, JDF_TEMPLATE, JMF_TEMPLATE, ML_DATA_QUERY. (So a script can also produce training data, but the model config itself stores `dataQuerySQL`.)
