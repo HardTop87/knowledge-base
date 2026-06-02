@@ -8,7 +8,9 @@ title: "How to Create Templates"
 
 ## What are Templates?
 
-Templates are saved text documents — typically JDF or JMF formatted — that can be rendered with dynamic data at runtime. They are used for generating job tickets sent to print equipment.
+Templates are saved text documents — typically JDF or JMF formatted — that can be
+rendered with dynamic data at runtime. They are used for generating job tickets sent to
+print equipment.
 
 ## Template types
 
@@ -25,12 +27,30 @@ Templates are saved text documents — typically JDF or JMF formatted — that c
 4. Write the template — use `{{variable}}` syntax for dynamic values
 5. Click **Save**
 
-## Rendering a Template in a Workflow
+## Rendering a Template
+
+Render a template with the `renderTemplate` GraphQL mutation — by its **handle**, passing
+a JSON `context` string with the values your `{{variable}}` placeholders reference. From a
+Workflow Script node:
 
 ```lua
-local ticket = cococo.template.render("HP Indigo JDF", {
-  jobId = input.jobId,
-  copies = input.quantity,
-  substrate = input.paper_type
+local res = ctx.graphql.query([[
+  mutation($input: RenderTemplateInput!) {
+    renderTemplate(input: $input) { output }
+  }
+]], {
+  input = {
+    handle = "hp-indigo-jdf",
+    context = ctx.json.encode({
+      jobId = input.jobId,
+      copies = input.quantity,
+      substrate = input.paper_type
+    })
+  }
 })
+
+local ticket = res.data.renderTemplate.output
 ```
+
+`output` is the rendered text. You can also use the **GraphQL** workflow node to call
+`renderTemplate` without writing Lua.

@@ -8,29 +8,49 @@ title: "How to Create Templates"
 
 ## Was sind Templates?
 
-Templates sind gespeicherte Textdokumente, typischerweise in JDF- oder JMF-Format, die zur Laufzeit mit dynamischen Daten gerendert werden. Sie werden zur Erzeugung von Jobtickets an Druckmaschinen genutzt.
+Templates sind gespeicherte Textdokumente — typischerweise im JDF- oder JMF-Format —, die
+zur Laufzeit mit dynamischen Daten gerendert werden. Sie dienen zum Erzeugen von
+Job-Tickets, die an Druckmaschinen gesendet werden.
 
 ## Template-Typen
 
-| Typ | Einsatz |
+| Typ | Anwendungsfall |
 |---|---|
-| **JDF Template** | Job Definition Format Tickets für CIP4-kompatible Maschinen |
-| **JMF Template** | Job Messaging Format Nachrichten für die Maschinensteuerung |
+| **JDF Template** | Job-Definition-Format-Tickets für CIP4-kompatible Maschinen |
+| **JMF Template** | Job-Messaging-Format-Nachrichten für die Maschinensteuerung |
 
 ## Ein Template anlegen
 
-1. Wechseln Sie zu **Menu → Developer → Templates**
-2. Klicken Sie auf **+ New Template**
-3. Vergeben Sie einen **Name** und wählen Sie den **Type**
-4. Schreiben Sie das Template. Nutzen Sie `{{variable}}` für dynamische Werte
-5. Klicken Sie auf **Save**
+1. Gehe zu **Menu → Developer → Templates**
+2. Klicke **+ New Template**
+3. Gib einen **Namen** ein und wähle den **Typ**
+4. Schreibe das Template — `{{variable}}`-Syntax für dynamische Werte
+5. Klicke **Save**
 
-## Ein Template in einem Workflow rendern
+## Ein Template rendern
+
+Ein Template renderst du mit der GraphQL-Mutation `renderTemplate` — über seinen
+**handle** und einen JSON-`context`-String mit den Werten, die deine
+`{{variable}}`-Platzhalter referenzieren. Aus einem Workflow-Script-Node:
 
 ```lua
-local ticket = cococo.template.render("HP Indigo JDF", {
-  jobId = input.jobId,
-  copies = input.quantity,
-  substrate = input.paper_type
+local res = ctx.graphql.query([[
+  mutation($input: RenderTemplateInput!) {
+    renderTemplate(input: $input) { output }
+  }
+]], {
+  input = {
+    handle = "hp-indigo-jdf",
+    context = ctx.json.encode({
+      jobId = input.jobId,
+      copies = input.quantity,
+      substrate = input.paper_type
+    })
+  }
 })
+
+local ticket = res.data.renderTemplate.output
 ```
+
+`output` ist der gerenderte Text. Du kannst auch den **GraphQL**-Workflow-Node nutzen, um
+`renderTemplate` ohne Lua aufzurufen.

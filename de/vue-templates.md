@@ -40,7 +40,7 @@ Custom App Templates sind Vue 3 HTML-Fragmente mit vollständiger Vue-Template-S
 ```html
 <div :class="{
   'bg-success': status === 'COMPLETED',
-  'bg-warning': status === 'IN_PROGRESS',
+  'bg-warning': status === 'RUNNING',
   'bg-error': status === 'FAILED'
 }">
 ```

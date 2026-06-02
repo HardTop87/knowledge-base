@@ -8,7 +8,8 @@ title: "How to Manage Tenant Config"
 
 ## What is Tenant Config?
 
-Tenant Config is a secure key-value store for settings and credentials that your platform needs at runtime.
+Tenant Config is a secure key-value store for settings and credentials that your
+platform needs at runtime.
 
 | Type | Description | Visible in UI |
 |---|---|---|
@@ -23,16 +24,24 @@ Tenant Config is a secure key-value store for settings and credentials that your
 4. Enter the **Key** (e.g. `SMTP_HOST`, `OPENAI_API_KEY`) and **Value**
 5. Click **Save**
 
-## Reading config values in Workflows
+## Reading config values
 
-In a Script or Transform node:
+Read the tenant configuration through the `getConfig` GraphQL query — for example from a
+Workflow Script node:
 
 ```lua
-local api_key = cococo.config.get("OPENAI_API_KEY")
+local res = ctx.graphql.query([[
+  query { getConfig { entries { name type value } } }
+]])
+-- res.data.getConfig.entries: each has name, type (Config or Secret), and value
 ```
+
+**Secret values are redacted** by the API — they cannot be read back through `getConfig`
+or any script. Only non-secret **Config** entries return their value. Secrets are used by
+the platform where they are referenced; they are never handed back to client or script code.
 
 ## Best practices
 
 - Use uppercase, descriptive key names: `SENDGRID_API_KEY` not `key1`
-- Always use **Secret** type for credentials — values cannot be read back after saving
+- Always use **Secret** type for credentials — their values cannot be read back after saving
 - Keep a shared team document describing what each key is used for

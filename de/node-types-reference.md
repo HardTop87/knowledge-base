@@ -6,53 +6,67 @@ lang: de
 title: "Node Types Reference"
 ---
 
-## Ablaufsteuerung
+## Flow Control
 
-| Node | Was sie macht |
+| Node | Funktion |
 |---|---|
-| **Condition** | Teilt die Ausführung in zwei Pfade anhand einer wahr/falsch-Prüfung |
-| **Switch** | Leitet anhand eines Werts auf einen von mehreren Pfaden |
-| **Split** | Splittet ein Array und verarbeitet jedes Element parallel |
-| **Join** | Wartet, bis mehrere parallele Pfade fertig sind |
-| **For Each** | Iteriert über ein Array und führt nachfolgende Nodes je Element aus |
-| **Delay** | Pausiert die Ausführung für eine festgelegte Zeit |
+| **Condition** | Verzweigt anhand einer JSONLogic-Wahr/Falsch-Prüfung |
+| **Switch** | Wählt einen von mehreren Ausgängen über JSONLogic-Prädikate |
+| **Split** | Fächert einen Eingang parallel auf alle ausgehenden Kanten auf |
+| **Join** | Führt 2+ Eingänge zusammen; fertig, wenn alle Eingänge vorliegen |
+| **For Each** | Iteriert über ein Array und führt je Element einen Body-Node aus |
+| **Delay** | Pausiert für eine konfigurierbare Dauer, reicht den Eingang dann durch |
 
-## Daten
+## Data
 
-| Node | Was sie macht |
+| Node | Funktion |
 |---|---|
-| **Transform** | Formt oder mappt Daten über Ausdrücke |
-| **Set Variable** | Speichert einen Wert zur späteren Verwendung im Workflow |
-| **JSON Parse** | Parst einen JSON-String in ein Objekt |
-| **CSV Parse** | Parst einen CSV-String in ein Array von Objekten |
-| **YAML Parse** | Parst einen YAML-String in ein Objekt |
-| **Regex** | Extrahiert Werte per regulärem Ausdruck |
+| **Transform** | Formt/mappt Daten per Field-Mapping um |
+| **Set Variable** | Speichert Workflow-Variablen, später lesbar über `$.variables` |
+| **JSON Parse** | Wandelt zwischen JSON-Strings und strukturierten Daten |
+| **CSV Parse** | Wandelt zwischen CSV-Strings und strukturierten Daten |
+| **YAML Parse** | Wandelt zwischen YAML-Strings und strukturierten Daten |
+| **Regex** | Match, Extraktion, Ersetzung oder Split auf Strings |
 
-## Integration
+## Integration / Network
 
-| Node | Was sie macht |
+| Node | Funktion |
 |---|---|
-| **HTTP Request** | Macht einen ausgehenden HTTP-Call auf eine beliebige URL |
-| **GraphQL** | Führt eine GraphQL Query oder Mutation auf die CoCoCo API aus |
-| **SQL Query** | Führt eine SQL-Query auf einer angebundenen Datenbank aus |
-| **MQTT Publish** | Veröffentlicht eine Nachricht über MQTT an ein Device |
-| **Integration Action** | Führt eine Action einer verbundenen Integration aus |
-| **Message** | Sendet eine Benachrichtigung an eine Notification Group |
+| **HTTP Request** | HTTP-Anfrage an ein Gerät (über dessen Bridge-Controller) |
+| **SQL Query** | Abfrage einer geräteseitigen Datenbank |
+| **MQTT Publish** | Nachricht veröffentlichen (optional an ein bestimmtes Gerät) |
+| **GraphQL** | Query oder Mutation gegen die CoCoCo-API ausführen |
+| **Integration Action** | Eine von einer installierten Integration exportierte Aktion ausführen |
+| **Message** | Getemplatete Benachrichtigung an Gruppe oder Empfänger senden |
 
-## Scripting
+## File I/O
 
-| Node | Was sie macht |
+On-Premise-Dateioperationen über einen BridgeApp-Controller.
+
+| Node | Funktion |
 |---|---|
-| **Script** | Führt ein Lua-Skript für eigene Logik aus |
-| **Custom Action** | Führt eine gespeicherte Custom Action aus |
-| **Assert** | Bricht den Workflow ab, wenn eine Bedingung nicht erfüllt ist |
-| **Log** | Schreibt einen Wert ins Execution-Log |
-| **Task** | Erzeugt eine menschliche Task, die vor dem Weiterlaufen erledigt sein muss |
+| **File Read** | Dateiinhalt aus On-Premise-Speicher lesen |
+| **File Write** | Inhalt in eine Datei im On-Premise-Speicher schreiben |
+| **File Check** | Prüfen, ob eine Datei/ein Verzeichnis existiert |
+| **File List** | Verzeichnisinhalt auflisten |
+| **File Delete** | Eine Datei löschen |
 
-## AI und ML
+## Scripting / Logic
 
-| Node | Was sie macht |
+| Node | Funktion |
 |---|---|
-| **ML Predict** | Führt eine Vorhersage mit einem trainierten ML-Modell aus |
-| **Agent** | Sendet einen Prompt an einen AI Agent und wartet auf die Antwort |
-| **Agent Task** | Übergibt einem AI Agent eine Task zur asynchronen Erledigung |
+| **Script** | Lua-Script ausführen (`scriptId`, `scriptName` oder inline) |
+| **Assert** | Bedingung prüfen; je nach Ergebnis fehlschlagen oder verzweigen |
+| **Log** | Nachricht ins Ausführungslog schreiben; reicht den Eingang durch |
+| **Task** | Menschliche Aufgabe erstellen und auf Erledigung warten |
+
+## Other
+
+| Node | Funktion |
+|---|---|
+| **Custom Action** | Eine benutzerdefinierte Custom Action (Lua-basiert) ausführen |
+| **ML Predict** | ML-Modell-Prognose mit typisierten Feature-Inputs |
+| **MicroSQL** | Eine MicroSQL-Abfrage gegen die Reporting-Engine ausführen |
+| **Agent** | Einen KI-Agenten mit einem Prompt für freie LLM-Verarbeitung aufrufen |
+| **Agent Task** | Eine Aufgabe per KI-Agent lösen (optional Fallback auf menschliche Aufgabe) |
+| **Producibility Audit** | Machbarkeits-Audit des Produktions-DAG eines Jobs — Schweregrad, Findings, Risiko-Items |

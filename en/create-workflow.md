@@ -20,9 +20,10 @@ You are now in the Workflow editor.
 Every Workflow starts with a trigger. Click the **+ Trigger** area and select the trigger type:
 
 - **Job Event** — fires when a job is created, updated, or changes status
-- **Device Metric** — fires when a device sends a matching metric
+- **Device Metric** — fires when a device sends a matching metric (MQTT)
 - **Schedule** — fires on a cron schedule
 - **Webhook** — fires when an external system calls your webhook URL. See [How to Use Incoming Webhooks](#incoming-webhooks).
+- **Script** — fired programmatically from a Script (e.g. another workflow or tenant Script)
 - **Manual** — fired by a user clicking a button in the platform
 
 ## Step 2: Add nodes

@@ -21,17 +21,23 @@ title: "How to Find Your MCP Connection Details"
 | **Transport** | Streamable HTTP (JSON mode) |
 | **Authentication** | `Authorization: Bearer <your-token>` |
 
-The **Endpoint URL** is your platform's MCP server address. Click **Copy** to copy it to your clipboard.
+The **Endpoint URL** is your platform's MCP server address. Click **Copy** to copy it to
+your clipboard.
 
-The **Transport** tells you which MCP transport protocol the server uses — Streamable HTTP in JSON mode. Most modern MCP-compatible tools support this out of the box.
+The **Transport** tells you which MCP transport protocol the server uses — Streamable HTTP
+in JSON mode. Most modern MCP-compatible tools support this out of the box.
 
-The **Authentication** field shows the header format required. Use any active API Token from your account as the credential.
+The **Authentication** field shows the header format required. Use any active API Token
+from your account as the credential.
 
 ## What the MCP server exposes
 
-**Custom App Management** — Read and write Custom Apps — list existing apps, read their template and script content, create new apps, and update existing ones.
-
-**GraphQL Schema Discovery** — Explore the full CoCoCo GraphQL schema — search types, queries, mutations, and fields.
+- **Custom Apps** — list, read, create, update, and version Custom Apps (template, script, server API)
+- **GraphQL API** — run and validate queries/mutations, and search the schema
+- **Reporting / SQL** — run MicroSQL and search the reporting schema
+- **Lua** — search the Lua API, fetch type definitions, validate scripts
+- **Workflows** — list/read workflows, inspect node types, import versions, read executions
+- **ML & integrations** — train/run ML models; build and publish integration definitions
 
 ## Before you connect
 

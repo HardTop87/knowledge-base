@@ -40,7 +40,7 @@ Custom App Templates are Vue 3 HTML fragments with full Vue template syntax.
 ```html
 <div :class="{
   'bg-success': status === 'COMPLETED',
-  'bg-warning': status === 'IN_PROGRESS',
+  'bg-warning': status === 'RUNNING',
   'bg-error': status === 'FAILED'
 }">
 ```

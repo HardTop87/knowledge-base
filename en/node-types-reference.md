@@ -10,49 +10,63 @@ title: "Node Types Reference"
 
 | Node | What it does |
 |---|---|
-| **Condition** | Splits execution into two paths based on a true/false check |
-| **Switch** | Routes to one of several paths based on a value |
-| **Split** | Splits an array and processes each item in parallel |
-| **Join** | Waits for multiple parallel paths to complete before continuing |
-| **For Each** | Iterates over an array, running downstream nodes for each item |
-| **Delay** | Pauses execution for a set amount of time |
+| **Condition** | Branches on a JSONLogic true/false check |
+| **Switch** | Selects one output branch from alternatives using JSONLogic predicates |
+| **Split** | Fans a single input out to all outgoing edges in parallel |
+| **Join** | Merges 2+ inputs into one; completes when all inputs are available |
+| **For Each** | Iterates over an array, running a body node for each item |
+| **Delay** | Pauses execution for a configurable duration, then passes input through |
 
 ## Data
 
 | Node | What it does |
 |---|---|
-| **Transform** | Reshapes or maps data using expressions |
-| **Set Variable** | Stores a value for use later in the Workflow |
-| **JSON Parse** | Parses a JSON string into a usable object |
-| **CSV Parse** | Parses a CSV string into an array of objects |
-| **YAML Parse** | Parses a YAML string into an object |
-| **Regex** | Extracts values using a regular expression |
+| **Transform** | Reshapes or maps data with field mapping |
+| **Set Variable** | Stores workflow-level variables, readable later via `$.variables` |
+| **JSON Parse** | Converts between JSON strings and structured data |
+| **CSV Parse** | Converts between CSV strings and structured data |
+| **YAML Parse** | Converts between YAML strings and structured data |
+| **Regex** | Match, extract, replace, or split on strings |
 
-## Integration
-
-| Node | What it does |
-|---|---|
-| **HTTP Request** | Makes an outbound HTTP call to any URL |
-| **GraphQL** | Runs a GraphQL query or mutation against the CoCoCo API |
-| **SQL Query** | Runs a SQL query against a connected database |
-| **MQTT Publish** | Publishes a message to a device via MQTT |
-| **Integration Action** | Runs an action from a connected Integration |
-| **Message** | Sends a notification to a Notification Group |
-
-## Scripting
+## Integration / Network
 
 | Node | What it does |
 |---|---|
-| **Script** | Runs a Lua script for custom logic |
-| **Custom Action** | Runs a saved Custom Action |
-| **Assert** | Fails the Workflow if a condition is not met |
-| **Log** | Writes a value to the execution log |
-| **Task** | Creates a human task that must be completed before continuing |
+| **HTTP Request** | HTTP request to a device (via its Bridge controller) |
+| **SQL Query** | Query a device-side database |
+| **MQTT Publish** | Publish a message (optionally targeted at one device) |
+| **GraphQL** | Run a query or mutation against the CoCoCo API |
+| **Integration Action** | Run an action exported by an installed integration |
+| **Message** | Send a templated notification to a group or recipient |
 
-## AI & ML
+## File I/O
+
+On-premise file operations via a BridgeApp controller.
 
 | Node | What it does |
 |---|---|
-| **ML Predict** | Runs a prediction using a trained ML model |
-| **Agent** | Sends a prompt to an AI Agent and waits for the response |
-| **Agent Task** | Assigns a task to an AI Agent for async completion |
+| **File Read** | Read file content from on-premise storage |
+| **File Write** | Write content to a file on on-premise storage |
+| **File Check** | Check whether a file or directory exists |
+| **File List** | List directory contents |
+| **File Delete** | Delete a file |
+
+## Scripting / Logic
+
+| Node | What it does |
+|---|---|
+| **Script** | Run a Lua script (`scriptId`, `scriptName`, or inline) |
+| **Assert** | Validate a condition; fail or branch on the result |
+| **Log** | Write a message to the execution log; passes input through |
+| **Task** | Create a human task and wait for resolution before continuing |
+
+## Other
+
+| Node | What it does |
+|---|---|
+| **Custom Action** | Run a user-defined Custom Action backed by a Lua script |
+| **ML Predict** | Run an ML model prediction with typed feature inputs |
+| **MicroSQL** | Run a MicroSQL query against the reporting engine |
+| **Agent** | Invoke an AI agent with a prompt for freeform LLM processing |
+| **Agent Task** | Use an AI agent to resolve a task (optionally falling back to a human task) |
+| **Producibility Audit** | Feasibility audit of a job's production DAG — returns severity, findings, at-risk items |

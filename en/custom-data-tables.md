@@ -8,38 +8,48 @@ title: "How to Create Custom Data Tables"
 
 ## What are Custom Data Tables?
 
-Custom Data Tables are user-defined database tables inside CoCoCo. Use them to store structured data that doesn't fit the built-in data model — material specs, pricing lookup tables, or customer-specific configuration.
+Custom Data Tables let you store structured data inside CoCoCo that doesn't fit the
+built-in data model — material specs, pricing lookup tables, or customer-specific
+configuration. A **table** is a **Data Schema** (it defines the columns); each **row**
+is a **Data Record** that holds a JSON `data` object conforming to that schema.
 
 ## How to create a Custom Data Table
 
 1. Go to **Menu → Developer → Custom Data Tables**
 2. Click **+ New Table**
-3. Enter a **Table name** (snake_case, e.g. `material_specs`)
+3. Enter a **Table name** (e.g. `material_specs`)
 4. Click **+ Add Column** for each field — enter name and select type (Text, Number, Boolean, Date)
 5. Click **Save**
 
 ## Reading and writing data
 
-Custom Data Tables are accessible via GraphQL.
+Tables are accessed via GraphQL. A table is identified by its **Data Schema ID**
+(`schemaId`) — list your schemas with `listDataSchemas` to find it.
 
-**Query all rows:**
+**Read rows of a table:**
+
 ```graphql
-query {
-  customTableRows(table: "material_specs") {
-    id
-    data
+query($schemaId: DataSchemaID!) {
+  listDataRecords(filter: { schemaId: $schemaId }, first: 50) {
+    edges { node { id name data } }
   }
 }
 ```
 
-**Insert a row from a Workflow Script node:**
+**Insert or update a row** from a Workflow Script node (`ctx.graphql.query` runs
+mutations too; pass `id` to update an existing record):
+
 ```lua
-cococo.graphql.mutate([[
-  mutation {
-    createCustomTableRow(table: "material_specs", data: {
-      name: "Glossy 135g",
-      weight: 135
-    }) { id }
+ctx.graphql.query([[
+  mutation($input: UpsertDataRecordInput!) {
+    upsertDataRecord(input: $input) { dataRecord { id } }
   }
-]])
+]], {
+  input = {
+    schemaId = "<your-schema-id>",
+    data = { name = "Glossy 135g", weight = 135 }
+  }
+})
 ```
+
+`data` is a JSON object whose keys are the table's columns.

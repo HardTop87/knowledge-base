@@ -8,38 +8,49 @@ title: "How to Create Custom Data Tables"
 
 ## Was sind Custom Data Tables?
 
-Custom Data Tables sind selbst definierte Datenbanktabellen in CoCoCo. Nutzen Sie sie für strukturierte Daten, die nicht ins Standardmodell passen: Materialspezifikationen, Preislisten oder kundenspezifische Konfiguration.
+Mit Custom Data Tables speicherst du strukturierte Daten in CoCoCo, die nicht ins
+eingebaute Datenmodell passen — Materialspezifikationen, Preis-Lookup-Tabellen oder
+kundenspezifische Konfiguration. Eine **Tabelle** ist ein **Data Schema** (es definiert
+die Spalten); jede **Zeile** ist ein **Data Record** mit einem JSON-`data`-Objekt, das
+diesem Schema entspricht.
 
 ## Eine Custom Data Table anlegen
 
-1. Wechseln Sie zu **Menu → Developer → Custom Data Tables**
-2. Klicken Sie auf **+ New Table**
-3. Vergeben Sie einen **Table name** (snake_case, z.B. `material_specs`)
-4. Klicken Sie auf **+ Add Column** für jedes Feld und wählen Sie Name und Typ (Text, Number, Boolean, Date)
-5. Klicken Sie auf **Save**
+1. Gehe zu **Menu → Developer → Custom Data Tables**
+2. Klicke **+ New Table**
+3. Gib einen **Tabellennamen** ein (z. B. `material_specs`)
+4. Klicke **+ Add Column** für jedes Feld — Name eingeben und Typ wählen (Text, Number, Boolean, Date)
+5. Klicke **Save**
 
 ## Daten lesen und schreiben
 
-Custom Data Tables sind über GraphQL verfügbar.
+Tabellen werden über GraphQL angesprochen. Eine Tabelle wird über ihre **Data-Schema-ID**
+(`schemaId`) identifiziert — deine Schemas listest du mit `listDataSchemas`.
 
-**Alle Zeilen abfragen:**
+**Zeilen einer Tabelle lesen:**
+
 ```graphql
-query {
-  customTableRows(table: "material_specs") {
-    id
-    data
+query($schemaId: DataSchemaID!) {
+  listDataRecords(filter: { schemaId: $schemaId }, first: 50) {
+    edges { node { id name data } }
   }
 }
 ```
 
-**Eine Zeile aus einer Workflow Script Node einfügen:**
+**Zeile einfügen oder aktualisieren** aus einem Workflow-Script-Node (`ctx.graphql.query`
+führt auch Mutationen aus; zum Aktualisieren `id` mitgeben):
+
 ```lua
-cococo.graphql.mutate([[
-  mutation {
-    createCustomTableRow(table: "material_specs", data: {
-      name: "Glossy 135g",
-      weight: 135
-    }) { id }
+ctx.graphql.query([[
+  mutation($input: UpsertDataRecordInput!) {
+    upsertDataRecord(input: $input) { dataRecord { id } }
   }
-]])
+]], {
+  input = {
+    schemaId = "<your-schema-id>",
+    data = { name = "Glossy 135g", weight = 135 }
+  }
+})
 ```
+
+`data` ist ein JSON-Objekt, dessen Schlüssel die Spalten der Tabelle sind.

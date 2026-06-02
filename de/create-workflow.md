@@ -6,41 +6,42 @@ lang: de
 title: "How to Create a Workflow"
 ---
 
-## Einen Workflow anlegen
+## Einen Workflow erstellen
 
-1. Wechseln Sie zu **Menu → Workflows**
-2. Klicken Sie auf **+ New Workflow**
-3. Vergeben Sie einen **Name** und optional eine **Description**
-4. Klicken Sie auf **Create**
+1. Gehe zu **Menu → Workflows**
+2. Klicke **+ New Workflow**
+3. Gib dem Workflow einen **Namen** und optional eine **Beschreibung**
+4. Klicke **Create**
 
-Sie sind nun im Workflow-Editor.
+Du bist nun im Workflow-Editor.
 
 ## Schritt 1: Trigger hinzufügen
 
-Jeder Workflow beginnt mit einem Trigger. Klicken Sie auf **+ Trigger** und wählen Sie den Trigger-Typ:
+Jeder Workflow beginnt mit einem Trigger. Klicke auf den Bereich **+ Trigger** und wähle den Trigger-Typ:
 
-- **Job Event**: feuert, wenn ein Job angelegt, aktualisiert wird oder den Status ändert
-- **Device Metric**: feuert, wenn ein Device eine passende Metrik sendet
-- **Schedule**: feuert nach einem Cron-Plan
-- **Webhook**: feuert, wenn ein externes System Ihre Webhook-URL aufruft. Siehe [Incoming Webhooks nutzen](#incoming-webhooks).
-- **Manual**: wird von einem User durch einen Button-Klick in der Plattform ausgelöst
+- **Job Event** — feuert, wenn ein Job erstellt/aktualisiert wird oder den Status wechselt
+- **Device Metric** — feuert, wenn ein Gerät eine passende Metrik sendet (MQTT)
+- **Schedule** — feuert nach einem Cron-Zeitplan
+- **Webhook** — feuert, wenn ein externes System deine Webhook-URL aufruft. Siehe [How to Use Incoming Webhooks](#incoming-webhooks).
+- **Script** — programmgesteuert aus einem Script ausgelöst (z. B. ein anderer Workflow oder ein Tenant-Script)
+- **Manual** — von einem Nutzer per Button-Klick in der Plattform ausgelöst
 
 ## Schritt 2: Nodes hinzufügen
 
-Klicken Sie auf **+** unter einer bestehenden Node, um den nächsten Schritt einzufügen. Die vollständige Übersicht: [Node Types Referenz](#node-types-reference).
+Klicke **+** unter einem bestehenden Node, um den nächsten Schritt hinzuzufügen. Siehe die vollständige [Node Types Reference](#node-types-reference).
 
-Für jede Node:
-1. Vergeben Sie einen klaren **Name**
-2. Konfigurieren Sie die nodespezifischen Einstellungen
-3. Verbinden Sie sie mit der nächsten Node
+Für jeden Node:
+1. Gib ihm einen klaren **Namen**
+2. Konfiguriere die node-spezifischen Einstellungen
+3. Verbinde ihn mit dem nächsten Node
 
 ## Schritt 3: Testen und aktivieren
 
-1. Klicken Sie auf **Test**. Der Workflow läuft mit einem Beispiel-Payload
-2. Prüfen Sie das Ergebnis im Tab **Executions**. Siehe [Workflow Executions überwachen](#monitor-executions).
-3. Beheben Sie Fehler
-4. Wenn alles passt, klicken Sie auf **Activate**
+1. Klicke **Test** — führt den Workflow mit einem Beispiel-Payload aus
+2. Prüfe die Ausgabe im Tab **Executions**. Siehe [How to Monitor Workflow Executions](#monitor-executions).
+3. Behebe etwaige Fehler
+4. Wenn bereit, klicke **Activate**
 
-## Sie brauchen eine menschliche Freigabe?
+## Brauchst du einen menschlichen Freigabeschritt?
 
-Siehe [Human-in-the-Loop Workflows](#hitl-workflows), um den Workflow zu pausieren, bis jemand eine Task abschließt.
+Siehe [Human-in-the-Loop Workflows](#hitl-workflows), um einen Workflow anzuhalten, bis eine Person eine Task erledigt.

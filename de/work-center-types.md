@@ -6,22 +6,25 @@ lang: de
 title: "Work Center Types Explained"
 ---
 
-## Übersicht
+## Überblick
 
-Jedes Work Center hat einen Typ, der bestimmt, wie CoCoCo es behandelt. Der Typ beeinflusst, wie Jobs geleitet werden, wie der Fortschritt erfasst wird und welche Workflow-Nodes relevant sind.
+Jedes Work Center hat einen **Ressourcentyp** (`resourceType`), der klassifiziert, um
+welche Art Ressource es sich handelt. Er dient dem Organisieren, Filtern und Planen — er
+schränkt nicht ein, was ein Work Center tatsächlich tun kann.
 
 ## Typen
 
-| Typ | Beschreibung |
+| `resourceType` | Beschreibung |
 |---|---|
-| **Prepress** | Dateivorbereitung und -verarbeitung vor dem Druck |
-| **Press** | Bogen-, Rollen- oder Digitaldruckmaschinen |
-| **Finishing** | Schneiden, Falzen, Binden, Laminieren |
-| **Shipping** | Verpackung, Versand, Zustellung |
-| **Storage** | Lager, Stockplätze |
-| **Quality** | Prüfung und Freigabe |
-| **Generic** | Jede Ressource, die nicht in eine andere Kategorie passt |
+| **MACHINE** | Ein Gerät — Druckmaschine, Schneider, Falzmaschine, Laminierer usw. |
+| **HUMAN** | Eine Person bzw. eine personell besetzte Arbeitsstation |
+| **TOOL** | Ein Werkzeug oder Instrument, das in der Produktion verwendet wird |
+| **LOCATION** | Ein Ort oder Bereich — Lager, Bereitstellung, eine Shopfloor-Zone |
 
 ## Den richtigen Typ wählen
 
-Im Zweifel: **Generic** verwenden. Sie können den Typ jederzeit ändern. Der Typ wird hauptsächlich für Filter und Auswertungen genutzt. Er schränkt nicht ein, was ein Work Center tatsächlich tun kann.
+Wähle den Typ, der die reale Ressource am besten trifft. Der Typ ist Metadatum zum
+Gruppieren und für Reporting; du kannst ihn später ändern.
+
+> Hinweis: `PREPRESS`, `PRESS` und `POSTPRESS` sind **Job-Status** (Phasen, die ein Job
+> durchläuft), keine Work-Center-Typen — die beiden nicht verwechseln.

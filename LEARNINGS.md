@@ -141,3 +141,43 @@ Belegt an einer echten v2-App (`durst-label-connector`) + Schema-Introspektion:
   `*.cococo.app` nicht hartkodieren.
 - Wo sinnvoll (am Anfang verbindungsnaher Artikel) ein generisches Beispiel zeigen.
 - Echte Shared-Infra-Hosts (z. B. `registry.tripleclabs.de`) dürfen bleiben.
+
+---
+
+## §8 Verified facts — session 3 (custom data, config, templates, triggers)
+
+All validated/introspected against `cococo-test9`.
+
+**Custom Data Tables = Data Schemas (columns) + Data Records (rows).**
+- Read rows: `listDataRecords(filter: DataRecordFilterInput!, first, after, sort): DataRecordConnection!`
+  - `DataRecordFilterInput` requires `schemaId: DataSchemaID!` (optional `name: StringFilter`).
+  - `query($s: DataSchemaID!){ listDataRecords(filter: { schemaId: $s }, first: 50){ edges { node { id name data } } } }` ✅ valid
+- Write row: `upsertDataRecord(input: UpsertDataRecordInput!){ dataRecord { id name data } }` ✅ valid
+  - `UpsertDataRecordInput`: `data: JSON!`, `schemaId: DataSchemaID!`, `id?` (DataRecordID, for update), `name?`, `taggableId?`.
+  - `data` is a JSON object (pass a Lua table, NOT a json-encoded string).
+- `DataRecordState`: id, schemaId, data(JSON), name, taggableType, taggableValue, createdAt, updatedAt.
+- Find a table's schemaId via `listDataSchemas` / `dataSchemas`.
+- Related (custom-app per-app stores): `upsertCustomDataContainer`, `listCustomDataContainersByApp/ByTaggable`, `getCustomDataContainer` — distinct from Data Records.
+- WRONG (old article): `customTableRows` query, `createCustomTableRow` mutation, `cococo.graphql.mutate` — none exist.
+
+**Tenant Config read = `getConfig` (GraphQL), NOT `cococo.config`.**
+- `getConfig: TenantConfigOutput` — `{ version: Int!, entries: [TenantConfigEntryOutput!]!, description, createdAt, createdById }`.
+- `TenantConfigEntryOutput` fields: `name: String!`, `type: TenantConfigEntryType` (Config/Secret), `value: JSONString` (nullable).
+  - NOTE: fields are `name`/`type`/`value` — NOT `key`/`isSecret` (those fail validation).
+- **SECRET values are redacted** (value null) — secrets cannot be read back via API or any script. Only non-secret Config entries return a value.
+- Read in Lua via `ctx.graphql.query([[ query { getConfig { entries { name type value } } } ]])`.
+- Also: `getConfigVersion(version: Int!)`, `listConfigVersions()`; manage via `updateConfig` mutation.
+
+**Templates render = `renderTemplate` mutation, NOT `cococo.template.render`.**
+- `renderTemplate(input: RenderTemplateInput!): RenderTemplatePayload!`
+  - `RenderTemplateInput`: `handle: String!`, `context: String!` (a JSON string → use `ctx.json.encode`).
+  - `RenderTemplatePayload`: `output: String`, `errors`.
+- Call from a Script via `ctx.graphql.query`, or via the GraphQL workflow node.
+- Related: `instantiateProductTemplate`, `renderImpositionSVG`.
+
+**Workflow `TriggerType` enum (how a workflow is triggered):** MANUAL, SCHEDULED, EVENT, DEVICE_MQTT, WEBHOOK, **SCRIPT**.
+- Old create-workflow article listed Job Event / Device Metric / Schedule / Webhook / Manual but MISSED the **Script** trigger.
+
+**Work Center type = `resourceType: ResourceType`** = MACHINE, HUMAN, TOOL, LOCATION (old article invented Prepress/Press/Finishing/Shipping/Storage/Quality/Generic — those conflate job stages with resource types).
+
+**Node types (full set via list_node_types)** — old node-types-reference MISSED: File I/O group (`file_read/write/check/list/delete`, via BridgeApp controller), `microsql`, `producibility_audit`. `http_request`/`sql_query` are device-oriented (Bridge), not generic.

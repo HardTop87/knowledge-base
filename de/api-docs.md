@@ -16,11 +16,7 @@ Wechseln Sie zu **Menu → Developer → API Docs** oder direkt auf `https://<yo
 
 ## Was dokumentiert ist
 
-| Bereich | Anzahl |
-|---|---|
-| GraphQL Types | 658 |
-| GraphQL Queries | 275 |
-| GraphQL Mutations | 281 |
+Jeder GraphQL-Type, jede Query und jede Mutation deiner Plattform — jeweils hunderte. Die Seite spiegelt immer das aktuelle Schema deiner Plattform; die genauen Zahlen und Einträge siehst du live im Browser.
 
 ## Die Dokumentation nutzen
 

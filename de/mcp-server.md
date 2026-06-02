@@ -8,36 +8,56 @@ title: "What is the CoCoCo MCP Server?"
 
 ## Was ist MCP?
 
-MCP (Model Context Protocol) ist ein offener Standard, der KI-Assistenten mit externen Tools und Datenquellen verbindet. Statt nur das zu wissen, was in seinen Trainingsdaten steht, kann ein KI-Assistent damit in Live-Systeme greifen, echte Daten lesen und in Ihrem Namen Aktionen ausführen.
+MCP — Model Context Protocol — ist ein offener Standard, mit dem KI-Assistenten sich mit
+externen Tools und Datenquellen verbinden. Statt nur das aus seinen Trainingsdaten zu
+kennen, kann ein KI-Assistent über MCP auf Live-Systeme zugreifen, echte Daten lesen und
+in deinem Auftrag handeln.
 
-MCP wird von Claude Desktop, Claude Code, Cursor und anderen unterstützt.
+MCP wird von Claude Desktop, Claude Code, Cursor und weiteren unterstützt.
 
-## Was der CoCoCo MCP Server bereitstellt
+## Was der CoCoCo-MCP-Server bereitstellt
 
-**Custom App Management**: Den vollständigen Lebenszyklus von Custom Apps. Das ist die stärkste Nutzung der MCP-Anbindung: ein KI-Assistent kann Custom Apps komplett im Gespräch bauen, iterieren und deployen, ohne dass Sie jemals den Code-Editor manuell öffnen.
+- **Custom-App-Entwicklung** — der gesamte Lebenszyklus: Apps auflisten, Template/Script/
+  Server-API lesen, Apps erstellen und aktualisieren, Versionen verwalten. Das ist der
+  stärkste Anwendungsfall: ein Assistent baut, iteriert und deployt Custom Apps komplett
+  per Konversation.
+- **GraphQL-API** — Queries und Mutationen gegen Live-Daten ausführen, Operationen
+  validieren und das Schema durchsuchen (Types, Queries, Mutationen, Felder), damit der
+  Assistent korrekte Operationen schreibt.
+- **Reporting / SQL** — MicroSQL gegen die Reporting-Tabellen ausführen und das
+  Reporting-Schema durchsuchen (Tabellen und Spalten).
+- **Lua-Entwicklung** — die Lua-API durchsuchen, die maßgeblichen Typdefinitionen holen
+  und Scripts je Runtime-Rolle validieren.
+- **Workflows** — Workflows auflisten und lesen, Node-Typen inspizieren, neue Versionen
+  importieren und Ausführungsergebnisse lesen.
+- **ML & Integrationen** — ML-Modelle trainieren und ausführen sowie
+  Integrationsdefinitionen bauen, validieren und veröffentlichen (inkl. hochgeladener
+  externer API-Schemas).
 
-**GraphQL Schema Discovery**: Semantische Suche im vollständigen GraphQL-Schema von CoCoCo. Damit versteht der KI-Assistent das Datenmodell und schreibt korrekte Queries und Mutations.
+## Warum das wichtig ist — besonders für Custom Apps
 
-## Warum das wichtig ist, besonders für Custom Apps
+Mit einem per MCP verbundenen KI-Assistenten ändert sich der Ablauf grundlegend:
 
-Mit einem über MCP angebundenen KI-Assistenten ändert sich der Arbeitsablauf deutlich:
+**Ohne MCP:** Du öffnest den Custom-App-Editor, schreibst Vue-Templates, findest die
+richtigen GraphQL-Queries, schreibst die Lua-Server-API, testest, behebst Fehler, wiederholst.
 
-**Ohne MCP:** Sie öffnen den Custom App Editor, schreiben Vue-Templates, suchen die passenden GraphQL Queries, schreiben die Lua Server API, testen, beheben Fehler und so weiter.
-
-**Mit MCP:** Sie beschreiben in normaler Sprache, was Sie möchten. Der KI-Assistent liest die bestehende App, sucht die richtigen Schema-Types und Queries, schreibt Template und Script und aktualisiert die App. Alles in einem Gespräch. Was früher Stunden gedauert hat, dauert Minuten.
+**Mit MCP:** Du beschreibst in normaler Sprache, was du willst. Der KI-Assistent liest die
+bestehende App, schlägt die korrekten Schema-Typen und Queries nach, schreibt Template und
+Script und aktualisiert die App — alles in einer Konversation. Was früher Stunden dauerte,
+dauert Minuten.
 
 ## Technische Details
 
-Der CoCoCo MCP Server nutzt Streamable HTTP Transport im JSON-Modus.
+Der CoCoCo-MCP-Server nutzt Streamable-HTTP-Transport im JSON-Modus.
 
 | Feld | Wert |
 |---|---|
 | **Endpoint** | `https://<your-domain>/mcp` |
-| **Transport** | Streamable HTTP (JSON mode) |
+| **Transport** | Streamable HTTP (JSON-Modus) |
 | **Auth** | `Authorization: Bearer <your-api-token>` |
 
-## Loslegen
+## Erste Schritte
 
-Sie brauchen ein API Token, bevor Sie verbinden. Die Connection Details finden Sie hier:
+Du brauchst vor dem Verbinden ein API-Token. Deine Verbindungsdaten findest du hier:
 
-[MCP Connection Details finden](#mcp-connection-details)
+[How to Find Your MCP Connection Details](#mcp-connection-details)

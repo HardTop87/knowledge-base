@@ -18,7 +18,7 @@ Wechseln Sie zu **Menu → Developer → GraphQL Playground**.
 
 ```graphql
 query {
-  jobs(first: 10) {
+  listJobs(first: 10) {
     edges {
       node {
         id
@@ -35,7 +35,7 @@ Mit **Ctrl+Enter** ausführen. Das Ergebnis erscheint rechts.
 
 ## Schema durchsuchen
 
-Klicken Sie auf das Panel **Docs**, um das vollständige Schema zu erkunden. Sie können jeden Type, jede Query und jede Mutation namentlich suchen. Die API umfasst 275 Queries, 281 Mutations und 658 Types.
+Klicken Sie auf das Panel **Docs**, um das vollständige Schema zu erkunden. Sie können jeden Type, jede Query und jede Mutation namentlich suchen. Die API ist umfangreich — hunderte Queries, Mutationen und Typen.
 
 ## Tipps
 

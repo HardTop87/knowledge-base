@@ -16,11 +16,7 @@ Go to **Menu → Developer → API Docs**, or navigate to `https://<your-domain>
 
 ## What's documented
 
-| Scope | Count |
-|---|---|
-| GraphQL types | 658 |
-| GraphQL queries | 275 |
-| GraphQL mutations | 281 |
+Every GraphQL type, query, and mutation available on your platform — hundreds of each. The page always reflects your platform's current schema, so the exact counts and entries are shown live in the browser.
 
 ## Using the docs
 
