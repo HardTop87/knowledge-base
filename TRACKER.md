@@ -87,3 +87,16 @@ Key finding: `jobs(first:…)` is **invalid** on test9 — only `listJobs` exist
 | hitl-workflows | PASS | Task-node pause/resume model consistent with node-types + Task semantics. |
 
 `ExecutionStatus` (verified): PENDING, RUNNING, WAITING, COMPLETED, FAILED, CANCELLED.
+
+---
+
+## Tier-1 Audit — Batch: Platform Configuration  [holistic: API + instructional]
+
+| Article | Verdict | Note |
+|---|---|---|
+| tenant-config | PASS | `getConfig { entries { name type value } }` verified; secret redaction correct. |
+| custom-data-tables | PASS | Data Schema + Data Record model; listDataRecords/upsertDataRecord validated. |
+| notification-groups | **FIX** | Claimed channels "email, in-platform, or both" — but `DeliveryChannel` enum = **EMAIL** only (NotificationGroupState/NotificationRecipientState/DeliveryConfig verified). Corrected to email delivery. |
+| incoming-webhooks | PASS | Consistent with WEBHOOK trigger. Webhook URL path and header-validation are HTTP/runtime claims, not GraphQL-verifiable — flagged, not changed. |
+
+Verified entities: `NotificationGroupState{ id name description }`, `NotificationRecipientState{ groupId name deliveryConfig }`, `DeliveryConfig{ channel email }`, `DeliveryChannel` ENUM = EMAIL.

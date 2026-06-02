@@ -16,7 +16,7 @@ Eine Notification Group ist eine benannte Empfängerliste, an die Workflows Nach
 2. Klicken Sie auf **+ Add Group**
 3. Vergeben Sie einen **Name** (z.B. `Produktionsleiter`, `On-Call Team`)
 4. Klicken Sie auf **+ Add Recipient** und wählen Sie User aus oder tragen Sie E-Mail-Adressen ein
-5. Konfigurieren Sie die **Channels**: E-Mail, In-Platform-Benachrichtigungen oder beides
+5. Jeder Empfänger wird per **E-Mail** erreicht (der Zustellkanal für Notification Groups)
 6. Klicken Sie auf **Save**
 
 ## Eine Notification Group im Workflow nutzen

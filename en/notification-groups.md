@@ -16,7 +16,7 @@ A Notification Group is a named list of recipients that Workflows can send messa
 2. Click **+ Add Group**
 3. Enter a **Name** (e.g. `Production Managers`, `On-call Team`)
 4. Click **+ Add Recipient** and select users or enter email addresses
-5. Configure the **Channels** — email, in-platform notifications, or both
+5. Each recipient is reached by **email** (the delivery channel for notification groups)
 6. Click **Save**
 
 ## Using a Notification Group in a Workflow
