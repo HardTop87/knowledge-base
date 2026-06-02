@@ -142,3 +142,18 @@ Note: `scripts` "ML Data Query" role re-confirmed valid — `ScriptRole` enum = 
 | connect-antigravity | **NEW (written)** | Verified vs antigravity.google/docs/mcp: `mcp_config.json`, **`serverUrl`** (not `url`) + `headers`. Published. |
 
 The three formerly-`coming_soon` connect articles are now written, bilingual, and flipped to `published` in manifest.json. External-tool configs verified by web docs (their MCP setup is the variable part; the CoCoCo side is the same Streamable-HTTP `https://<your-domain>/mcp` + Bearer token).
+
+---
+
+## Tier-2 Audit — Batch: Networks & Devices  [holistic: API + instructional]  — ALL PASS
+
+| Article | Verdict | Note |
+|---|---|---|
+| create-network | PASS | UI/conceptual; consistent "Menu → IOT →" navigation. |
+| add-device | PASS | "Four protocols: MQTT, HTTP, JMF, SQL" verified against `OutboundProtocol`. |
+| protocols-explained | PASS | Direction table EXACTLY matches schema: `OutboundProtocol`={HTTP,SQL,MQTT,JMF}, `InboundProtocol`={MQTT,HTTP} → MQTT/HTTP In+Out, JMF/SQL Out-only. (Suspected JMF "Out only vs receives responses" contradiction — schema confirms the table is right; JMF responses ride the outbound exchange, JMF is not an inbound protocol.) |
+| device-tokens | PASS | Bearer header + MQTT password credential flow; plausible, consistent. |
+| add-controller | PASS | Controller = Bridge/edge gateway — consistent with the Bridge controller / EDGE_APP model used elsewhere. |
+| understanding-metrics | PASS | Device Metric trigger = `DEVICE_MQTT`; inbound metrics via MQTT/HTTP matches `InboundProtocol`. |
+
+Verified enums: `OutboundProtocol` (HTTP, SQL, MQTT, JMF), `InboundProtocol` (MQTT, HTTP), `DatabaseAdapter` (MSSQL, MYSQL, POSTGRESQL, SQLITE). OPC-UA/Modbus live at the EDGE_APP/bridge layer, not as device protocols.
