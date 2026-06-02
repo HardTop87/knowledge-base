@@ -46,3 +46,5 @@ Die SQL-Integration verbindet CoCoCo mit externen Datenbanken: ERP-Systeme, Lega
 | HTTP | ein + aus | REST/Webhook-Integrationen |
 | JMF | nur aus | JDF-fähige Druckmaschinen |
 | SQL | nur aus | Datenbank Lesen/Schreiben |
+
+> **OPC-UA und Modbus** sind keine direkten Geräteprotokolle — sie werden am Edge von einer Edge App auf einem Controller überbrückt. Siehe [What are Edge Apps?](#what-are-edge-apps).

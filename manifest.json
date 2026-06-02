@@ -230,6 +230,32 @@
             "monitoring"
           ],
           "status": "published"
+        },
+        {
+          "slug": "what-are-edge-apps",
+          "title": "What are Edge Apps?",
+          "order": 7,
+          "tags": [
+            "iot",
+            "edge",
+            "controller",
+            "bridge"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "build-edge-app",
+          "title": "How to Build and Install an Edge App",
+          "order": 8,
+          "tags": [
+            "iot",
+            "edge",
+            "controller",
+            "mqtt",
+            "opcua",
+            "developer"
+          ],
+          "status": "published"
         }
       ]
     },
@@ -514,6 +540,29 @@
             "graphql",
             "developer",
             "reference"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "what-are-integrations",
+          "title": "What are Integrations?",
+          "order": 6,
+          "tags": [
+            "integration",
+            "developer",
+            "api"
+          ],
+          "status": "published"
+        },
+        {
+          "slug": "build-integration",
+          "title": "How to Build an Integration",
+          "order": 7,
+          "tags": [
+            "integration",
+            "developer",
+            "api",
+            "bundle"
           ],
           "status": "published"
         }

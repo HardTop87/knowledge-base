@@ -220,3 +220,25 @@ Decision (existing vs new category) pending. Research EDGE_APP + INTEGRATION run
 ### FULL AUDIT COMPLETE — Tiers 1, 2, 3 all done. 71/71 articles audited (EN+DE).
 
 Remaining work: (1) Edge Apps & Integrations coverage (evaluate fit into existing categories/articles FIRST), (2) final redeploy of `script` into the test9 app.
+
+---
+
+## NEW CONTENT — Edge Apps & Integrations (Option A: integrated into existing categories)
+
+Decision: integrated into existing categories (no new category), per user.
+
+**Networks & Devices** (anchored to Controllers):
+- `what-are-edge-apps` (order 7) — concept, `bridge.*` runtime, vs Integration/Custom App, versioning + per-controller install.
+- `build-edge-app` (order 8) — Draft → `publishEdgeAppDraft` → install via `upsertEdgeAppInstallation` (variables validated vs configSchema, config pushed to controller, bot identity); `onMessage` handler; upgrade/deprecate/uninstall/import-export.
+
+**Developer Tools**:
+- `what-are-integrations` (order 6) — concept, `ctx.integration.*` (containers/cache/config/bindings) + base `ctx` + `ctx.device.http/sql` via Bridge, external OpenAPI schemas, vs Edge App/Custom App.
+- `build-integration` (order 7) — upload external schema → Draft → manifest (configSchema/resources/permissions/dataContainerSchemas) → bundle handlers → validate → publish → install + bind resources.
+
+Also: `protocols-explained` got a one-line cross-link noting OPC-UA/Modbus are bridged at the edge via Edge Apps (device-protocol table unchanged — still verified correct).
+
+Verified against test9: EDGE_APP `bridge.*` surface (mqtt/opcua/state/config/graphql/publish/log); `EdgeAppState`/`EdgeAppInstallationState`/`EdgeAppMQTTBroker`; mutations `upsertEdgeAppInstallation`/`publishEdgeAppDraft`/`upgradeEdgeAppInstallation`/`deprecateEdgeApp`/`invokeEdgeApp`/`import|exportEdgeApp`. INTEGRATION `ctx.integration.*` (containersGet/Set/Delete/List/Query, cacheGet/Set/Delete, getConfig/getBindings/getVersion, protobufDecode) + `ctx.device.http/sql`; `IntegrationManifest`(configSchema/resources/permissions/dataContainerSchemas), `CreateIntegrationDefinitionInput`(manifest/bundleContents/engineVersion); external-schema search/upload.
+
+KB now **75 articles** (EN+DE), 13 categories. Edge Apps/Integrations gap CLOSED.
+
+Remaining: final redeploy of `script` into the test9 app.
