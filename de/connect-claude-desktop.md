@@ -43,7 +43,7 @@ function post(body) {
     };
     if (sessionId) headers['Mcp-Session-Id'] = sessionId;
     const req = https.request({
-      hostname: 'your-domain.cococo.app',
+      hostname: '<your-domain>',
       path: '/mcp',
       method: 'POST',
       headers
@@ -89,7 +89,7 @@ rl.on('line', async (line) => {
 });
 ```
 
-Ersetzen Sie `YOUR_API_TOKEN` durch Ihr echtes Token und `your-domain.cococo.app` durch Ihre tatsächliche Domain.
+Ersetzen Sie `YOUR_API_TOKEN` durch Ihr echtes Token und `<your-domain>` durch Ihre tatsächliche Domain.
 
 ## Schritt 2: Node.js-Pfad finden
 

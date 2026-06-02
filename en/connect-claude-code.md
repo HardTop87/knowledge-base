@@ -36,7 +36,7 @@ export PATH="$(npm config get prefix)/bin:$PATH"
 Run the following command, replacing `YOUR_TOKEN` with your actual API Token:
 
 ```bash
-claude mcp add --transport http cococo https://your-domain.cococo.app/mcp --header "Authorization: Bearer YOUR_TOKEN"
+claude mcp add --transport http cococo https://<your-domain>/mcp --header "Authorization: Bearer YOUR_TOKEN"
 ```
 
 Write the full command on **one line** — line breaks cause the header to be parsed incorrectly.
@@ -65,7 +65,7 @@ claude mcp remove cococo
 **Update the token** — remove and re-add with the new token:
 ```bash
 claude mcp remove cococo
-claude mcp add --transport http cococo https://your-domain.cococo.app/mcp --header "Authorization: Bearer YOUR_NEW_TOKEN"
+claude mcp add --transport http cococo https://<your-domain>/mcp --header "Authorization: Bearer YOUR_NEW_TOKEN"
 ```
 
 ## Troubleshooting

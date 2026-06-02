@@ -32,7 +32,7 @@ Der CoCoCo MCP Server nutzt Streamable HTTP Transport im JSON-Modus.
 
 | Feld | Wert |
 |---|---|
-| **Endpoint** | `https://your-domain.cococo.app/mcp` |
+| **Endpoint** | `https://<your-domain>/mcp` |
 | **Transport** | Streamable HTTP (JSON mode) |
 | **Auth** | `Authorization: Bearer <your-api-token>` |
 

@@ -129,3 +129,15 @@ Belegt an einer echten v2-App (`durst-label-connector`) + Schema-Introspektion:
   nicht direkt `id`/`status` am Payload.
 - ID-Skalare sind typisiert (`JobID`, `WorkCenterID`, `CustomerID`, `MetricID`, …) — bei
   Variablen den passenden Skalar verwenden, nicht generisch `ID!`.
+
+---
+
+## 7. URL-/Domain-Konvention in der Doku  [Konvention]
+
+- In allen Beispielen den generischen Platzhalter **`<your-domain>`** für die
+  Instanz-Adresse verwenden, z. B. `https://<your-domain>/mcp`,
+  `mqtts://<your-domain>:8883`.
+- **Nie** eine konkrete (potenziell echte) Kundendomain zeigen; das Sandbox-Suffix
+  `*.cococo.app` nicht hartkodieren.
+- Wo sinnvoll (am Anfang verbindungsnaher Artikel) ein generisches Beispiel zeigen.
+- Echte Shared-Infra-Hosts (z. B. `registry.tripleclabs.de`) dürfen bleiben.

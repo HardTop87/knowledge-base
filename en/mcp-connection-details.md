@@ -11,13 +11,13 @@ title: "How to Find Your MCP Connection Details"
 1. Click your **profile avatar** in the top right corner
 2. Select **API Tokens** from the dropdown
 3. Scroll down to the **MCP Connection** section
-4. Or navigate directly to `https://your-domain.cococo.app/#/api-tokens`
+4. Or navigate directly to `https://<your-domain>/#/api-tokens`
 
 ## What you'll find there
 
 | Field | Value |
 |---|---|
-| **Endpoint URL** | `https://your-domain.cococo.app/mcp` |
+| **Endpoint URL** | `https://<your-domain>/mcp` |
 | **Transport** | Streamable HTTP (JSON mode) |
 | **Authentication** | `Authorization: Bearer <your-token>` |
 

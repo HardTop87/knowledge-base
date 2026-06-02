@@ -8,7 +8,7 @@ title: "User Settings"
 
 ## User Settings öffnen
 
-Klicken Sie oben rechts auf Ihr **Profilbild** und wählen Sie **User Settings** aus dem Dropdown. Oder rufen Sie direkt `https://your-domain.cococo.app/#/user-settings` auf.
+Klicken Sie oben rechts auf Ihr **Profilbild** und wählen Sie **User Settings** aus dem Dropdown. Oder rufen Sie direkt `https://<your-domain>/#/user-settings` auf.
 
 ## Account
 

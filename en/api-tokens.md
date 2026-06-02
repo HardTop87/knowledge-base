@@ -20,7 +20,7 @@ Common uses:
 
 ## How to open API Tokens
 
-Click your **profile avatar** in the top right corner, then select **API Tokens** from the dropdown. Or navigate directly to `https://your-domain.cococo.app/#/api-tokens`.
+Click your **profile avatar** in the top right corner, then select **API Tokens** from the dropdown. Or navigate directly to `https://<your-domain>/#/api-tokens`.
 
 ## How to create an API Token
 
@@ -62,6 +62,6 @@ The API Tokens page also shows your platform's MCP connection details — everyt
 
 | Field | Value |
 |---|---|
-| **Endpoint URL** | `https://your-domain.cococo.app/mcp` |
+| **Endpoint URL** | `https://<your-domain>/mcp` |
 | **Transport** | Streamable HTTP (JSON mode) |
 | **Authentication** | `Authorization: Bearer <your-token>` |

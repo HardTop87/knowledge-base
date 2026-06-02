@@ -6,43 +6,64 @@ lang: de
 title: "Using the Server API (Lua) in Custom Apps"
 ---
 
-## Was ist die Server API?
+## Was ist die Server-API?
 
-Die Server API ist Lua-Code, der auf dem CoCoCo-Server läuft und aus dem Script Ihrer Custom App aufrufbar ist. Nutzen Sie sie für sichere Datenzugriffe, privilegierte Operationen oder rechenintensive Verarbeitung, die nicht im Browser laufen soll.
+Die Server-API ist Lua-Code, der auf dem CoCoCo-Server läuft und aus dem Client-Script
+deiner Custom App aufgerufen wird. Nutze sie für sicheren Datenzugriff, privilegierte
+Operationen oder schwere Verarbeitung, die nicht im Browser laufen soll.
 
-## RPC-Funktionen definieren
+## Handler definieren (die `exports`-Tabelle)
 
-Im Server-API-Tab definieren Sie Funktionen mit dem Präfix `rpc_`:
+In der Server-API hängst du Handler an die globale `exports`-Tabelle (Engine v2):
 
 ```lua
-function rpc_get_jobs(params)
-  local result = cococo.graphql.query([[
-    query($status: JobStatus) {
-      jobs(filter: { status: $status }, first: 50) {
-        edges { node { id name status workCenter { name } } }
+exports = {}
+
+function exports.getJobs(input)
+  local res = ctx.graphql.query([[
+    query($status: String!) {
+      listJobs(first: 50, filter: { status: { eq: $status } }) {
+        edges { node { id name status } }
       }
     }
-  ]], { status = params.status })
-  return result.data.jobs.edges
+  ]], { status = input.status })
+  return { status = "ok", result = res.data.listJobs.edges }
 end
 ```
 
-## Aus dem Script aufrufen
+## Aufruf aus dem Script (Client)
 
 ```javascript
 const jobs = ref([]);
 
 async function loadJobs(status) {
-  jobs.value = await $rpc('get_jobs', { status });
+  const r = await window.rpc('getJobs', { status });
+  jobs.value = r.result || [];
 }
 ```
 
-## Verfügbare Lua-APIs
+`window.rpc(handlerName, params)` liefert das zurück, was der Handler zurückgibt.
+
+## Verfügbare Lua-APIs (Server-Scripts)
 
 | API | Beschreibung |
 |---|---|
-| `cococo.graphql.query(gql, vars)` | GraphQL Query |
-| `cococo.graphql.mutate(gql, vars)` | GraphQL Mutation |
-| `cococo.config.get(key)` | Config- oder Secret-Wert lesen |
-| `cococo.http.post(url, body, headers)` | Ausgehender HTTP-Request |
-| `cococo.log(message)` | Serverseitiges Logging |
+| `ctx.graphql.query(gql, vars)` | GraphQL-Queries und -Mutationen |
+| `ctx.dataContainer.get/put/delete(key, value?)` | Persistenter Speicher pro App |
+| `ctx.sql.query(sql)` | Lesen aus den Reporting-Tabellen |
+| `ctx.cache.get/set/delete(key, value?)` | Tenant-Cache (Redis, 4 KB pro Wert) |
+| `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Mit einem Gerät über dessen Bridge kommunizieren |
+| `ctx.notify.send({ ... })` | Benachrichtigung senden |
+| `ctx.ml.predict(...)` | ML-Modell ausführen |
+| `ctx.time.now()` / `ctx.time.nowIso()` | Zeitstempel (`os.*` ist gesperrt) |
+| `ctx.json.encode/decode(...)` | JSON |
+| `ctx.log.info/warn/error(msg, attrs?)` | Strukturiertes Logging (`print` ist deaktiviert) |
+
+Es gibt in Lua **keine** generische Config-, Secrets-, Outbound-HTTP- oder Templating-API;
+ausgehendes HTTP läuft gerätebezogen über `ctx.device.http`.
+
+## Legacy (v1)
+
+Ältere Apps nutzten `rpc_`-präfixierte Funktionen, den Client-Helfer `$rpc` und einen
+`cococo.*`-Namespace (`cococo.graphql`, `cococo.log`, …). Das ist die v1-Runtime; neue
+Apps nutzen `exports` + `window.rpc` + `ctx.*`. In älteren Apps kann der v1-Stil noch auftauchen.

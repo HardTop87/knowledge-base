@@ -12,7 +12,7 @@ Die API-Docs-Seite ist der eingebaute Referenzbrowser für die komplette GraphQL
 
 ## Öffnen
 
-Wechseln Sie zu **Menu → Developer → API Docs** oder direkt auf `https://your-domain.cococo.app/#/docs`.
+Wechseln Sie zu **Menu → Developer → API Docs** oder direkt auf `https://<your-domain>/#/docs`.
 
 ## Was dokumentiert ist
 

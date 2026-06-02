@@ -17,9 +17,9 @@ title: "Device Is Not Connecting"
 
 | Protocol | Connection endpoint |
 |---|---|
-| MQTT | `mqtt://your-domain.cococo.app:1883` |
-| MQTT (TLS) | `mqtts://your-domain.cococo.app:8883` |
-| HTTP | `https://your-domain.cococo.app/api/device/{deviceId}` |
+| MQTT | `mqtt://<your-domain>:1883` |
+| MQTT (TLS) | `mqtts://<your-domain>:8883` |
+| HTTP | `https://<your-domain>/api/device/{deviceId}` |
 
 ## Check authentication
 

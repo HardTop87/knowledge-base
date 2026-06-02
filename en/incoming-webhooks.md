@@ -21,13 +21,13 @@ An Incoming Webhook is a unique URL that external systems can POST to in order t
 CoCoCo generates a unique URL:
 
 ```
-https://your-domain.cococo.app/webhooks/{slug}
+https://<your-domain>/webhooks/{slug}
 ```
 
 ## Sending data to a Webhook
 
 ```bash
-curl -X POST https://your-domain.cococo.app/webhooks/your-slug \
+curl -X POST https://<your-domain>/webhooks/your-slug \
   -H "Content-Type: application/json" \
   -d '{"jobId": "12345", "customer": "Acme Corp"}'
 ```

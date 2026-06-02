@@ -8,7 +8,7 @@ title: "User Settings"
 
 ## How to open User Settings
 
-Click your **profile avatar** in the top right corner of the platform, then select **User Settings** from the dropdown. Or navigate directly to `https://your-domain.cococo.app/#/user-settings`.
+Click your **profile avatar** in the top right corner of the platform, then select **User Settings** from the dropdown. Or navigate directly to `https://<your-domain>/#/user-settings`.
 
 ## Account
 

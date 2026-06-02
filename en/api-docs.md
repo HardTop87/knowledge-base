@@ -12,7 +12,7 @@ The API Docs page is CoCoCo's built-in reference browser for the full GraphQL AP
 
 ## How to open it
 
-Go to **Menu → Developer → API Docs**, or navigate to `https://your-domain.cococo.app/#/docs`.
+Go to **Menu → Developer → API Docs**, or navigate to `https://<your-domain>/#/docs`.
 
 ## What's documented
 

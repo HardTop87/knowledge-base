@@ -20,7 +20,7 @@ Typische Einsatzgebiete:
 
 ## API Tokens öffnen
 
-Klicken Sie oben rechts auf Ihr **Profilbild** und wählen Sie **API Tokens** aus dem Dropdown. Oder rufen Sie direkt `https://your-domain.cococo.app/#/api-tokens` auf.
+Klicken Sie oben rechts auf Ihr **Profilbild** und wählen Sie **API Tokens** aus dem Dropdown. Oder rufen Sie direkt `https://<your-domain>/#/api-tokens` auf.
 
 ## Einen API Token anlegen
 
@@ -62,6 +62,6 @@ Die API Tokens Seite zeigt außerdem die MCP Connection Details Ihrer Plattform.
 
 | Feld | Wert |
 |---|---|
-| **Endpoint URL** | `https://your-domain.cococo.app/mcp` |
+| **Endpoint URL** | `https://<your-domain>/mcp` |
 | **Transport** | Streamable HTTP (JSON mode) |
 | **Authentifizierung** | `Authorization: Bearer <your-token>` |
