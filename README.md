@@ -1,43 +1,46 @@
-# CoCoCo Knowledge Base — Quelle der Wahrheit
+# CoCoCo Knowledge Base — Source of Truth
 
-Kanonische, editierbare Quelle für die Custom App **Knowledge Base**
-(`cap_01KP75ER4GF8BAXPA6F1TY3W4T`, handle `knowledge-base`) in der Umgebung
-`cococo-de`. Stand: aus der App extrahiert (Bootstrap), Round-Trip verifiziert.
+Canonical, editable source for the **Knowledge Base** custom app in the `cococo-de`
+environment. The repo was bootstrapped from the original app
+(`knowledge-base`, `cap_01KP75ER4GF8BAXPA6F1TY3W4T`) and round-trip verified. The article
+content has since been **rewritten to match the current platform version** (the v2
+runtime), with every technical claim verified against the `cococo-test9` reference
+environment (see `LEARNINGS.md`). The rebuilt app is deployed as **`knowledge-base-v2`**
+(`cap_01KT4GYBWWE9AS1FHX89CKPBW7`).
 
-> **Regel:** Ab jetzt wird **nicht mehr in der CoCoCo-UI editiert**. Die App ist
-> ein Build-Artefakt aus diesem Repo. Direkte UI-Änderungen würden beim nächsten
-> Push überschrieben.
+> **Rule:** do **not** edit in the CoCoCo UI. The app is a build artifact of this repo.
+> Direct UI edits would be overwritten on the next push.
 
-## Inhalt (extrahiert)
+## Contents
 
-- **13 Kategorien**, **71 Artikel** — davon **68 published** (mit Text) und
-  **3 `coming_soon`** ohne Body (`connect-antigravity`, `connect-codex`,
-  `connect-cursor`).
-- Zweisprachig **EN + DE**, deckungsgleich (je 71 Dateien).
+- **13 categories**, **71 articles** — **68 published** (with body) and **3 `coming_soon`**
+  without a body (`connect-antigravity`, `connect-codex`, `connect-cursor`).
+- Bilingual **EN + DE**, kept in parity (71 files each).
 
-## Struktur
+## Structure
 
 ```
 .
-├─ manifest.json            # Struktur-Index: CATEGORIES (Name, Icon, Beschreibung,
-│                           # Artikel mit slug/title/order/tags/status) + I18N (en/de).
-│                           # 1:1 aus der App, sprachneutrale Metadaten.
-├─ en/<slug>.md             # je Artikel EN: YAML-Frontmatter + Body (verbatim)
-├─ de/<slug>.md             # je Artikel DE
+├─ manifest.json            # Structure index: CATEGORIES (name, icon, description,
+│                           # articles with slug/title/order/tags/status) + I18N (en/de).
+│                           # Taken 1:1 from the app; language-neutral metadata.
+├─ en/<slug>.md             # per article EN: YAML frontmatter + body (verbatim)
+├─ de/<slug>.md             # per article DE
 ├─ app/
-│  ├─ script.template.js    # Vue-Script der App; die 4 Datenblöcke sind durch
-│  │                        # Marker ersetzt (/*__CATEGORIES__*/ usw.). Byte-genau
-│  │                        # bewahrter Komponenten-Code.
-│  ├─ template.html         # HTML-Template der App (unverändert)
-│  ├─ serverApi.lua         # leer (App hat keine serverApi)
+│  ├─ script.template.js    # the app's Vue script; the 4 data blocks are replaced by
+│  │                        # markers (/*__CATEGORIES__*/ etc.). Byte-preserved component code.
+│  ├─ template.html         # the app's HTML template (unchanged)
+│  ├─ serverApi.lua         # empty (the app has no serverApi)
 │  └─ app.config.json       # id, handle, kind, name, icon
 ├─ build/
-│  ├─ build_to_app.py       # Repo -> app/script.rebuilt.js  (Build)
-│  └─ extract_from_app.py   # Referenz: einmaliger Bootstrap (nicht im Normalbetrieb)
+│  ├─ build_to_app.py       # repo -> app/script.rebuilt.js  (the build)
+│  └─ extract_from_app.py   # reference: one-time bootstrap (not used in normal operation)
+├─ LEARNINGS.md             # verified platform facts (the basis for the rewrites)
+├─ TRACKER.md               # per-article correction status
 └─ README.md
 ```
 
-## Artikel-Datei (Konvention)
+## Article file convention
 
 ```markdown
 ---
@@ -48,35 +51,55 @@ lang: en
 title: "Accessing Platform Data"
 ---
 
-<Body — exakt wie in der App>
+<body — exactly as in the app>
 ```
 
-- `slug` ist der stabile Schlüssel; `en/<slug>.md` und `de/<slug>.md` gehören
-  zusammen und müssen beide existieren (Parität).
-- Titel, Reihenfolge, Tags, Status und Kategorie-Texte sind **sprachneutral** und
-  leben in `manifest.json` (nicht in jeder md-Datei doppelt). Das Frontmatter
-  spiegelt sie nur zur Bequemlichkeit; maßgeblich ist `manifest.json`.
-- `coming_soon`-Artikel haben einen leeren Body und werden vom Build automatisch
-  aus den Inhalts-Maps ausgeschlossen (genau wie im Original).
+- `slug` is the stable key; `en/<slug>.md` and `de/<slug>.md` belong together and both
+  must exist (parity).
+- Title, order, tags, status, and category texts are **language-neutral** and live in
+  `manifest.json` (not duplicated in every md file). The frontmatter mirrors them for
+  convenience; `manifest.json` is authoritative.
+- `coming_soon` articles have an empty body and are automatically excluded from the
+  content maps by the build (exactly as in the original).
 
 ## Workflow
 
-1. **Bearbeiten:** `en/`/`de/`-Dateien lokal ändern, EN+DE parallel halten.
-   Neue Artikel: in `manifest.json` unter der Kategorie registrieren **und** beide
-   md-Dateien anlegen.
-2. **Bauen:** `python3 build/build_to_app.py` → erzeugt `app/script.rebuilt.js`.
-   Prüft Parität und ersetzt alle Marker.
-3. **Pushen:** Das gebaute Script geht via CoCoCo-MCP (`update_custom_app`) zurück
-   in die App. Dieser Schritt wird bewusst ausgelöst (nicht automatisch).
-4. **Versionieren:** committen & nach GitHub pushen.
+1. **Edit:** change the `en/`/`de/` files locally, keeping EN+DE in parallel. For a new
+   article: register it under its category in `manifest.json` **and** create both md files.
+2. **Build:** `python3 build/build_to_app.py` → produces `app/script.rebuilt.js`. Checks
+   EN/DE parity and replaces all markers.
+3. **Deploy:** put the built script into the app — paste it into the app's `script` file
+   in the CoCoCo editor, or push it via the CoCoCo MCP (`update_custom_app`). This step is
+   triggered deliberately, never automatically. `template` and `serverApi` stay unchanged.
+4. **Version:** commit and push to GitHub.
 
-`app/script.rebuilt.js` ist ein Build-Artefakt und in `.gitignore`.
+`app/script.rebuilt.js` is a build artifact and is in `.gitignore`.
 
-## Verifikations-Garantie (Bootstrap)
+## Build verification guarantee (bootstrap)
 
-Der Build wurde gegen den Original-App-Stand geprüft:
-- Werte aller vier Datenblöcke (CATEGORIES, ARTICLES_CONTENT,
-  ARTICLES_CONTENT_DE, I18N) rekonstruieren **identisch**.
-- Der gesamte Code **außerhalb** der Datenblöcke ist **byte-identisch**.
-Quoting in den Datenblöcken wird auf JSON normalisiert (Werte unverändert),
-daher ist die App funktional gleich, das Script minimal größer.
+The build was checked against the original app state:
+
+- The values of all four data blocks (CATEGORIES, ARTICLES_CONTENT, ARTICLES_CONTENT_DE,
+  I18N) reconstruct **identically**.
+- All code **outside** the data blocks is **byte-identical**.
+
+Quoting inside the data blocks is normalized to JSON (values unchanged), so the app is
+functionally identical and the script is marginally larger.
+
+## Content accuracy
+
+The article rewrites are grounded in the platform's **actual schema and runtime**, not in
+assumptions:
+
+- GraphQL operations were checked with live schema validation and introspection
+  (exact query/mutation names, input/field names, enum values) against `cococo-test9`.
+- Lua runtime APIs, workflow node types, and trigger/status/resource enums were confirmed
+  from the live tooling.
+- A repo-wide audit confirms **zero** known-wrong patterns remain (e.g. `customTableRows`,
+  `cococo.graphql.mutate`, `cococo.config`/`.template`/`.date`, client `$graphql`,
+  `IN_PROGRESS`, fabricated API counts).
+
+See `LEARNINGS.md` for the verified facts and `TRACKER.md` for per-article status.
+Caveat: verification reflects the `cococo-test9` version at the time of checking; UI/menu
+wording and conceptual articles that had no flagged pattern were not independently
+re-verified against a running instance.
