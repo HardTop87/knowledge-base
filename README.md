@@ -13,9 +13,12 @@ environment (see `LEARNINGS.md`). The rebuilt app is deployed as **`knowledge-ba
 
 ## Contents
 
-- **13 categories**, **71 articles** — **68 published** (with body) and **3 `coming_soon`**
-  without a body (`connect-antigravity`, `connect-codex`, `connect-cursor`).
-- Bilingual **EN + DE**, kept in parity (71 files each).
+- **13 categories**, **75 articles** — all **published** (each with a body); no
+  `coming_soon` placeholders remain.
+- Each article is **one logical entry, maintained in both EN and DE**. The real total is
+  therefore **75 articles**, *not* 150: the repo holds 75 `en/` files **and** 75 `de/` files
+  (150 markdown files in total), kept in strict parity — exactly one EN and one DE file per
+  article.
 
 ## Structure
 
