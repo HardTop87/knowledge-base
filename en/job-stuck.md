@@ -41,6 +41,12 @@ A job moves forward as its **Operations** are transitioned on the shopfloor and 
 2. Transition the current Operation to its next state (e.g. Running → Completed) — shopfloor progress is driven by Operation transitions, not by editing the job status directly
 3. Document the reason in the job Notes
 
+## Operation states (reference)
+
+An Operation moves through this state machine: **Pending → Available → Setup → Running → Cleanup → Completed**. From there it can also be **Stopped**, **Failed**, **Cancelled**, or put back into **Restarting**. "Complete" on the shopfloor transitions the current Operation to **Completed**; only certain transitions are allowed from each state.
+
+> Job production statuses (e.g. **Prepress**, **Press**, **Postpress**) are defined by your deployment's industry **vertical**, so your tenant may show more or different ones than another instance. The Operation states above are universal across every vertical.
+
 ## Escalation
 
 Check Workflow execution logs for error messages around the time the job stopped progressing.

@@ -43,9 +43,12 @@ Klicke **Run** zum Ausführen. Die Ausgabe erscheint in der Konsole darunter.
 | `ctx.sql.query(sql)` | Aus den Reporting-Tabellen lesen |
 | `ctx.cache.get(key)` / `ctx.cache.set({key, value, ttl?})` / `ctx.cache.delete(key)` | Tenant-Cache (Redis) |
 | `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Mit einem Gerät über dessen Bridge kommunizieren |
+| `ctx.config.get(key)` | Einen Tenant-Config-Wert per Key lesen (Secret-Werte redacted) |
+| `ctx.template.render(handle, contextJSON)` | Ein gespeichertes JDF/JMF-Template per handle rendern |
 | `ctx.time.now()` / `ctx.time.nowIso()` | Zeitstempel (`os.*` ist gesperrt) |
 | `ctx.json.encode/decode(...)` | JSON |
 | `ctx.log.info/warn/error(msg, attrs?)` | In die Konsole schreiben (`print` ist deaktiviert) |
 
 Tenant-Scripts laufen nur mit der Basis-API — `ctx.dataContainer` gibt es nur in
-Custom Apps, und es existiert keine generische Config-, HTTP- oder Templating-API.
+Custom Apps. Eine _generische_ Outbound-HTTP-API gibt es nicht (nur gerätebezogen über
+`ctx.device.http`).

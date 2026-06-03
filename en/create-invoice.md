@@ -36,3 +36,13 @@ title: "How to Create an Invoice"
 2. Click **Create Credit Note**
 3. Adjust the line items to reflect what is being credited
 4. Issue the credit note
+
+## Invoice status and payment
+
+An Invoice carries its own status as it moves from draft to settled:
+
+**Draft → Sent → Partially Paid → Paid** — and may also be **Overdue**, **Void** (cancelled), or **Credited** (offset by a Credit Note).
+
+Payment is tracked separately, so you can see where money stands at a glance:
+
+**Unpaid → Partially Paid → Paid** — plus **Overdue**, **Refunded**, or **Written Off**.

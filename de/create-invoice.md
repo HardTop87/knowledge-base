@@ -36,3 +36,13 @@ title: "How to Create an Invoice"
 2. Klicken Sie auf **Create Credit Note**
 3. Passen Sie die Line Items an den zu gutschreibenden Betrag an
 4. Credit Note ausstellen
+
+## Rechnungs- und Zahlungsstatus
+
+Ein Invoice trägt seinen eigenen Status vom Entwurf bis zum Ausgleich:
+
+**Draft → Sent → Partially Paid → Paid** — und kann außerdem **Overdue**, **Void** (storniert) oder **Credited** (durch eine Credit Note ausgeglichen) sein.
+
+Die Zahlung wird separat verfolgt, sodass der Zahlungsstand auf einen Blick sichtbar ist:
+
+**Unpaid → Partially Paid → Paid** — sowie **Overdue**, **Refunded** oder **Written Off**.

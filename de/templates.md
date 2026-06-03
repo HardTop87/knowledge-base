@@ -54,3 +54,17 @@ local ticket = res.data.renderTemplate.output
 
 `output` ist der gerenderte Text. Du kannst auch den **GraphQL**-Workflow-Node nutzen, um
 `renderTemplate` ohne Lua aufzurufen.
+
+### Abkürzung: `ctx.template.render`
+
+Scripts und Custom Apps sparen sich den GraphQL-Umweg mit dem direkten Lua-Aufruf. Er
+nimmt den Template-**handle** und einen JSON-codierten Context-String und liefert den
+gerenderten Text zurück:
+
+```lua
+local ticket = ctx.template.render("hp-indigo-jdf", ctx.json.encode({
+  jobId = input.jobId,
+  copies = input.quantity,
+  substrate = input.paper_type
+}))
+```

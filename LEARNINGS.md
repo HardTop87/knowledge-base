@@ -66,9 +66,14 @@ Stand: bis einschließlich der Recherchephase (A-Sektion Lua + Kern-B-Sektion Sc
 - **SCRIPT-APIs:** wie oben, **ohne** `ctx.dataContainer`. Ausdrücklich **nicht**
   verfügbar: `ctx.dataContainer` (nur Custom-App), `ctx.rpc` (v1), `ctx.integration.*`
   (nur Integrationen).
-- **Existiert NICHT (keine Rolle):** `ctx.config`, generisches `ctx.http` (nur
-  `ctx.device.http`), `ctx.template`/`ctx.template.render`. KB-Zeilen mit
-  `cococo.config`/`http`/`template` haben **kein** ctx-Äquivalent → entfernen.
+- **KORRIGIERT gegen Quellcode (siehe §9):** `ctx.config.get(key)` **und**
+  `ctx.template.render(handle, contextJSON)` **existieren** (beide in
+  `PulseScriptAPI.base`). Die frühere Annahme „existiert nicht" stammte aus der
+  `search_lua_api`-Fallbackliste, die sie nicht auflistete — der Quellcode ist
+  maßgeblich. Es fehlt nur die **alte v1-Schreibweise** `cococo.config`/`cococo.template`;
+  die v2-`ctx.*`-Form ist real. Nicht vorhanden bleibt: **generisches** `ctx.http`
+  (nur `ctx.device.http`). In **Integrationen** sind `config.get` und `protobuf.decode`
+  aus der Basis herausgefiltert (`ctx.integration.getConfig`/`.protobufDecode` nutzen).
 - **Logging:** `ctx.log.info/warn/error` (strukturiert; 2. Arg = attrs-Tabelle).
   **`print`/`warn` sind in v2 aus der Sandbox entfernt** → nie `print` verwenden.
 - **`ctx.device.sql`**-Optionen: `{ sql, params }` (v2). (Alt cococo-de: `{ query, bindings }`.)
@@ -181,3 +186,98 @@ All validated/introspected against `cococo-test9`.
 **Work Center type = `resourceType: ResourceType`** = MACHINE, HUMAN, TOOL, LOCATION (old article invented Prepress/Press/Finishing/Shipping/Storage/Quality/Generic — those conflate job stages with resource types).
 
 **Node types (full set via list_node_types)** — old node-types-reference MISSED: File I/O group (`file_read/write/check/list/delete`, via BridgeApp controller), `microsql`, `producibility_audit`. `http_request`/`sql_query` are device-oriented (Bridge), not generic.
+
+---
+
+## §9 Verified against SOURCE CODE — not just live test9  [VERIFIZIERT source]
+
+Cross-checked the KB against the platform monorepo at `~/tripleclabs/platform`
+(plus `~/tripleclabs/swift-luau-engine`, `~/tripleclabs/hybrid-bridge`). The source
+is the ultimate ground truth and resolved several things the live MCP could not
+(timeouts, fallback lists). All citations are repo-relative.
+
+**Method note / why source beats live introspection.** Several KB facts had been
+"verified" via `search_lua_api`'s fallback list and live introspection on test9.
+Two of those were *wrong*: the fallback list silently omitted `config.get`/
+`template.render`, and dynamic enums look different live vs. in the base catalog.
+Treat the source as authoritative; use live only for tenant-specific catalogs.
+
+**Lua `ctx` binds under a global `ctx` table.** The C bridge does
+`lua_getfield(L, …, "ctx")` and sets each registered function as `ctx.<namespace>.<name>`
+(`swift-luau-engine/Sources/LuauBridge/LuauBridge.cpp:1638`). So
+`namespace:"template", name:"render"` → **`ctx.template.render`**; `config`/`get` →
+**`ctx.config.get`**. Authoritative API surface = `PulseApp/.../Scripting/PulseScriptAPI.swift`:
+  - `base` (SCRIPT + both custom-app versions): graphql.query, script.load,
+    jdf/jmf.loadTemplate, json.decode/encode, **template.render**, sql.query,
+    ml.predict/systemPredict, device.http/sql, edgeApp.invoke, notify.send,
+    cache.get/set/delete, **config.get**, log.info/warn/error, time.now/nowIso,
+    protobuf.decode.
+  - `customApp`(v1) adds `rpc.respond` + dataContainer.*; `customAppV2` adds only
+    dataContainer.* (no rpc.respond). New apps default to v2.
+  - `integration` = base **minus** `config.get` and `protobuf.decode`, **plus**
+    `integration.*` (containers get/set/delete/list/query, cache get/set/delete,
+    getConfig, getVersion, getId, getIntegrationId, getBindings, protobufDecode).
+  - `config.get(key)` → `handleConfigGet` returns that entry's value or `null`;
+    secrets are redacted at the persistence layer (`PulseScriptDispatcher+Cache.swift:100`).
+  - `template.render(handle, contextJSON)` → `handleTemplateRender`
+    (`PulseScriptDispatcher.swift:130`).
+- **Sandbox (authoritative):** `LuauBridge.cpp:284` bans `require, dofile, loadfile,
+  load, loadstring, collectgarbage, getfenv, setfenv, print, warn, io, os, debug,
+  package`; also removes `math.randomseed`, `string.rep`. Limits 50ms CPU / 50MB RAM,
+  script-load depth ≤10. → KB's "`os.*`/`print` gone" is correct.
+
+**Dynamic, vertical-defined enums** (`PulseGraphQLAPI.swift:95-154`). `JobStatus`,
+`ComponentKind`, `ComponentGroupKind`, `OperationKind`, `CostCategoryUnit`,
+`CapabilityCode` are `DynamicEnumSchema`s built from `vertical?.… ?? base…`. The
+hard-coded `baseJobStatuses` (DRAFT, CONFIRMED, PREPRESS, PRESS, POSTPRESS, COMPLETED,
+CANCELLED — 7) is only the **no-vertical fallback**; test9's print vertical supplies
+the 12 the KB documents. **Do NOT "correct" JobStatus down to the 7 base values** —
+they are vertical-extensible. `CapabilityCode` base = only `UNSPECIFIED` (vertical
+supplies the real catalog) → assign-capabilities is right to treat codes as data.
+
+**Fixed enums confirmed verbatim** (`Domain/Commercial/CommercialEnums.swift`,
+`Domain/Operation/OperationStatus.swift`, `Domain/WorkflowExecution/WorkflowExecutionState.swift`,
+`Domain/IOT/IOTEnums.swift`, `SharedResources/Types/*`, `Domain/AIAdapter/…`, `Domain/Script/ScriptState.swift`):
+- **OrderStatus, EstimateStatus, InvoiceKind, PurchaseOrderStatus, ResourceType,
+  UserKind, ScriptRole, AIAdapterType, Effect, OutboundProtocol, InboundProtocol,
+  DatabaseAdapter, DeliveryChannel(=EMAIL only), CustomAppKind(PAGE/DASHBOARD/KIOSK/JOB_VIEW)**
+  — all exactly as the KB had them. ✓
+- **OperationStatus** = PENDING, AVAILABLE, SETUP, RUNNING, CLEANUP, COMPLETED, FAILED,
+  STOPPED, **CANCELLED, RESTARTING** (KB missed the last two). Has an
+  `allowedTransitions` state machine.
+- **TriggerType** = MANUAL, SCHEDULED, EVENT, DEVICE_MQTT, WEBHOOK, **EDGE_APP_EVENT**, SCRIPT
+  (KB missed EDGE_APP_EVENT).
+- **ExecutionStatus** = PENDING, RUNNING, WAITING, COMPLETED, FAILED, CANCELLED ✓.
+- Newly captured commercial enums (were undocumented):
+  - **InvoiceStatus** = DRAFT, SENT, PARTIALLY_PAID, PAID, OVERDUE, VOID, CREDITED.
+  - **PaymentStatus** = UNPAID, PARTIALLY_PAID, PAID, OVERDUE, REFUNDED, WRITTEN_OFF.
+  - **ShipmentStatus** = DRAFT, READY_FOR_PICKUP, PICKED_UP, IN_TRANSIT, OUT_FOR_DELIVERY,
+    DELIVERED, FAILED_DELIVERY, RETURNED, CANCELLED.
+
+**AIAgentState** (`Domain/AIAgent/AIAgentState.swift`): persona is `role`/`goal`/`backstory`,
+BUT there is also an optional `systemPromptTemplate` (+ `temperature`, `maxTokens`,
+`responseFormat`, `maxIterations`, `allowedGraphQLOperations`, `maxExecutionTimeSeconds`,
+`tools`). So "no systemPrompt field" was slightly wrong → documented as an advanced
+override. `AgentToolType` = GRAPHQL, SCRIPT, HTTP_REQUEST, DATA_LOOKUP.
+
+**IAM built-in policies — resolved (was [OFFEN test9]).**
+`Services/TenantProvisioningService.swift:181` seeds exactly **one** built-in policy
+per tenant: **"Full Access"** (`allow`, actions `["*"]`, resources `["*"]`), auto-attached
+to each provisioned user. There is NO built-in "Admin"/"Read-Only" → understanding-iam
+(single Full Access) is correct; the old [ALT cococo-de] "three policies" is dead.
+
+**Edge App / Integration GraphQL (mutation names, for future deep articles).**
+EdgeApp: `upsertEdgeApp` (creates/edits draft), `publishEdgeAppDraft`, `deprecateEdgeApp`,
+`deleteEdgeApp`, `invokeEdgeApp`, `import|exportEdgeApp`, `upsertEdgeAppInstallation`,
+`upgradeEdgeAppInstallation`. Integration: full draft builder —
+`createIntegrationDraft`/`updateIntegrationDraftFile`/`updateIntegrationDraftManifest`/
+`validateIntegrationDraft`/`publishIntegrationDraft`, `deprecate|import|exportIntegrationDefinition`;
+instance lifecycle = `createIntegrationInstance` (+ update/upgrade/start/pause/delete,
+`runIntegrationTimer`) — **no** `upsertIntegrationInstance`. The current build-edge-app/
+build-integration articles are conceptual (no mutation names) so they stay correct.
+
+**ml_predict node — UNCERTAIN, left as-is.** `MLPredictionNodeExecutor.nodeType="ml_predict"`
++ schema exist, but one read of `Workflow/Engine/Nodes/NodeExecutor.swift:57-91` did not
+show it in `builtInExecutors()` (it needs `tenantId`+`logger`, so likely registered on a
+different path). Live `list_node_types` includes it and the KB lists it — do NOT remove
+without confirming the registration path.

@@ -41,6 +41,12 @@ Ein Job kommt voran, indem seine **Operations** auf dem Shopfloor weitergeschalt
 2. Schalten Sie die aktuelle Operation in den nächsten Zustand (z. B. Running → Completed) — der Shopfloor-Fortschritt läuft über Operation-Transitions, nicht über das direkte Bearbeiten des Job-Status
 3. Dokumentieren Sie den Grund in den Job-Notizen
 
+## Operation-Zustände (Referenz)
+
+Eine Operation durchläuft diese Zustandsmaschine: **Pending → Available → Setup → Running → Cleanup → Completed**. Von dort kann sie auch **Stopped**, **Failed**, **Cancelled** oder zurück in **Restarting** gehen. „Complete" auf dem Shopfloor schaltet die aktuelle Operation auf **Completed**; aus jedem Zustand sind nur bestimmte Übergänge erlaubt.
+
+> Job-Produktionsstatus (z. B. **Prepress**, **Press**, **Postpress**) werden durch die Branchen-**Vertical** Ihrer Installation definiert — Ihr Tenant kann also mehr oder andere Status zeigen als eine andere Instanz. Die obigen Operation-Zustände sind über alle Verticals hinweg einheitlich.
+
 ## Eskalation
 
 Prüfen Sie die Workflow-Execution-Logs auf Fehlermeldungen um den Zeitpunkt, an dem der Job stehen blieb.

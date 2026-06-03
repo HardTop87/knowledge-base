@@ -42,9 +42,11 @@ Click **Run** to execute. Output appears in the console below.
 | `ctx.sql.query(sql)` | Read from the reporting tables |
 | `ctx.cache.get(key)` / `ctx.cache.set({key, value, ttl?})` / `ctx.cache.delete(key)` | Tenant cache (Redis) |
 | `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Talk to a device via its Bridge |
+| `ctx.config.get(key)` | Read one Tenant Config value by key (Secret values redacted) |
+| `ctx.template.render(handle, contextJSON)` | Render a saved JDF/JMF template by handle |
 | `ctx.time.now()` / `ctx.time.nowIso()` | Timestamps (`os.*` is sandboxed away) |
 | `ctx.json.encode/decode(...)` | JSON |
 | `ctx.log.info/warn/error(msg, attrs?)` | Write to the console (`print` is disabled) |
 
-Tenant Scripts run with the base API only — `ctx.dataContainer` is custom-app-only, and
-there is no generic config, HTTP, or templating API.
+Tenant Scripts run with the base API only — `ctx.dataContainer` is custom-app-only. There
+is no _generic_ outbound-HTTP API (only device-scoped `ctx.device.http`).

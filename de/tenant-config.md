@@ -36,6 +36,17 @@ local res = ctx.graphql.query([[
 -- res.data.getConfig.entries: je Eintrag name, type (Config oder Secret) und value
 ```
 
+Für einen **einzelnen** Eintrag gibt es in Scripts und Custom Apps eine Abkürzung —
+`ctx.config.get` liefert nur den Wert dieses Keys zurück (oder `nil`, wenn er fehlt oder
+redacted ist):
+
+```lua
+local smtpHost = ctx.config.get("SMTP_HOST")
+```
+
+(`ctx.config.get` steht in Integrationen **nicht** zur Verfügung — sie lesen ihre
+Install-Config über `ctx.integration.getConfig`.)
+
 **Secret-Werte werden von der API redacted** — sie lassen sich über `getConfig` oder ein
 Script **nicht** zurücklesen. Nur nicht-geheime **Config**-Einträge liefern ihren Wert.
 Secrets werden dort von der Plattform genutzt, wo sie referenziert sind; an Client- oder

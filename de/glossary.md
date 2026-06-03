@@ -138,7 +138,7 @@ title: "Glossary"
 
 **Tenant Config**: Ein sicherer Key-Value-Speicher für plattformweite Einstellungen (Config) und Zugangsdaten (Secrets). Siehe [Tenant Config verwalten](#tenant-config).
 
-**Trigger**: Das Auslöseereignis eines Workflows. Job Event, Device Metric, Schedule, Webhook oder Manual. Siehe [Einen Workflow anlegen](#create-workflow).
+**Trigger**: Das Auslöseereignis eines Workflows. Job Event, Device Metric, Schedule, Webhook, Edge App Event, Script oder Manual. Siehe [Einen Workflow anlegen](#create-workflow).
 
 ## U
 

@@ -30,6 +30,14 @@ Orders können jederzeit vor der Lieferung auch **Cancelled** werden.
 
 Sobald akzeptiert, wird aus dem Estimate direkt ein Order.
 
+## Versand-Lebenszyklus
+
+Jede Sendung zu einem Order wird einzeln verfolgt:
+
+**Draft → Ready for Pickup → Picked Up → In Transit → Out for Delivery → Delivered**
+
+Eine Sendung kann auch in **Failed Delivery**, **Returned** oder **Cancelled** enden. Das steuert die oben genannten Order-Status **Partially Shipped** und **Shipped**.
+
 ## Verzahnung mit der Produktion
 
 Wenn ein Order bestätigt wird, entsteht ein Job auf der Produktionsfläche. Den Fortschritt verfolgen Sie unter **Data → Production → Jobs**.

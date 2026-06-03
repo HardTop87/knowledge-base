@@ -23,6 +23,7 @@ Every Workflow starts with a trigger. Click the **+ Trigger** area and select th
 - **Device Metric** — fires when a device sends a matching metric (MQTT)
 - **Schedule** — fires on a cron schedule
 - **Webhook** — fires when an external system calls your webhook URL. See [How to Use Incoming Webhooks](#incoming-webhooks).
+- **Edge App Event** — fires when an Edge App running on a Controller publishes an event. See [What are Edge Apps?](#what-are-edge-apps).
 - **Script** — fired programmatically from a Script (e.g. another workflow or tenant Script)
 - **Manual** — fired by a user clicking a button in the platform
 

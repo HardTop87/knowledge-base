@@ -242,3 +242,38 @@ Verified against test9: EDGE_APP `bridge.*` surface (mqtt/opcua/state/config/gra
 KB now **75 articles** (EN+DE), 13 categories. Edge Apps/Integrations gap CLOSED.
 
 Remaining: final redeploy of `script` into the test9 app.
+
+---
+
+## Source-Code Cross-Check — whole KB vs `platform` monorepo  [authoritative]
+
+Previous audits used **live test9** introspection; this pass re-verified against the
+**source** (`~/tripleclabs/platform`, `swift-luau-engine`, `hybrid-bridge`). Source
+resolved two things live got wrong and surfaced real gaps. Full facts + citations in
+`LEARNINGS.md` §9. Edits below keep EN+DE parity.
+
+| Article(s) | Change | Why (source) |
+|---|---|---|
+| server-api-lua, lua-playground | **+`ctx.config.get(key)` and `ctx.template.render(handle, ctx)`** to the API tables; fixed the "no config/templating API" disclaimer | Both live in `PulseScriptAPI.base`; bound under `ctx.*` (`LuauBridge.cpp:1638`). The old "doesn't exist" came from the `search_lua_api` fallback list, not the code. |
+| tenant-config | Added `ctx.config.get` single-key read shortcut (noted: not in Integrations) | `PulseScriptDispatcher+Cache.swift:100` |
+| templates | Added `ctx.template.render` direct-call shortcut | `PulseScriptDispatcher.swift:130` |
+| create-workflow, glossary | **+Edge App Event trigger** (glossary also was missing Script) | `TriggerType` has `EDGE_APP_EVENT` (`WorkflowExecutionState.swift:33`) |
+| job-stuck | Added Operation state machine incl. **CANCELLED, RESTARTING** + note that job production statuses are **vertical-defined** | `OperationStatus.swift:22-32`; `JobStatus` is a `DynamicEnumSchema` (`PulseGraphQLAPI.swift:98`) |
+| create-invoice | **+InvoiceStatus + PaymentStatus** lifecycles (were undocumented) | `CommercialEnums.swift:161-169 / 139-146` |
+| commercial-overview | **+Shipment lifecycle** (ShipmentStatus, undocumented) | `CommercialEnums.swift:95-123` |
+| ai-agents | Noted optional advanced **System Prompt Template** override (persona stays role/goal/backstory) | `AIAgentState.swift:60` |
+| LEARNINGS.md | Corrected §2 (config/template DO exist); added §9 source-verified facts | — |
+
+**Confirmed correct by source (no change needed):** OrderStatus, EstimateStatus,
+InvoiceKind, PurchaseOrderStatus, ResourceType, UserKind, ScriptRole, AIAdapterType,
+Effect, OutboundProtocol/InboundProtocol/DatabaseAdapter, DeliveryChannel (EMAIL only),
+CustomAppKind, ExecutionStatus, IAM shapes, IAM single built-in **Full Access** policy
+(resolves the old `[OFFEN test9]` item — `TenantProvisioningService.swift:181`).
+
+**Deliberately NOT changed:** `ml_predict` node (registry path uncertain — left documented);
+build-edge-app / build-integration (conceptual, no mutation names → still accurate);
+JobStatus values (the 12 are test9's print-vertical catalog, correct — NOT the 7-value
+base fallback).
+
+Remaining: final redeploy of `script` into the test9 app (unchanged from before — deploy
+is deliberate; these edits are source-grounded and ready to build).
