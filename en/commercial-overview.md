@@ -30,6 +30,14 @@ Orders can also be **Cancelled** at any point before delivery.
 
 Once accepted, an Estimate converts directly to an Order.
 
+## Shipment lifecycle
+
+Each shipment against an Order is tracked on its own:
+
+**Draft → Ready for Pickup → Picked Up → In Transit → Out for Delivery → Delivered**
+
+A shipment can also end in **Failed Delivery**, **Returned**, or **Cancelled**. This is what drives an Order's **Partially Shipped** and **Shipped** states above.
+
 ## Integration with Production
 
 When an Order is confirmed, it creates a Job on the production floor. Track progress via **Data → Production → Jobs**.

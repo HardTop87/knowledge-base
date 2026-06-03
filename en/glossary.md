@@ -138,7 +138,7 @@ title: "Glossary"
 
 **Tenant Config** — A secure key-value store for platform-wide settings (Config) and credentials (Secrets). See [How to Manage Tenant Config](#tenant-config).
 
-**Trigger** — The starting event of a Workflow — Job Event, Device Metric, Schedule, Webhook, or Manual. See [How to Create a Workflow](#create-workflow).
+**Trigger** — The starting event of a Workflow — Job Event, Device Metric, Schedule, Webhook, Edge App Event, Script, or Manual. See [How to Create a Workflow](#create-workflow).
 
 ## U
 

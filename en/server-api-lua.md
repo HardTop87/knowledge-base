@@ -55,12 +55,15 @@ async function loadJobs(status) {
 | `ctx.device.http(idOrAlias, opts)` / `ctx.device.sql(idOrAlias, opts)` | Talk to a device via its Bridge |
 | `ctx.notify.send({ ... })` | Send a notification |
 | `ctx.ml.predict(...)` | Run an ML model |
+| `ctx.config.get(key)` | Read one Tenant Config value by key (Secret values come back redacted) |
+| `ctx.template.render(handle, contextJSON)` | Render a saved JDF/JMF template by handle with a JSON context string |
 | `ctx.time.now()` / `ctx.time.nowIso()` | Timestamps (`os.*` is sandboxed away) |
 | `ctx.json.encode/decode(...)` | JSON |
 | `ctx.log.info/warn/error(msg, attrs?)` | Structured logging (`print` is disabled) |
 
-There is no generic config, secrets, outbound-HTTP, or templating API in Lua; outbound
-HTTP is device-scoped via `ctx.device.http`.
+There is no _generic_ outbound-HTTP API — outbound HTTP is device-scoped via
+`ctx.device.http`. `ctx.config.get` reads non-secret Config entries; **Secret** values are
+always redacted and can never be read back.
 
 ## Legacy (v1)
 

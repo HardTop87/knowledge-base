@@ -20,6 +20,8 @@ An AI Agent is a configured assistant that can be invoked from Workflows. It com
 6. Optionally configure **Tools** the agent can use
 7. Click **Save**
 
+> The persona (Role / Goal / Backstory) is the normal way to shape an agent. For advanced cases you can also supply an optional **System Prompt Template** that overrides the generated prompt, and tune model parameters such as temperature and max tokens.
+
 ## Using an Agent in a Workflow
 
 1. Add an **Agent** node to your Workflow
