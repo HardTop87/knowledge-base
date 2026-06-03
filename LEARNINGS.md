@@ -276,8 +276,24 @@ instance lifecycle = `createIntegrationInstance` (+ update/upgrade/start/pause/d
 `runIntegrationTimer`) — **no** `upsertIntegrationInstance`. The current build-edge-app/
 build-integration articles are conceptual (no mutation names) so they stay correct.
 
-**ml_predict node — UNCERTAIN, left as-is.** `MLPredictionNodeExecutor.nodeType="ml_predict"`
-+ schema exist, but one read of `Workflow/Engine/Nodes/NodeExecutor.swift:57-91` did not
-show it in `builtInExecutors()` (it needs `tenantId`+`logger`, so likely registered on a
-different path). Live `list_node_types` includes it and the KB lists it — do NOT remove
-without confirming the registration path.
+**ml_predict node — RESOLVED: it IS a live, registered node. KB is correct, no change.**
+Node executors register in **three tiers**:
+1. **Static built-ins** — `NodeExecutorRegistry.builtInExecutors()`
+   (`Workflow/Engine/Nodes/NodeExecutor.swift:57`): 32 zero-arg, stateless executors
+   (condition, transform, json/csv/yaml_parse, split, join, switch, delay, set_variable,
+   log, regex, for_each, assert, + plain stubs for http_request/sql_query/mqtt_publish/
+   graphql/script/custom_action/integration_action/message/file_*/task/microsql/agent/
+   agent_task/producibility_audit).
+2. **Per-execution overlays** — `WorkflowActor.makeRegistry()`
+   (`Domain/Workflow/WorkflowActor.swift:100-125`) builds `NodeExecutorRegistry(overlays:[…])`,
+   layering runtime-dependency executors (need `tenantId`/`logger`/`deviceLookup`/`clusterSystem`)
+   that **override** the static stubs of the same `nodeType`. This tier holds the Device
+   variants (http/sql/mqtt), GraphQL/Script/Message/Task/Agent/AgentTask/MicroSQL overlays,
+   the Controller File executors, IntegrationAction, CustomAction, InvokeEdgeApp, and —
+   **line 120 — `MLPredictionNodeExecutor(tenantId:logger:)`** (`nodeType="ml_predict"`).
+3. **Vertical overlays** — `PulseLifecycle.swift:474`
+   `NodeExecutorRegistry.configure(overlays: verticalContributions.workflowNodeExecutors)`.
+`ml_predict` is the one node with **no** static stub — it exists *only* via the tier-2
+overlay (because `init(tenantId:logger:)` can't be in a `static let` map). Grepping
+`builtInExecutors()` alone misses it; that does NOT mean it's unregistered. → KB
+node-types-reference is correct; do not remove `ml_predict`.
