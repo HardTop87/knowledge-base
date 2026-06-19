@@ -256,6 +256,18 @@
             "developer"
           ],
           "status": "published"
+        },
+        {
+          "slug": "identity-topic-model",
+          "title": "Identity and Topic Prefixes: Why Messages Go Missing",
+          "order": 9,
+          "tags": [
+            "devices",
+            "iot",
+            "mqtt",
+            "troubleshooting"
+          ],
+          "status": "published"
         }
       ]
     },
